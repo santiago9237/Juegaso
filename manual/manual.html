@@ -1,0 +1,910 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<title>Día 30 · Manual de juego v0.4</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Big+Shoulders+Stencil+Display:wght@700;800;900&family=Barlow+Condensed:wght@500;600;700&family=Barlow:ital,wght@0,400;0,500;0,600;1,400&family=Special+Elite&display=swap">
+<style>
+@page { size: A4; margin: 15mm 15mm 15mm 15mm; background: #efe5cf; }
+@page portada { margin: 0; }
+:root {
+  --papel: #efe5cf; --papel-2: #e2d3b2; --papel-osc: #b9a682;
+  --tinta: #221e18; --tinta-2: #4b4136; --sepia: #6c5a42;
+  --oxido: #8e3f22; --rojo: #922b2b; --noche: #16191d; --verde: #3d5f4a; --ocre: #b88a2e;
+  --f-display: "Big Shoulders Stencil Display", Impact, sans-serif;
+  --f-cond: "Barlow Condensed", "Arial Narrow", sans-serif;
+  --f-body: "Barlow", "Segoe UI", sans-serif;
+  --f-maq: "Special Elite", "Courier New", monospace;
+}
+* { box-sizing: border-box; }
+html { background: var(--papel); -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+body { margin: 0; color: var(--tinta); font-family: var(--f-body); font-size: 9.6pt; line-height: 1.42; }
+p { margin: 0 0 6pt; orphans: 3; widows: 3; }
+b, strong { font-weight: 600; }
+h1, h2, h3, h4 { margin: 0; text-wrap: balance; break-after: avoid; }
+
+/* ---------- portada ---------- */
+.portada { page: portada; position: relative; width: 210mm; height: 297mm; background: var(--noche); color: var(--papel); overflow: hidden; break-after: page; }
+.portada img.fondo { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; opacity: .92; }
+.portada .velo { position: absolute; inset: 0; background: linear-gradient(180deg, rgba(22,25,29,.88) 0%, rgba(22,25,29,.15) 38%, rgba(22,25,29,.1) 60%, rgba(22,25,29,.92) 100%); }
+.portada .titulo { position: absolute; top: 22mm; left: 0; right: 0; text-align: center; font-family: var(--f-display); font-weight: 900; text-transform: uppercase; line-height: .8; }
+.portada .titulo .d { display: block; font-size: 46pt; letter-spacing: .12em; }
+.portada .titulo .n { display: block; font-size: 150pt; color: #c23a2e; text-shadow: 0 0 30px rgba(146,43,43,.6); }
+.portada .sub { position: absolute; bottom: 30mm; left: 0; right: 0; text-align: center; font-family: var(--f-cond); font-weight: 600; text-transform: uppercase; letter-spacing: .2em; font-size: 15pt; }
+.portada .meta { position: absolute; bottom: 16mm; left: 0; right: 0; text-align: center; font-family: var(--f-maq); font-size: 10pt; color: var(--papel-osc); }
+
+/* ---------- capítulos ---------- */
+.cap { break-before: page; }
+/*x*/.cap-head { break-after: avoid; break-inside: avoid; border-bottom: 3pt solid var(--tinta); padding-bottom: 4pt; margin-bottom: 12pt; display: flex; align-items: baseline; gap: 10pt; }
+.cap-head .num { font-family: var(--f-display); font-weight: 900; font-size: 40pt; line-height: .8; color: var(--rojo); }
+.cap-head h2 { font-family: var(--f-display); font-weight: 900; font-size: 30pt; text-transform: uppercase; line-height: .9; }
+h3 { font-family: var(--f-cond); font-weight: 700; text-transform: uppercase; letter-spacing: .04em; font-size: 14pt; margin: 12pt 0 5pt; color: var(--tinta); border-bottom: 1pt dashed var(--tinta-2); padding-bottom: 2pt; }
+h4 { font-family: var(--f-cond); font-weight: 700; text-transform: uppercase; font-size: 11pt; margin: 8pt 0 3pt; color: var(--oxido); }
+.lead { font-size: 11.5pt; line-height: 1.45; }
+.maq { font-family: var(--f-maq); color: var(--sepia); }
+.cols { columns: 2; column-gap: 9mm; }
+.cols > * { break-inside: avoid; }
+ul, ol { margin: 0 0 6pt; padding-left: 15pt; }
+li { margin-bottom: 2pt; }
+li::marker { color: var(--oxido); font-weight: 600; }
+
+/* ---------- tablas ---------- */
+table { width: 100%; border-collapse: collapse; margin: 4pt 0 9pt; font-size: 9pt; line-height: 1.3; break-inside: auto; }
+thead { display: table-header-group; }
+tr { break-inside: avoid; }
+th { font-family: var(--f-cond); font-weight: 700; text-transform: uppercase; letter-spacing: .05em; font-size: 8.5pt; text-align: left; padding: 3pt 5pt; border-bottom: 1.5pt solid var(--tinta); color: var(--tinta-2); vertical-align: bottom; }
+td { padding: 3pt 5pt; border-bottom: .6pt dashed rgba(34,30,24,.4); vertical-align: top; }
+td.c, th.c { text-align: center; }
+td.n { font-family: var(--f-display); font-weight: 900; font-size: 12pt; }
+table.compacta td, table.compacta th { padding: 2pt 4pt; }
+
+/* ---------- cajas ---------- */
+.nota { background: var(--papel-2); border-left: 3pt solid var(--oxido); padding: 6pt 9pt; margin: 6pt 0 9pt; font-size: 9.3pt; break-inside: avoid; }
+.nota .t { font-family: var(--f-cond); font-weight: 700; text-transform: uppercase; letter-spacing: .06em; color: var(--oxido); display: block; margin-bottom: 2pt; }
+.decidido { border-left-color: var(--verde); }
+.decidido .t { color: var(--verde); }
+.prop { font-family: var(--f-cond); font-weight: 700; font-size: 7.5pt; letter-spacing: .08em; text-transform: uppercase; color: var(--oxido); border: .8pt solid var(--oxido); padding: 0 3pt; border-radius: 2pt; white-space: nowrap; vertical-align: 1pt; }
+.peso { color: var(--rojo); font-weight: 700; }
+.sello { display: inline-block; font-family: var(--f-cond); font-weight: 700; text-transform: uppercase; letter-spacing: .1em; font-size: 8pt; border: 1.2pt solid currentColor; padding: 0 4pt; transform: rotate(-2deg); }
+
+/* ---------- arte ---------- */
+.galeria { display: grid; grid-template-columns: repeat(5, 1fr); gap: 4mm; margin: 6pt 0 10pt; }
+.galeria figure { margin: 0; background: #faf3e3; padding: 2mm 2mm 6mm; box-shadow: 0 1.5mm 3mm rgba(0,0,0,.25); position: relative; break-inside: avoid; }
+.galeria figure:nth-child(odd) { transform: rotate(-1.2deg); }
+.galeria figure:nth-child(even) { transform: rotate(1deg); }
+.galeria img { display: block; width: 100%; aspect-ratio: 2/3; object-fit: cover; }
+.galeria figcaption { position: absolute; left: 2mm; right: 2mm; bottom: 1.2mm; font-family: var(--f-maq); font-size: 7.5pt; }
+.foto { float: right; width: 52mm; margin: 0 0 4mm 6mm; background: #faf3e3; padding: 2mm 2mm 7mm; box-shadow: 0 1.5mm 3mm rgba(0,0,0,.25); transform: rotate(1.5deg); position: relative; }
+.foto img { display: block; width: 100%; }
+.foto figcaption { position: absolute; left: 2mm; right: 2mm; bottom: 1.5mm; font-family: var(--f-maq); font-size: 7.5pt; }
+.foto.izq { float: left; margin: 0 6mm 4mm 0; transform: rotate(-1.5deg); }
+.zombie-ficha { display: grid; grid-template-columns: 30mm 1fr; gap: 5mm; align-items: start; margin-bottom: 5mm; break-inside: avoid; }
+.zombie-ficha img { width: 30mm; aspect-ratio: 2/3; object-fit: cover; box-shadow: 0 1mm 2.5mm rgba(0,0,0,.3); border: 1.5mm solid #faf3e3; }
+.zombie-ficha h4 { margin-top: 0; font-size: 14pt; color: var(--tinta); font-family: var(--f-display); font-weight: 900; }
+.stats { display: flex; gap: 8pt; font-family: var(--f-cond); font-weight: 600; font-size: 10pt; margin: 2pt 0 4pt; flex-wrap: wrap; }
+.stats span { border: 1pt solid var(--tinta); padding: 0 5pt; }
+
+/* ---------- índice ---------- */
+.indice { columns: 2; column-gap: 10mm; font-family: var(--f-cond); font-size: 12pt; }
+.indice div { display: flex; gap: 6pt; padding: 2pt 0; border-bottom: .6pt dashed rgba(34,30,24,.35); break-inside: avoid; }
+.indice b { font-family: var(--f-display); font-weight: 900; color: var(--rojo); min-width: 18pt; }
+
+/* ---------- referencia ---------- */
+.ref { font-size: 8.6pt; line-height: 1.32; }
+.ref h4 { font-size: 10pt; margin-top: 5pt; }
+.ref table { font-size: 8.4pt; margin: 2pt 0 4pt; }
+.ref td, .ref th { padding: 1.5pt 4pt; }
+
+.tight { font-size: 8.9pt; line-height: 1.33; }
+.tight table { font-size: 8.4pt; }
+.tight td, .tight th { padding: 2pt 4pt; }
+.pie-doc { margin-top: 14pt; font-family: var(--f-maq); font-size: 8.5pt; color: var(--sepia); border-top: 1pt solid var(--tinta-2); padding-top: 5pt; }
+</style>
+</head>
+<body>
+
+<!-- ================= PORTADA ================= -->
+<section class="portada">
+  <img class="fondo" src="../arte/img/mano_del_suelo.jpg" alt="">
+  <div class="velo"></div>
+  <div class="titulo"><span class="d">Día</span><span class="n">30</span></div>
+  <div class="sub">Manual de juego · borrador v0.4</div>
+  <div class="meta">Juego cooperativo de supervivencia · 1 a 3 jugadores · ~2 horas · 14 de octubre de 2026<br>Nombre provisorio: la partida ahora dura 20 días</div>
+</section>
+
+<!-- ================= ÍNDICE ================= -->
+<section>
+  <div class="cap-head"><h2>Antes de empezar</h2></div>
+  <p class="lead">Este manual junta todo lo que se diseñó hasta hoy: las reglas de la prueba 1, la base, las losetas, las cartas, el trabajo del equipo de agentes (ideas, diseño, mecánicas, balance y revisión) y las decisiones de Santiago. Es un <b>borrador para probar en Tabletop Simulator</b>: todos los números se pueden tocar después de jugar.</p>
+
+  <div class="nota decidido"><span class="t">Cómo leerlo</span>
+  Lo que no tiene marca está decidido o viene del material existente. <span class="prop">propuesta</span> marca reglas que inventó el equipo para cerrar huecos: son las primeras candidatas a cambiar. El símbolo <span class="peso">▲</span> marca las acciones pesadas.</div>
+
+  <div class="indice">
+    <div><b>1</b>El juego en una página</div>
+    <div><b>2</b>Componentes y mazos</div>
+    <div><b>3</b>Preparación</div>
+    <div><b>4</b>Victoria y derrota</div>
+    <div><b>5</b>Los supervivientes</div>
+    <div><b>6</b>Calendario y nivel de peligro</div>
+    <div><b>7</b>El día: las cuatro fases</div>
+    <div><b>8</b>La expedición</div>
+    <div><b>9</b>Acciones</div>
+    <div><b>10</b>Ruido y horda</div>
+    <div><b>11</b>Zombies</div>
+    <div><b>12</b>Combate y armas</div>
+    <div><b>13</b>Heridas y sangre</div>
+    <div><b>14</b>Fatiga y acciones pesadas</div>
+    <div><b>15</b>Raciones</div>
+    <div><b>16</b>Rebuscar: de qué mazo se roba</div>
+    <div><b>17</b>Contenido de los mazos</div>
+    <div><b>18</b>La base y la noche</div>
+    <div><b>19</b>La señal de socorro</div>
+    <div><b>20</b>Montaje en Tabletop Simulator</div>
+    <div><b>21</b>Ideas en estudio</div>
+    <div><b>22</b>Pendientes</div>
+    <div><b>R</b>Hoja de referencia rápida</div>
+  </div>
+
+  <h3>Decisiones de Santiago incluidas en esta versión</h3>
+  <table class="compacta">
+    <thead><tr><th>Tema</th><th>Decisión</th></tr></thead>
+    <tbody>
+      <tr><td>Fatiga</td><td>Las acciones pesadas (como forzar una puerta) se acumulan y producen fatiga.</td></tr>
+      <tr><td>Alimento</td><td>Comida y agua forman parte de las <b>raciones</b>. Cada carta tiene su nombre y da 1 o más raciones. El agua además limpia heridas.</td></tr>
+      <tr><td>Heridas</td><td>Un solo tipo de herida. Sin mordida ni infección. Una herida sin limpiar atrae zombies.</td></tr>
+      <tr><td>Duración</td><td>Unas 2 horas. La partida dura <b>20 días</b>, con descanso rápido opcional.</td></tr>
+      <tr><td>Peligro</td><td>Los 20 días se dividen en 3 niveles de peligro que suben la aparición de zombies.</td></tr>
+      <tr><td>Mazos</td><td>Mazos separados (alimentos, eventos, materiales, armas y munición, zombies, supervivientes…). Cada "robá una carta" dice de qué mazo.</td></tr>
+      <tr><td>Zombies</td><td>Un mazo de zombies que se juega después del turno de los jugadores; cada carta tiene 3 cantidades según el nivel de peligro. También se usa al entrar a un edificio.</td></tr>
+      <tr><td>Rebuscar</td><td>Una tirada de dado decide de qué mazo se roba.</td></tr>
+      <tr><td>Idioma</td><td>Voseo rioplatense en todo el material.</td></tr>
+      <tr><td>Nombre</td><td>«Día 30» es provisorio; se decide al final.</td></tr>
+    </tbody>
+  </table>
+</section>
+
+<!-- ================= 1 ================= -->
+<section class="cap">
+  <div class="cap-head"><span class="num">1</span><h2>El juego en una página</h2></div>
+  <figure class="foto"><img src="../arte/img/caminante.jpg" alt=""><figcaption>Caminante</figcaption></figure>
+  <p class="lead">La ciudad cayó. El grupo se refugia en una casa con patio sobre la calle Las Heras. Por la radio llegó una promesa: un helicóptero va a pasar el <b>día 20</b>, pero solo va a bajar si encuentra una <b>señal de socorro</b> armada y encendida.</p>
+  <p>Cada día tiene cuatro fases. En la <b>Base</b> construyen, curan y arman la señal. En la <b>Planificación</b> deciden quién sale y a qué barrio. En la <b>Expedición</b> recorren un barrio hecho de losetas, hora por hora, rebuscando en los edificios para llenar los mazos de la base. En el <b>Regreso y la noche</b> comen sus raciones y aguantan lo que venga a golpear las puertas.</p>
+  <p>La tensión central es el <b>ruido</b>. Lo rápido y lo fuerte hace ruido, y el ruido atrae zombies en el momento y, si se acumula, trae la horda. Cada herida sin limpiar también hace ruido: el olor a sangre los guía.</p>
+  <p>El tiempo es el otro enemigo. Pueden descansar para recuperarse, pero cada día que pasa sube el <b>nivel de peligro</b> y salen más zombies.</p>
+  <h3>Lo que hace cada jugador</h3>
+  <ul>
+    <li>Controla a un superviviente con 4 atributos, 6 de sangre, fatiga de 0 a 3 y una mochila de 6 espacios.</li>
+    <li>Gasta 3 puntos de acción (PA) por turno de expedición: moverse, abrir, forzar, pelear, rebuscar, curarse.</li>
+    <li>Decide con el grupo: ¿salimos o descansamos? ¿Rápido y ruidoso, o lento y en silencio?</li>
+  </ul>
+  <h3>Cómo se gana</h3>
+  <p>Al empezar el día 20, con las 5 etapas de la señal completas y al menos un superviviente vivo en la base.</p>
+</section>
+
+<!-- ================= 2 ================= -->
+<section class="cap">
+  <div class="cap-head"><span class="num">2</span><h2>Componentes y mazos</h2></div>
+  <h3>Mazos</h3>
+  <p>Cada mazo tiene su propio dorso y su pila de descarte, al lado. Cuando una regla o una carta dice <b>"robá una carta"</b>, siempre dice de qué mazo. Cuando un mazo se agota, mezclás su descarte y lo volvés a armar.</p>
+  <table>
+    <thead><tr><th>Mazo</th><th class="c">Cartas</th><th>Para qué sirve</th><th>Cuándo se roba</th></tr></thead>
+    <tbody>
+      <tr><td><b>Alimentos</b></td><td class="c">24</td><td>Comida y agua. Cada carta da 1 a 3 raciones. El agua también limpia heridas.</td><td>Al rebuscar. Se descarta al consumir y vuelve al mazo.</td></tr>
+      <tr><td><b>Materiales</b></td><td class="c">16</td><td>Madera, clavos, chapa, alambre, cuerda, semillas, combustible.</td><td>Al rebuscar.</td></tr>
+      <tr><td><b>Armas y munición</b></td><td class="c">11</td><td>Armas cuerpo a cuerpo y de fuego; cajas de balas.</td><td>Al rebuscar.</td></tr>
+      <tr><td><b>Medicina</b> <span class="prop">propuesta</span></td><td class="c">10</td><td>Primeros auxilios y curar heridas en la base.</td><td>Al rebuscar.</td></tr>
+      <tr><td><b>Equipo</b> <span class="prop">propuesta</span></td><td class="c">10</td><td>Walkie-talkie, baterías, bengalas, mochila de montaña.</td><td>Al rebuscar.</td></tr>
+      <tr><td><b>Objetos de señal</b> <span class="prop">propuesta</span></td><td class="c">4</td><td>Radio, generador, manual técnico, GPS. Únicos.</td><td>Al rebuscar (con un 6 en edificios especiales).</td></tr>
+      <tr><td><b>Zombies</b></td><td class="c">37</td><td>Tipo de zombie y 3 cantidades, una por nivel de peligro.</td><td>Después del turno de los jugadores, al revelar un edificio y con el resultado ¡Aaah!</td></tr>
+      <tr><td><b>Eventos</b></td><td class="c">28</td><td>Tres partes: Amanecer, Calle y Noche.</td><td>Al empezar el día, al llegar al barrio y cada noche.</td></tr>
+      <tr><td><b>Supervivientes</b></td><td class="c">7 + 3</td><td>Los iniciales y los que se rescatan.</td><td>En la preparación y con el resultado Rescate.</td></tr>
+    </tbody>
+  </table>
+  <div class="cols">
+  <div>
+  <h3>Tableros y losetas</h3>
+  <ul>
+    <li>Plano de la base: 5 entradas, depósito, mejoras.</li>
+    <li>Tablero de tiempo: 20 días en 3 franjas de peligro, marcador de día y de nivel de peligro, reloj de expedición (07:00 a 21:00).</li>
+    <li>Tablero de la señal: 5 etapas.</li>
+    <li>Mapa de la ciudad con 5 barrios.</li>
+    <li>Losetas de 3 × 3 zonas: calles (recta, esquina, T, cruce, cortada) y edificios (casa, almacén, farmacia, supermercado, comisaría, hospital, ferretería, taller, estación de servicio, escuela, plaza).</li>
+    <li>Hoja de superviviente: atributos, sangre, fatiga, marcas de esfuerzo, heridas por zona, mochila.</li>
+  </ul>
+  </div>
+  <div>
+  <h3>Fichas y dados</h3>
+  <ul>
+    <li>Figuras de zombie (unas 40) con estado tranquilo / alerta.</li>
+    <li>Fichas de ruido (30), de daño, de puerta, ventana y barricada.</li>
+    <li>Gotas de <b>olor a sangre</b>: una por herida; cara "abierta" y cara "limpia".</li>
+    <li>Fichas de construcción y marcador de esfuerzo (0 a 4).</li>
+    <li>Sello "Saqueado".</li>
+    <li>Dados: 2 d20, 3 d6, 1 d4, 1 d8, 1 d10, 1 d12.</li>
+  </ul>
+  </div>
+  </div>
+</section>
+
+<!-- ================= 3 ================= -->
+<section class="cap">
+  <div class="cap-head"><span class="num">3</span><h2>Preparación</h2></div>
+  <ol>
+    <li><b>Base.</b> Poné el plano de la base. Barricadas iniciales <span class="prop">propuesta</span>: puerta principal 1, puerta del patio 1, ventana de la cocina 0, ventana del dormitorio 0, techo 1. Sin trampas ni mejoras.</li>
+    <li><b>Mazos.</b> Mezclá cada mazo por separado y dejalos boca abajo con su lugar de descarte al lado. En el mazo de eventos, dejá solo las cartas de nivel I.</li>
+    <li><b>Depósito inicial</b> <span class="prop">propuesta</span>: robá del mazo de Alimentos hasta juntar <b>8 raciones</b>; robá 3 cartas de Materiales y 2 de Medicina. Sacá del mazo de Armas el Cuchillo de cocina y el Bate con clavos y ponelos en el depósito.</li>
+    <li><b>Supervivientes.</b> Mezclá los 7 iniciales y robá <b>3</b> (<b>4</b> si juegan 3 personas). Cada jugador elige uno. Los que nadie elige se quedan en la base como parte del grupo: los maneja la mesa. Todos empiezan con 6 de sangre, 0 de fatiga y sin heridas. Los 3 de rescate quedan aparte.</li>
+    <li><b>Tiempo.</b> Marcador de día en el 1 y nivel de peligro en 1. Señal sin etapas.</li>
+    <li><b>Zombies, fichas y dados</b> al alcance.</li>
+    <li>Empieza el día 1 por la <b>Fase 1: Base</b>.</li>
+  </ol>
+  <div class="nota"><span class="t">Jugar solo</span>Con 1 jugador igual hay 3 supervivientes en el grupo: controlás al que sale y decidís por los que se quedan.</div>
+</section>
+
+<!-- ================= 4 ================= -->
+<section>
+  <div class="cap-head" style="margin-top:14pt"><span class="num">4</span><h2>Victoria y derrota</h2></div>
+  <p><b>Victoria.</b> Al empezar el <b>día 20</b> (Fase 1: Base) ganan si:</p>
+  <ul><li>la señal de socorro está <b>activada</b> (las 5 etapas, capítulo 19), y</li><li>queda <b>al menos un superviviente vivo</b> en la base.</li></ul>
+  <p>Grado de victoria <span class="prop">propuesta</span>: 1 punto por superviviente rescatado. Sirve para comparar partidas.</p>
+  <p><b>Derrota.</b> Mueren todos los supervivientes del grupo, o llega el día 20 sin la señal activada y el helicóptero pasa de largo.</p>
+  <p><b>Si muere tu superviviente</b>, tomás el control de uno del grupo que esté en la base. Si no queda ninguno libre, seguís decidiendo con la mesa hasta un rescate.</p>
+</section>
+
+<!-- ================= 5 ================= -->
+<section class="cap tight">
+  <div class="cap-head"><span class="num">5</span><h2>Los supervivientes</h2></div>
+  <div class="cols">
+  <div>
+  <h3>Atributos</h3>
+  <p>Fuerza, Destreza, Constitución y Percepción, de 1 a 5. El <b>modificador</b> es el valor menos 2 (de −1 a +3).</p>
+  <table class="compacta"><thead><tr><th>Atributo</th><th>Sirve para</th></tr></thead><tbody>
+    <tr><td>Fuerza</td><td>Atacar y hacer daño cuerpo a cuerpo</td></tr>
+    <tr><td>Destreza</td><td>Disparar y arrojar; Defensa</td></tr>
+    <tr><td>Constitución</td><td>Pruebas de resistencia (noche afuera) <span class="prop">propuesta</span></td></tr>
+    <tr><td>Percepción</td><td>Guardia nocturna (suma su valor); Vigilar</td></tr>
+  </tbody></table>
+  <p><b>Prueba de atributo</b> <span class="prop">propuesta</span>: d20 + modificador contra 10, salvo que la regla diga otra cosa.</p>
+  </div>
+  <div>
+  <h3>Valores</h3>
+  <table class="compacta"><tbody>
+    <tr><td>Puntos de acción</td><td>3 por turno de expedición</td></tr>
+    <tr><td>Sangre</td><td>6 como máximo</td></tr>
+    <tr><td>Fatiga</td><td>0 a 3</td></tr>
+    <tr><td>Defensa</td><td>10 + modificador de Destreza</td></tr>
+    <tr><td>Mochila</td><td>6 espacios (8 con mochila de montaña)</td></tr>
+  </tbody></table>
+  </div>
+  </div>
+  <h3>Mazo de supervivientes</h3>
+  <p>Atributos de la mesa en línea. Habilidades revisadas por el equipo; el <b>defecto</b> hace que elegir a quién sacar sea una decisión. <span class="prop">propuesta</span></p>
+  <table>
+    <thead><tr><th>Superviviente</th><th class="c">F/D/C/P</th><th>Habilidad</th><th>Defecto</th></tr></thead>
+    <tbody>
+      <tr><td><b>Marta Ríos</b><br><span class="maq">enfermera</span></td><td class="c">2/3/3/4</td><td><i>Manos firmes.</i> Primeros auxilios y limpiar una herida le cuestan 1 PA. En la base, 1 vez por día, cura una herida con 1 Medicina en vez de 2.</td><td><i>Turno doble.</i> Cada vez que cura en la base, gana 1 de fatiga.</td></tr>
+      <tr><td><b>Raúl Ibarra</b><br><span class="maq">ex policía</span></td><td class="c">4/3/3/2</td><td><i>Entrenamiento.</i> Ventaja en su primer ataque con arma de fuego de cada expedición.</td><td><i>Gatillo fácil.</i> Si un zombie entra a su zona y tiene un arma de fuego cargada, tirá d6: con 1 dispara sin querer (1 disparo, ruido Máximo).</td></tr>
+      <tr><td><b>Sofía Lenz</b><br><span class="maq">mecánica</span></td><td class="c">3/4/3/2</td><td><i>Manos de taller.</i> Forzar y Barricar le cuestan 1 PA, hacen un nivel menos de ruido y para ella <b>no son pesadas</b>.</td><td><i>No se va sin terminar.</i> Si se queda en la base y hay materiales para construir, tiene que gastar la ficha del día en eso o gana 1 de fatiga.</td></tr>
+      <tr><td><b>Tomás Ferro</b><br><span class="maq">cocinero</span></td><td class="c">4/2/4/2</td><td><i>Raciones.</i> 1 vez por día, una carta de Alimentos da 1 ración más. Ventaja al rebuscar en almacén y supermercado.</td><td><i>Pesado.</i> No puede Correr dos turnos seguidos.</td></tr>
+      <tr><td><b>Nico Vidal</b><br><span class="maq">estudiante</span></td><td class="c">1/5/2/4</td><td><i>Ágil.</i> Puede Correr dos veces por turno; la segunda, con ruido Bajo.</td><td><i>Inexperto.</i> Un 1 o un 2 natural al atacar es pifia.</td></tr>
+      <tr><td><b>Aurelio Pando</b><br><span class="maq">cazador</span></td><td class="c">3/3/2/4</td><td><i>Rastreador.</i> Su Vigilar llega a 2 zonas y, 1 vez por turno, no gasta PA.</td><td><i>Viejo.</i> Si vuelve después de las 19:00, gana 1 de fatiga extra.</td></tr>
+      <tr><td><b>Elena Quiroga</b><br><span class="maq">maestra</span></td><td class="c">2/2/3/5</td><td><i>Calma.</i> 1 vez por día, un superviviente del grupo quita 1 de fatiga extra al descansar. Con ella en la base, el evento «Discusión» no tiene efecto.</td><td><i>Sus alumnos.</i> Si en el barrio hay una escuela, tiene que entrar y rebuscar al menos 1 vez antes de volver.</td></tr>
+    </tbody>
+  </table>
+  <h4>Rescatados</h4>
+  <table class="compacta">
+    <thead><tr><th>Superviviente</th><th class="c">F/D/C/P</th><th>Habilidad</th><th>Defecto</th></tr></thead>
+    <tbody>
+      <tr><td><b>Don Elías Ortega</b>, radioaficionado</td><td class="c">1/2/2/4</td><td>Con él en la base, la etapa 4 de la señal no necesita manual ni GPS: la arma en 2 días de descanso.</td><td>No sale de expedición. Consume 1 ración extra por día.</td></tr>
+      <tr><td><b>Carla Sosa</b>, bombera</td><td class="c">4/3/4/2</td><td>Llega con el Hacha de bombero. El infectado ácido no la salpica.</td><td>Si hay ruido Máximo en el mapa, su primer movimiento del turno es hacia ahí.</td></tr>
+      <tr><td><b>Lu</b>, 12 años</td><td class="c">1/4/2/4</td><td>Pasa por la claraboya y por ventanas chicas sin abrir ni romper nada.</td><td>Mochila de 4 espacios. Si muere, todos ganan 2 de fatiga.</td></tr>
+    </tbody>
+  </table>
+</section>
+
+<!-- ================= 6 ================= -->
+<section class="cap">
+  <div class="cap-head"><span class="num">6</span><h2>Calendario y nivel de peligro</h2></div>
+  <p class="lead">La partida dura <b>20 días</b>, divididos en tres niveles de peligro. El nivel cambia al empezar el día indicado y no baja nunca.</p>
+  <table>
+    <thead><tr><th class="c">Nivel</th><th>Días</th><th>Nombre</th><th>Qué cambia</th></tr></thead>
+    <tbody>
+      <tr><td class="n c">1</td><td>1 a 7</td><td>Aprendizaje</td><td>Mazo de zombies: unos 0,4 zombies por carta, casi solo caminantes; 2 de cada 3 cartas salen vacías. Eventos de nivel I.</td></tr>
+      <tr><td class="n c">2</td><td>8 a 14</td><td>Presión</td><td>Unos 1 zombie por carta; aparecen corredores, brutos, ácidos y chillones. Se suman los eventos II.</td></tr>
+      <tr><td class="n c">3</td><td>15 a 20</td><td>Cuenta regresiva</td><td>Unos 1,5 zombies por carta; casi ninguna sale vacía. Se suman los eventos III; 2 cartas de Noche por noche.</td></tr>
+    </tbody>
+  </table>
+  <h3>Descanso rápido</h3>
+  <p>En la Fase 1, el grupo puede declarar <b>descanso</b> en lugar de salir. El día se resuelve en un minuto:</p>
+  <ol>
+    <li>Nadie sale de expedición.</li>
+    <li>Cada superviviente come sus raciones (capítulo 15).</li>
+    <li>Todos quitan 1 de fatiga y recuperan 1 de sangre si comieron.</li>
+    <li>El grupo recibe su ficha de construcción del día.</li>
+    <li>Se roba la carta de Noche y se resuelve el ataque (capítulo 18).</li>
+    <li>El calendario avanza 1 día.</li>
+  </ol>
+  <p><b>El dilema:</b> descansar cura y es seguro, pero gasta raciones y un día; cada día acerca el siguiente nivel de peligro. Meta a medir: 10 a 12 expediciones por partida.</p>
+</section>
+
+<!-- ================= 7 ================= -->
+<section class="tight">
+  <div class="cap-head" style="margin-top:10pt"><span class="num">7</span><h2>El día: las cuatro fases</h2></div>
+  <h4>Fase 1 · Base (07:00)</h4>
+  <ol>
+    <li><b>¿Día 20?</b> Comprueben la victoria y termina la partida.</li>
+    <li><b>Nivel de peligro.</b> Si es el día 8 o el 15, sube 1 nivel y se suman los eventos del nivel nuevo.</li>
+    <li><b>Evento.</b> Robá 1 carta de Amanecer y resolvela.</li>
+    <li><b>Curar.</b> 2 Medicinas curan 1 herida (capítulo 13).</li>
+    <li><b>Construir.</b> Gastan la ficha de construcción del día (2 con Taller) y materiales.</li>
+    <li><b>Señal.</b> Marcan etapas con los objetos que haya en la base.</li>
+    <li><b>¿Descanso?</b> Si declaran descanso rápido, se saltean las fases 2 y 3.</li>
+  </ol>
+  <p><b>Fase 2 · Planificación:</b> sale <b>un superviviente por jugador</b>, todos al mismo barrio <span class="prop">propuesta</span>. Los que se quedan <b>descansan</b> (−1 fatiga esa noche); uno puede hacer <b>guardia</b>: no descansa, pero suma su Percepción a la Defensa de todas las entradas. Cargan la mochila con cartas del depósito y salen a las 08:00.</p>
+  <p><b>Fase 3 · Expedición (08:00 a 21:00):</b> capítulos 8 a 16.</p>
+  <p><b>Fase 4 · Regreso y noche:</b> descargar las mochilas al depósito · comer las raciones · recuperar sangre, descansar y borrar el esfuerzo · carta de Noche y ataque a la base · una línea en el diario y avanza el calendario.</p>
+</section>
+
+<!-- ================= 8 ================= -->
+<section class="cap tight">
+  <div class="cap-head"><span class="num">8</span><h2>La expedición</h2></div>
+  <h3>Destinos</h3>
+  <table>
+    <thead><tr><th>Barrio</th><th>Tipo</th><th class="c">Viaje</th><th>Plantilla</th><th>Edificios posibles</th></tr></thead>
+    <tbody>
+      <tr><td><b>Las Acacias</b></td><td>Residencial</td><td class="c">1 h</td><td>3 × 3 losetas</td><td>Casa ×4, Almacén (2 ya saqueados)</td></tr>
+      <tr><td><b>Barrio Norte</b></td><td>Escuela y casas</td><td class="c">1 h</td><td>4 × 3</td><td>Escuela, Casa ×2, Farmacia, Almacén</td></tr>
+      <tr><td><b>Centro</b></td><td>Comercios</td><td class="c">2 h</td><td>4 × 3</td><td>Farmacia, Supermercado, Comisaría, Casa, Almacén, Ferretería</td></tr>
+      <tr><td><b>Parque industrial</b></td><td>Galpones</td><td class="c">2 h</td><td>5 × 3</td><td>Taller ×2, Estación de servicio, Ferretería, Supermercado, Almacén, Casa</td></tr>
+      <tr><td><b>Hospital San Roque</b></td><td>Zona sanitaria</td><td class="c">3 h</td><td>4 × 3</td><td>Hospital, Farmacia, Plaza, Casa, Almacén</td></tr>
+    </tbody>
+  </table>
+  <h3>El mapa</h3>
+  <div class="cols">
+  <div>
+  <ul>
+    <li>El barrio se arma con <b>losetas de 3 × 3 zonas</b> (cada zona, unos 10 m). Las calles entran y salen por el centro de cada borde, así cualquier loseta encaja con cualquier otra.</li>
+    <li>Los edificios van en los huecos de la plantilla, con la puerta hacia la calle. Los saqueados llevan el sello.</li>
+    <li>El equipo entra por la flecha, en la loseta de calle de la columna izquierda.</li>
+    <li>Movimiento solo en horizontal y vertical.</li>
+  </ul>
+  </div>
+  <div>
+  <table class="compacta">
+    <thead><tr><th>Borde</th><th>Pasar</th><th>Ruido</th><th>Vista</th></tr></thead>
+    <tbody>
+      <tr><td>Libre, puerta abierta, ventana rota</td><td>Sí</td><td>Pasa</td><td>Ve</td></tr>
+      <tr><td>Puerta cerrada</td><td>Abriéndola</td><td>−1 nivel</td><td>Tapa</td></tr>
+      <tr><td>Ventana intacta</td><td>Rompiéndola</td><td>−1 nivel</td><td>Ve</td></tr>
+      <tr><td>Pared, barricada</td><td>No</td><td>−1 nivel</td><td>Tapa</td></tr>
+    </tbody>
+  </table>
+  </div>
+  </div>
+  <p><b>Al llegar</b> <span class="prop">propuesta</span>: robá 1 carta de Calle y robá del mazo de zombies tantas cartas como el nivel de peligro; colocalos tranquilos en el centro de losetas de calle al azar, sin contar la de entrada.</p>
+  <h3>El reloj</h3>
+  <p><b>Cada turno es 1 hora.</b> Llegan a las 08:00 más el viaje. <b>Anochece a las 19:00</b>: los zombies solo te detectan en tu misma zona, disparar tiene desventaja y se roban <b>2 cartas</b> de zombies por turno. <b>A las 21:00</b> termina la expedición: quien siga afuera pasa la noche afuera.</p>
+  <p><b>Volver.</b> En la zona de entrada, <i>Salir del barrio</i> (1 PA). Llegás a la base cuando pasan las horas de viaje. <b>Noche afuera</b> <span class="prop">propuesta</span>: prueba de Constitución contra 12; si fallás, morís; si pasás, llegás al amanecer con +2 de fatiga, sin comer, y ese día no salís.</p>
+  <h3>El turno (1 hora)</h3>
+  <table>
+    <thead><tr><th class="c">#</th><th>Paso</th><th>Qué pasa</th></tr></thead>
+    <tbody>
+      <tr><td class="n c">1</td><td><b>Supervivientes</b></td><td>Cada uno gasta hasta 3 PA, en el orden que quieran. El ruido se pone al momento en la zona donde termina la acción.</td></tr>
+      <tr><td class="n c">2</td><td><b>Aparición</b></td><td>Robá 1 carta del mazo de zombies (2 de noche) y colocá los del nivel actual (capítulo 11).</td></tr>
+      <tr><td class="n c">3</td><td><b>Zombies</b></td><td>Cada zombie actúa una vez.</td></tr>
+      <tr><td class="n c">4</td><td><b>Horda</b></td><td>Si una zona de calle, o un edificio sumando sus zonas, tiene 5 fichas de ruido o más, llega la horda.</td></tr>
+      <tr><td class="n c">5</td><td><b>Disipación y sangre</b></td><td>Quitá 1 ficha de ruido de cada zona. Después, cada herida abierta pone 1 ficha de ruido en la zona de su superviviente.</td></tr>
+      <tr><td class="n c">6</td><td><b>Reloj</b></td><td>Avanza 1 hora. Se renuevan los PA y termina "escondido".</td></tr>
+    </tbody>
+  </table>
+</section>
+
+<!-- ================= 9 ================= -->
+<section class="cap">
+  <div class="cap-head"><span class="num">9</span><h2>Acciones</h2></div>
+  <p>Con 3 PA podés repetir acciones. <span class="peso">▲</span> = acción pesada: deja 1 marca de esfuerzo (capítulo 14).</p>
+  <table>
+    <thead><tr><th>Acción</th><th class="c">PA</th><th>Ruido</th><th>Efecto</th></tr></thead>
+    <tbody>
+      <tr><td colspan="4"><h4 style="margin:2pt 0">Movimiento</h4></td></tr>
+      <tr><td>Sigilo</td><td class="c">2</td><td>Silencio</td><td>1 zona. No con un zombie en tu zona.</td></tr>
+      <tr><td>Caminar</td><td class="c">1</td><td>Bajo</td><td>1 zona.</td></tr>
+      <tr><td>Correr <span class="peso">▲</span></td><td class="c">1</td><td>Medio</td><td>1 o 2 zonas. Una vez por turno. No con herida en las piernas ni con fatiga 2.</td></tr>
+      <tr><td>Esconderse</td><td class="c">1</td><td>Silencio</td><td>Hasta tu próximo turno solo te detectan los zombies de tu zona. Termina tu turno.</td></tr>
+      <tr><td>Salir del barrio</td><td class="c">1</td><td>Silencio</td><td>En la zona de entrada. Con la mochila llena es <span class="peso">▲</span>.</td></tr>
+      <tr><td colspan="4"><h4 style="margin:2pt 0">Puertas y obstáculos</h4></td></tr>
+      <tr><td>Abrir / cerrar puerta</td><td class="c">1</td><td>Bajo</td><td>Puerta sin llave adyacente.</td></tr>
+      <tr><td>Forzar <span class="peso">▲</span></td><td class="c">2</td><td>Medio</td><td>Puerta con llave, trabada o reja. Sin tirada. Con palanca o hacha, 1 PA.</td></tr>
+      <tr><td>Romper ventana <span class="peso">▲</span></td><td class="c">1</td><td>Alto</td><td>Queda abierta para siempre.</td></tr>
+      <tr><td>Barricar <span class="peso">▲</span> <span class="prop">propuesta</span></td><td class="c">2</td><td>Medio</td><td>Gastás 1 Madera: una abertura adyacente pasa a barricada.</td></tr>
+      <tr><td colspan="4"><h4 style="margin:2pt 0">Combate</h4></td></tr>
+      <tr><td>Atacar</td><td class="c">1</td><td>Del arma</td><td>Capítulo 12. Con un arma cuerpo a cuerpo de 2 espacios es <span class="peso">▲</span>.</td></tr>
+      <tr><td>Destrabar</td><td class="c">1</td><td>Silencio</td><td>Arregla un arma de fuego encasquillada.</td></tr>
+      <tr><td>Distraer <span class="prop">propuesta</span></td><td class="c">1</td><td>Medio allá</td><td>Tirás algo a una zona a 2 o menos que veas: el ruido sale allá. Gastás una carta. Con Bengala: Alto y alcance 3.</td></tr>
+      <tr><td colspan="4"><h4 style="margin:2pt 0">Objetos y cuidado</h4></td></tr>
+      <tr><td>Rebuscar</td><td class="c">2</td><td>Bajo</td><td>Tirás el dado del edificio y robás del mazo que indique (capítulo 16). No con zombies en tu zona.</td></tr>
+      <tr><td><b>Limpiar herida</b></td><td class="c">1</td><td>Silencio</td><td>Gastás una carta de <b>agua</b>: una herida tuya o de alguien de tu zona deja de sangrar (gotita a "limpia").</td></tr>
+      <tr><td>Primeros auxilios</td><td class="c">2</td><td>Bajo</td><td>Gastás 1 Medicina: recuperás 1 de sangre, vos o alguien de tu zona.</td></tr>
+      <tr><td>Comer al paso <span class="prop">propuesta</span></td><td class="c">1</td><td>Silencio</td><td>Gastás 1 carta de Alimentos: borrás tus marcas de esfuerzo. 1 vez por expedición.</td></tr>
+      <tr><td>Intercambiar</td><td class="c">1</td><td>Silencio</td><td>Pasás o recibís cartas con alguien de tu zona.</td></tr>
+      <tr><td>Vigilar <span class="prop">propuesta</span></td><td class="c">1</td><td>Silencio</td><td>Mirás en secreto la carta de zombies de un edificio cuya puerta está en una zona adyacente: la robás y la dejás boca abajo sobre el edificio.</td></tr>
+      <tr><td>Soltar</td><td class="c">0</td><td>Silencio</td><td>Dejás una carta en tu zona. Recogerla cuesta 1 PA.</td></tr>
+    </tbody>
+  </table>
+  <figure class="foto izq" style="width:46mm; margin-top:4pt"><img src="../arte/img/carta_accion_1_movimiento_sigilo.png" alt=""><figcaption>Carta de acción del prototipo (costos viejos)</figcaption></figure>
+  <div class="nota"><span class="t">Por qué Sigilo es caro</span>La carta de acción del prototipo ponía Sigilo a 1 PA y Correr a 2 PA: así Correr nunca convenía. Se adoptó el esquema de la prueba 1: <b>lento y silencioso, o rápido y ruidoso</b>. Esa es la decisión que el juego quiere que tomes en cada turno. La carta hay que rehacerla.</div>
+</section>
+
+<!-- ================= 10 ================= -->
+<section class="cap">
+  <div class="cap-head"><span class="num">10</span><h2>Ruido y horda</h2></div>
+  <p class="lead">El ruido hace dos cosas: <b>en el momento</b> atrae a los zombies que lo oyen, y <b>acumulado</b> en fichas trae la horda.</p>
+  <table>
+    <thead><tr><th>Nivel</th><th class="c">Alcance</th><th class="c">Fichas que deja</th><th>Ejemplos</th></tr></thead>
+    <tbody>
+      <tr><td>Silencio</td><td class="c">0</td><td class="c">0</td><td>Sigilo, cuchillo, limpiar herida</td></tr>
+      <tr><td>Bajo</td><td class="c">1 zona</td><td class="c">1</td><td>Caminar, abrir puerta, rebuscar, bate</td></tr>
+      <tr><td>Medio</td><td class="c">2 zonas</td><td class="c">1</td><td>Correr, forzar, hacha</td></tr>
+      <tr><td>Alto</td><td class="c">3 zonas</td><td class="c">2</td><td>Romper ventana, bengala</td></tr>
+      <tr><td>Máximo</td><td class="c">Todo el mapa</td><td class="c">3</td><td>Disparar, chillón, generador</td></tr>
+    </tbody>
+  </table>
+  <ul>
+    <li><b>Propagación.</b> El ruido avanza zona por zona. Cada pared, puerta cerrada, ventana intacta o barricada que cruza lo baja 1 nivel para lo que está del otro lado. Por eso el ruido bajo dentro de un edificio cerrado no sale.</li>
+    <li><b>Pifia.</b> Un 1 natural al atacar deja 1 ficha extra en tu zona.</li>
+    <li><b>Olor a sangre.</b> Cada herida abierta pone 1 ficha por turno en la zona de su superviviente, sin propagarse.</li>
+    <li><b>Horda.</b> En el paso de Horda, si una zona de calle o un edificio (sumando sus zonas) llega a <b>5 fichas</b>: aparecen 3 caminantes en el borde del mapa más cercano, alerta, y se quitan esas fichas. En el nivel 2 se suma 1 corredor; en el nivel 3, 1 corredor y 1 caminante más <span class="prop">propuesta</span>.</li>
+    <li><b>Disipación.</b> Al final del turno se quita 1 ficha de cada zona. El ruido aislado se olvida; el ruido seguido se acumula.</li>
+  </ul>
+</section>
+
+<!-- ================= 11 ================= -->
+<section class="cap">
+  <div class="cap-head"><span class="num">11</span><h2>Zombies</h2></div>
+  <div style="display:grid;grid-template-columns:1fr 1fr;column-gap:8mm">
+    <div class="zombie-ficha"><img src="../arte/img/caminante.jpg" alt=""><div><h4>Caminante</h4><div class="stats"><span>Defensa 8</span><span>Vit. 5</span><span>d20+2</span><span>Mov. 1</span></div><p>Lento y constante. Llega en grupo.</p></div></div>
+    <div class="zombie-ficha"><img src="../arte/img/corredor.jpg" alt=""><div><h4>Corredor</h4><div class="stats"><span>Defensa 12</span><span>Vit. 4</span><span>d20+3</span><span>Mov. 2</span></div><p>Se mueve 2 zonas, paso a paso. De noche nunca está tranquilo: no se lo ataca con ventaja después de las 19:00.</p></div></div>
+    <div class="zombie-ficha"><img src="../arte/img/bruto.jpg" alt=""><div><h4>Bruto</h4><div class="stats"><span>Defensa 10</span><span>Vit. 12</span><span>d20+4</span><span>Mov. 1</span></div><p>Su golpe quita 1 de sangre extra. Rompe una puerta cerrada con 4–6. Las armas de d4 solo le hacen daño con crítico.</p></div></div>
+    <div class="zombie-ficha"><img src="../arte/img/infectado_acido.jpg" alt=""><div><h4>Infectado ácido</h4><div class="stats"><span>Defensa 9</span><span>Vit. 6</span><span>d20+2</span><span>Mov. 1</span></div><p>Si te golpea, se daña una carta de tu mochila (elegís cuál). Si lo matás con cuchillo, bisturí o las manos, recibís 1 herida.</p></div></div>
+    <div class="zombie-ficha"><img src="../arte/img/chillon.jpg" alt=""><div><h4>Chillón</h4><div class="stats"><span>Defensa 8</span><span>Vit. 4</span><span>d20+1</span><span>Mov. 1</span></div><p>Al detectarte o al recibir daño sin morir, chilla: ruido Máximo en su zona y 1 caminante en la puerta. Una vez por expedición.</p></div></div>
+    <div><p class="maq" style="font-size:8.5pt">Valores de corredor, bruto, ácido y chillón: <span class="prop">propuesta</span> del equipo, a probar. "Vitalidad" es el daño que aguanta antes de caer; el daño se marca con fichas debajo de la figura.</p></div>
+  </div>
+  <h3>Tranquilo o alerta</h3>
+  <p>Un zombie pasa a <b>alerta</b> cuando te detecta, va hacia un ruido, ataca o lo atacan. Vuelve a tranquilo en una fase de zombies en la que no detecta a nadie ni oye nada. Atacar a un zombie tranquilo da ventaja.</p>
+  <h3>Detección</h3>
+  <p>Te detecta si está en tu zona, o en una zona adyacente sin pared ni puerta cerrada de por medio (una ventana intacta no tapa la vista). De noche, o si estás escondido, solo en tu misma zona.</p>
+  <h3>Qué hace cada zombie</h3>
+  <p>En la fase de zombies, cada uno hace <b>lo primero que se cumpla</b>:</p>
+  <ol>
+    <li>Si hay un superviviente en su zona, <b>ataca</b> (al que hizo más ruido; si empatan, eligen los jugadores).</li>
+    <li>Si oyó ruido este turno, se mueve 1 zona hacia el ruido más fuerte (si empatan, el más cercano).</li>
+    <li>Si te detecta, se mueve 1 zona hacia vos.</li>
+    <li>Si no, se queda quieto.</li>
+  </ol>
+  <p><b>Rutas.</b> No abren puertas. Van por el camino más corto contando cada abertura cerrada como 4 zonas. Si quieren cruzar una abertura cerrada, tirá 1d6: con 6 la derriban (queda rota). <b>Ataque</b>: su tirada contra tu Defensa; si la iguala o supera, recibís 1 herida.</p>
+  <h3>El mazo de zombies</h3>
+  <p>Reemplaza todas las tiradas de aparición. Cada carta muestra un tipo y <b>tres cantidades: nivel 1 / nivel 2 / nivel 3</b>. Aparecen los del nivel actual; un 0 es que no aparece nadie. Salvo que la carta diga otra cosa, aparecen <b>tranquilos</b>.</p>
+  <ul>
+    <li><b>Después del turno de los jugadores</b>: 1 carta (2 de noche), en el borde de la loseta de calle con más fichas de ruido (si empatan, la más cercana al equipo; si no hay ruido, por donde entró el equipo).</li>
+    <li><b>Al revelar un edificio</b> (la primera vez que se abre una abertura o alguien entra): 1 carta; los zombies van adentro, en la habitación más lejana a la puerta. Comisaría, hospital y supermercado roban 2 <span class="prop">propuesta</span>.</li>
+    <li><b>¡Aaah!</b> (al rebuscar): 1 carta; los zombies aparecen en tu zona, alerta.</li>
+  </ul>
+  <table class="compacta">
+    <thead><tr><th>Carta</th><th class="c">Niv. 1</th><th class="c">Niv. 2</th><th class="c">Niv. 3</th><th class="c">Copias</th><th>Sabor</th></tr></thead>
+    <tbody>
+      <tr><td>Calle vacía (caminante)</td><td class="c">0</td><td class="c">0</td><td class="c">1</td><td class="c">5</td><td class="maq">«Ni un perro. Eso es lo que más miedo da.»</td></tr>
+      <tr><td>Rezagado (caminante)</td><td class="c">0</td><td class="c">1</td><td class="c">1</td><td class="c">4</td><td class="maq">«Arrastra un pie. Llega tarde a todo, menos a vos.»</td></tr>
+      <tr><td>Caminante</td><td class="c">1</td><td class="c">1</td><td class="c">2</td><td class="c">4</td><td class="maq">«Tiene puesto el uniforme del correo.»</td></tr>
+      <tr><td>Pareja (caminante)</td><td class="c">1</td><td class="c">2</td><td class="c">2</td><td class="c">3</td><td class="maq">«Van de la mano. Nadie se animó a separarlos.»</td></tr>
+      <tr><td>Grupito (caminante)</td><td class="c">1</td><td class="c">2</td><td class="c">3</td><td class="c">2</td><td class="maq">«Salen del colectivo de a uno.»</td></tr>
+      <tr><td>Procesión (caminante)</td><td class="c">2</td><td class="c">3</td><td class="c">3</td><td class="c">1</td><td class="maq">«Bajan por el medio de la avenida.»</td></tr>
+      <tr><td>Atraídos por el ruido*</td><td class="c">0</td><td class="c">1</td><td class="c">2</td><td class="c">1</td><td class="maq">«Te avisé que esa puerta chirriaba.»</td></tr>
+      <tr><td>Corredor suelto</td><td class="c">0</td><td class="c">1</td><td class="c">1</td><td class="c">3</td><td class="maq">«Zapatillas de running.»</td></tr>
+      <tr><td>Corredor</td><td class="c">1</td><td class="c">1</td><td class="c">2</td><td class="c">1</td><td class="maq">«Pasos rápidos sobre el vidrio.»</td></tr>
+      <tr><td>Jauría (corredor)</td><td class="c">0</td><td class="c">1</td><td class="c">2</td><td class="c">1</td><td class="maq">«Cuando corre uno, corren todos.»</td></tr>
+      <tr><td>Bruto</td><td class="c">0</td><td class="c">0</td><td class="c">1</td><td class="c">2</td><td class="maq">«Era patovica de un boliche.»</td></tr>
+      <tr><td>Bruto despierto</td><td class="c">0</td><td class="c">1</td><td class="c">1</td><td class="c">1</td><td class="maq">«Se levantó de abajo de un auto. Corrió el auto.»</td></tr>
+      <tr><td>Infectado ácido</td><td class="c">0</td><td class="c">1</td><td class="c">1</td><td class="c">2</td><td class="maq">«La baldosa humea.»</td></tr>
+      <tr><td>Goteo (ácido)</td><td class="c">0</td><td class="c">0</td><td class="c">1</td><td class="c">1</td><td class="maq">«Plic, plic, plic.»</td></tr>
+      <tr><td>Chillón</td><td class="c">0</td><td class="c">1</td><td class="c">1</td><td class="c">2</td><td class="maq">«Tiene la boca abierta de más.»</td></tr>
+      <tr><td>Chillón lejano</td><td class="c">0</td><td class="c">0</td><td class="c">1</td><td class="c">1</td><td class="maq">«Del otro lado del barrio, un grito.»</td></tr>
+      <tr><td><b>Activación extra</b>**</td><td class="c" colspan="3">no aparece nadie</td><td class="c">2</td><td class="maq">«Se dieron vuelta todos a la vez.»</td></tr>
+      <tr><td><b>Horda</b>***</td><td class="c">2+0</td><td class="c">3+1</td><td class="c">4+1</td><td class="c">1</td><td class="maq">«Es la calle entera que se mueve.»</td></tr>
+    </tbody>
+  </table>
+  <p class="maq" style="font-size:8.3pt">* Aparecen alerta directamente en la zona de calle con más ruido. ** Nivel 1: se activan otra vez los zombies alerta; niveles 2 y 3: todos. *** Caminantes + corredores, alerta, en el borde más cercano al ruido; después se mezcla el descarte con el mazo. Total: 37 cartas. Promedio por carta: 0,4 / 1 / 1,5 zombies.</p>
+</section>
+
+<!-- ================= 12 ================= -->
+<section class="cap">
+  <div class="cap-head"><span class="num">12</span><h2>Combate y armas</h2></div>
+  <p><b>Atacar</b> (1 PA): d20 + modificador contra la Defensa del zombie. Si la iguala o supera, acertás y tirás el daño. Cuando el daño acumulado llega a su vitalidad, cae.</p>
+  <div class="cols">
+  <ul>
+    <li><b>Modificador:</b> Fuerza cuerpo a cuerpo; Destreza con armas de fuego y arrojadizas.</li>
+    <li><b>Daño:</b> cuerpo a cuerpo, dado + modificador de Fuerza (mínimo 1). De fuego, solo el dado.</li>
+    <li><b>Alcance:</b> cuerpo a cuerpo, tu zona. De fuego, hasta 2 zonas por aberturas pasables. Elegís el objetivo.</li>
+    <li><b>Ventaja</b> (2d20, el mejor): zombie tranquilo.</li>
+    <li><b>Desventaja</b> (2d20, el peor): herida en el brazo derecho, disparar de noche o a oscuras. Ventaja y desventaja se anulan.</li>
+    <li><b>20 natural:</b> acierto y daño máximo.</li>
+    <li><b>1 natural:</b> fallo, 1 ficha de ruido extra y el arma de fuego se encasquilla.</li>
+    <li>El ataque hace el ruido de su arma, aciertes o no. Una caja de balas son 3 disparos.</li>
+  </ul>
+  </div>
+  <table>
+    <thead><tr><th>Arma</th><th class="c">Espacios</th><th class="c">Daño</th><th>Ruido</th><th>Notas</th></tr></thead>
+    <tbody>
+      <tr><td>Cuchillo de cocina</td><td class="c">1</td><td class="c">d4 + F</td><td>Silencio</td><td>Atacar por la espalda da ventaja.</td></tr>
+      <tr><td>Bisturí</td><td class="c">1</td><td class="c">d4 + F</td><td>Silencio</td><td>En la base, curar cuesta 1 Medicina menos.</td></tr>
+      <tr><td>Bate con clavos</td><td class="c">2</td><td class="c">d6 + F</td><td>Bajo</td><td>Pesada <span class="peso">▲</span>.</td></tr>
+      <tr><td>Martillo, llave inglesa, tonfa</td><td class="c">1</td><td class="c">d6 + F</td><td>Bajo</td><td></td></tr>
+      <tr><td>Hacha de bombero</td><td class="c">2</td><td class="c">d8 + F</td><td>Medio</td><td>Pesada <span class="peso">▲</span>. Forzar cuesta 1 PA.</td></tr>
+      <tr><td>Pistola</td><td class="c">1</td><td class="c">d10</td><td>Máximo</td><td>Fuego, alcance 2.</td></tr>
+      <tr><td>Escopeta</td><td class="c">2</td><td class="c">d12</td><td>Máximo</td><td>Fuego, alcance 2.</td></tr>
+      <tr><td>Botella incendiaria</td><td class="c">1</td><td class="c">d10 a cada uno</td><td>Alto</td><td>Arrojadiza, alcance 2, un uso, toda una zona.</td></tr>
+    </tbody>
+  </table>
+  <div class="nota"><span class="t">La escalera</span>Cuanto más pega un arma, más ruido hace: silencio d4, bajo d6, medio d8, máximo d10–d12. Contra un caminante, la pistola mata de un disparo el 42 % de las veces (55 % con ventaja), pero se oye en todo el mapa.</div>
+</section>
+
+<!-- ================= 13 ================= -->
+<section>
+  <div class="cap-head" style="margin-top:14pt"><span class="num">13</span><h2>Heridas y sangre</h2></div>
+  <p class="lead">Hay <b>un solo tipo de herida</b>. No hay mordida, infección ni contagio.</p>
+  <ul>
+    <li><b>Recibir una herida:</b> −1 de sangre. Poné una gota de <b>olor a sangre</b> en la hoja, del lado "abierta".</li>
+    <li><b>Herida abierta:</b> en el paso 5 del turno pone 1 ficha de ruido en tu zona. Sigue así hasta que la limpies.</li>
+    <li><b>Limpiar</b> (1 PA, silencio): gastás una carta de <b>agua</b>. La gota pasa a "limpia". Las fichas que ya se pusieron se quedan.</li>
+    <li><b>Curar</b> (Fase de Base): 2 Medicinas sacan 1 herida, abierta o limpia.</li>
+    <li><b>Muerte:</b> sangre en 0, o una segunda herida en la cabeza sin curar.</li>
+  </ul>
+  <h4>Zona de la herida <span class="prop">propuesta</span></h4>
+  <p>Tirá 1d6 para saber dónde fue. El efecto dura hasta que la herida se cura en la base.</p>
+  <table class="compacta">
+    <thead><tr><th class="c">d6</th><th>Zona</th><th>Efecto</th></tr></thead>
+    <tbody>
+      <tr><td class="c">1</td><td>Cabeza</td><td>Aturdido: tu próximo turno tenés 2 PA. Una segunda herida en la cabeza mata.</td></tr>
+      <tr><td class="c">2–3</td><td>Torso</td><td>−1 de sangre extra.</td></tr>
+      <tr><td class="c">4</td><td>Brazo izquierdo</td><td>La mochila tiene 1 espacio menos.</td></tr>
+      <tr><td class="c">5</td><td>Brazo derecho</td><td>Desventaja al atacar.</td></tr>
+      <tr><td class="c">6</td><td>Piernas</td><td>No podés Correr.</td></tr>
+    </tbody>
+  </table>
+  <p><b>Recuperar sangre</b> <span class="prop">propuesta</span>: a la noche, +1 si comiste tus raciones y no tenés heridas abiertas; +1 más si descansaste. Primeros auxilios: +1 en el momento.</p>
+</section>
+
+<!-- ================= 14 ================= -->
+<section class="cap">
+  <div class="cap-head"><span class="num">14</span><h2>Fatiga y acciones pesadas</h2></div>
+  <p class="lead">La fatiga no se gana por salir, sino por <b>esfuerzo</b>. Algunas acciones son <b>pesadas</b> <span class="peso">▲</span> y cada una deja 1 marca de esfuerzo en tu hoja.</p>
+  <div class="cols">
+  <div>
+  <h4>Acciones pesadas ▲</h4>
+  <ul>
+    <li>Forzar <span class="maq">(idea de Santiago)</span></li>
+    <li>Romper ventana</li>
+    <li>Barricar</li>
+    <li>Correr</li>
+    <li>Atacar con un arma cuerpo a cuerpo de 2 espacios</li>
+    <li>Cargar a un herido que no puede moverse, por zona</li>
+    <li>Salir del barrio con la mochila llena</li>
+  </ul>
+  <p class="maq" style="font-size:8.5pt">Todas salvo Forzar son <span class="prop">propuesta</span>.</p>
+  </div>
+  <div>
+  <h4>Cómo se acumula</h4>
+  <ul>
+    <li><b>4 marcas = +1 de fatiga.</b> Al llegar a 4, sumás 1 y borrás las 4.</li>
+    <li>Las marcas que sobran se borran en la Fase 4.</li>
+    <li>Comer al paso (1 PA) borra tus marcas, 1 vez por expedición.</li>
+    <li>Sofía no marca al Forzar ni al Barricar.</li>
+  </ul>
+  <h4>Otras fuentes</h4>
+  <ul><li>+1 si volvés después de las 19:00. +2 por noche afuera. +1 por noche sin comer. +1 por cavar la fosa.</li></ul>
+  </div>
+  </div>
+  <table>
+    <thead><tr><th class="c">Fatiga</th><th>Efecto</th></tr></thead>
+    <tbody>
+      <tr><td class="c n">0</td><td>Ninguno.</td></tr>
+      <tr><td class="c n">1</td><td>Esa noche comés 2 raciones en lugar de 1.</td></tr>
+      <tr><td class="c n">2</td><td>Comés 2 y no podés Correr.</td></tr>
+      <tr><td class="c n">3</td><td><b>Agotado:</b> comés 2, no corrés, tenés 2 PA y no podés hacer guardia.</td></tr>
+      <tr><td class="c n">+3</td><td>Cada punto que no entra cuesta 1 de sangre.</td></tr>
+    </tbody>
+  </table>
+  <p><b>Quitar fatiga:</b> quien se queda en la base sin hacer guardia quita 1 en la Fase 4. El descanso rápido quita 1 a todos.</p>
+  <div class="nota"><span class="t">Por qué 4 marcas</span>Una expedición típica tiene entre 3 y 6 acciones pesadas. Jugar con cuidado no cansa; abusar de Correr y Forzar da 1 o 2 de fatiga, y la fatiga se paga en raciones. La revisión avisó un riesgo de espiral (cansado → come doble → falta comida → más fatiga): hay que mirarlo en las pruebas.</div>
+</section>
+
+<!-- ================= 15 ================= -->
+<section>
+  <div class="cap-head" style="margin-top:14pt"><span class="num">15</span><h2>Raciones</h2></div>
+  <p class="lead">El consumo se mide en <b>raciones</b>. Las cartas del mazo de Alimentos tienen nombre propio (una lata, una botella de agua, una bolsa de arroz) y un valor de <b>1 a 3 raciones</b>. Comida y agua cuentan igual para las raciones.</p>
+  <ul>
+    <li><b>Cada noche</b>, cada superviviente consume <b>1 ración</b> (2 si tiene fatiga). Tomás puede estirar una carta.</li>
+    <li><b>Pagar:</b> descartás cartas de Alimentos que sumen lo que hace falta. <b>Si sobra, se pierde</b> <span class="prop">propuesta</span>: una caja de 3 raciones para un solo superviviente desperdicia 2.</li>
+    <li>Las cartas consumidas van al <b>descarte del mazo de Alimentos</b>. Cuando el mazo se agota, se mezcla el descarte y vuelve a estar disponible.</li>
+    <li><b>Agua:</b> las cartas de agua, además de raciones, se pueden gastar para <b>limpiar una herida</b>. Una carta se usa para una cosa o la otra.</li>
+    <li><b>Si falta</b> <span class="prop">propuesta</span>: quien no come gana 1 de fatiga y no recupera sangre. Dos noches seguidas sin comer: además −1 de sangre.</li>
+  </ul>
+</section>
+
+<!-- ================= 16 ================= -->
+<section class="cap">
+  <div class="cap-head"><span class="num">16</span><h2>Rebuscar: de qué mazo se roba</h2></div>
+  <p class="lead">Rebuscar (2 PA, ruido bajo) gasta 1 registro del edificio. Tirá <b>1d6</b> y mirá la fila del tipo de edificio: te dice <b>de qué mazo robar 1 carta</b>. <span class="prop">propuesta</span></p>
+  <ul>
+    <li><b>Registros:</b> casa y almacén 2; el resto 3. Después, el edificio queda saqueado.</li>
+    <li><b>Ventaja / desventaja:</b> tirás 2d6 y elegís el mejor o el peor resultado.</li>
+    <li><b>¡Aaah!</b> Robá 1 carta del mazo de zombies: aparecen en tu zona, alerta. Si la carta da 0, te asustaste por nada.</li>
+    <li><b>Señal</b>: si el mazo de objetos de señal está vacío, robá de Equipo.</li>
+    <li>No se puede rebuscar con zombies en tu zona. Lo que no entra en la mochila se queda en el edificio.</li>
+  </ul>
+  <table>
+    <thead><tr><th>Edificio</th><th class="c">1</th><th class="c">2</th><th class="c">3</th><th class="c">4</th><th class="c">5</th><th class="c">6</th></tr></thead>
+    <tbody>
+      <tr><td><b>Casa</b></td><td class="c">¡Aaah!</td><td class="c">Nada</td><td class="c">Alimentos</td><td class="c">Alimentos</td><td class="c">Materiales</td><td class="c">Medicina</td></tr>
+      <tr><td><b>Almacén</b></td><td class="c">¡Aaah!</td><td class="c">Materiales</td><td class="c">Alimentos</td><td class="c">Alimentos</td><td class="c">Alimentos</td><td class="c">Equipo</td></tr>
+      <tr><td><b>Supermercado</b></td><td class="c">¡Aaah!</td><td class="c">Nada</td><td class="c">Alimentos</td><td class="c">Alimentos</td><td class="c">Alimentos</td><td class="c">Medicina</td></tr>
+      <tr><td><b>Farmacia</b></td><td class="c">¡Aaah!</td><td class="c">Nada</td><td class="c">Medicina</td><td class="c">Medicina</td><td class="c">Medicina</td><td class="c">Alimentos</td></tr>
+      <tr><td><b>Hospital</b></td><td class="c">¡Aaah!</td><td class="c">Medicina</td><td class="c">Medicina</td><td class="c">Equipo</td><td class="c">Medicina</td><td class="c">Señal</td></tr>
+      <tr><td><b>Comisaría</b></td><td class="c">¡Aaah!</td><td class="c">Nada</td><td class="c">Armas</td><td class="c">Armas</td><td class="c">Equipo</td><td class="c">Señal</td></tr>
+      <tr><td><b>Ferretería</b></td><td class="c">¡Aaah!</td><td class="c">Materiales</td><td class="c">Materiales</td><td class="c">Materiales</td><td class="c">Equipo</td><td class="c">Señal</td></tr>
+      <tr><td><b>Taller</b></td><td class="c">¡Aaah!</td><td class="c">Materiales</td><td class="c">Materiales</td><td class="c">Armas</td><td class="c">Equipo</td><td class="c">Señal</td></tr>
+      <tr><td><b>Estación de servicio</b></td><td class="c">¡Aaah!</td><td class="c">Alimentos</td><td class="c">Materiales</td><td class="c">Materiales</td><td class="c">Equipo</td><td class="c">Señal</td></tr>
+      <tr><td><b>Escuela</b></td><td class="c">¡Aaah!</td><td class="c">Nada</td><td class="c">Alimentos</td><td class="c">Medicina</td><td class="c">Equipo</td><td class="c">Señal</td></tr>
+    </tbody>
+  </table>
+  <p class="maq" style="font-size:8.5pt">"Armas" = mazo de Armas y munición. La Plaza no se rebusca. Esta tabla reemplaza las tablas d20 de objetos por edificio del borrador anterior; mantiene su carácter (la farmacia da medicina, la comisaría armas). Falta que Mecánicas y Balance la revisen.</p>
+  <div class="nota"><span class="t">Rescate</span>Algunas cartas de evento dan un rescate: robá 1 superviviente del mazo de rescatados. Se suma al grupo y viaja con el que lo encontró hasta la base.</div>
+</section>
+
+<!-- ================= 17 ================= -->
+<section class="cap tight">
+  <div class="cap-head"><span class="num">17</span><h2>Contenido de los mazos</h2></div>
+  <p>Cartas del borrador "Cartas de objetos", repartidas en los mazos nuevos. Los valores de raciones son <span class="prop">propuesta</span>.</p>
+  <div class="cols">
+  <div>
+  <h4>Alimentos (24)</h4>
+  <table class="compacta"><thead><tr><th>Carta</th><th class="c">Raciones</th><th class="c">×</th></tr></thead><tbody>
+    <tr><td>Lata de conservas</td><td class="c">1</td><td class="c">3</td></tr>
+    <tr><td>Paquete de galletas</td><td class="c">1</td><td class="c">3</td></tr>
+    <tr><td>Frasco de mermelada</td><td class="c">1</td><td class="c">3</td></tr>
+    <tr><td>Barras de cereal</td><td class="c">1</td><td class="c">3</td></tr>
+    <tr><td>Bolsa de arroz</td><td class="c">2</td><td class="c">3</td></tr>
+    <tr><td>Botella de agua <span class="sello" style="font-size:6.5pt;color:#3b5870">agua</span></td><td class="c">1</td><td class="c">4</td></tr>
+    <tr><td>Cantimplora <span class="sello" style="font-size:6.5pt;color:#3b5870">agua</span></td><td class="c">1</td><td class="c">4</td></tr>
+    <tr><td>Caja de provisiones</td><td class="c">3</td><td class="c">1</td></tr>
+  </tbody></table>
+  <p class="maq" style="font-size:8pt">«Agua»: también limpia una herida. Total: 30 raciones.</p>
+  <h4>Materiales (16)</h4>
+  <table class="compacta"><thead><tr><th>Carta</th><th>Vale</th><th class="c">Esp.</th><th class="c">×</th></tr></thead><tbody>
+    <tr><td>Tablones</td><td>2 Madera</td><td class="c">2</td><td class="c">3</td></tr>
+    <tr><td>Clavos y tornillos</td><td>1 Clavos</td><td class="c">1</td><td class="c">3</td></tr>
+    <tr><td>Chapa acanalada</td><td>1 Chapa</td><td class="c">2</td><td class="c">2</td></tr>
+    <tr><td>Rollo de alambre</td><td>1 Alambre</td><td class="c">1</td><td class="c">2</td></tr>
+    <tr><td>Soga</td><td>1 Cuerda</td><td class="c">1</td><td class="c">2</td></tr>
+    <tr><td>Sobres de semillas</td><td>1 Semillas</td><td class="c">1</td><td class="c">1</td></tr>
+    <tr><td>Bidón de combustible</td><td>1 Combustible</td><td class="c">2</td><td class="c">3</td></tr>
+  </tbody></table>
+  <h4>Armas y munición (11)</h4>
+  <table class="compacta"><thead><tr><th>Carta</th><th class="c">×</th></tr></thead><tbody>
+    <tr><td>Cuchillo de cocina (d4, silencio)</td><td class="c">2</td></tr>
+    <tr><td>Bate con clavos (d6, bajo)</td><td class="c">2</td></tr>
+    <tr><td>Hacha de bombero (d8, medio)</td><td class="c">1</td></tr>
+    <tr><td>Pistola (d10, máximo)</td><td class="c">1</td></tr>
+    <tr><td>Escopeta (d12, máximo)</td><td class="c">1</td></tr>
+    <tr><td>Caja de balas (3 disparos)</td><td class="c">4</td></tr>
+  </tbody></table>
+  </div>
+  <div>
+  <h4>Medicina (10)</h4>
+  <p>Frasco de pastillas, caja de vendas, botiquín de pared, alcohol desinfectante, jeringa y ampolla (×2 cada una). Todas valen <b>1 Medicina</b>: Primeros auxilios en la calle, 2 curan una herida en la base.</p>
+  <h4>Equipo (10)</h4>
+  <table class="compacta"><thead><tr><th>Carta</th><th>Efecto</th><th class="c">×</th></tr></thead><tbody>
+    <tr><td>Walkie-talkie</td><td>Hablar sin ruido con el otro walkie. 1 Batería por día.</td><td class="c">2</td></tr>
+    <tr><td>Baterías</td><td>1 día de walkie.</td><td class="c">4</td></tr>
+    <tr><td>Bengala</td><td>Distraer con ruido Alto; o etapa 3 de la señal.</td><td class="c">3</td></tr>
+    <tr><td>Mochila de montaña</td><td>Mochila de 8 espacios.</td><td class="c">1</td></tr>
+  </tbody></table>
+  <h4>Objetos de señal (4)</h4>
+  <table class="compacta"><thead><tr><th>Carta</th><th>Etapa</th></tr></thead><tbody>
+    <tr><td>Radio portátil</td><td>1 · Radio</td></tr>
+    <tr><td>Generador (2 esp.)</td><td>2 · Energía (+1 Combustible)</td></tr>
+    <tr><td>Manual técnico</td><td>4 · Mensaje</td></tr>
+    <tr><td>GPS de mano</td><td>4 · Mensaje</td></tr>
+  </tbody></table>
+  <h4>Eventos (28)</h4>
+  <p><b>Amanecer</b> (9), <b>Calle</b> (9) y <b>Noche</b> (10), cada carta marcada I, II o III según el nivel de peligro desde el que entra al mazo. Ejemplos:</p>
+  <ul style="font-size:9pt">
+    <li><b>Llueve</b> (Amanecer I): el ruido Bajo no deja fichas. Con recolector, +2 raciones de agua.</li>
+    <li><b>Perro suelto</b> (Calle I): si le das 1 Alimento, se queda y ayuda de guardia; si no, ladra.</li>
+    <li><b>Los muertos caminan de día</b> (Amanecer III): hoy se roban 2 cartas de zombies por turno.</li>
+    <li><b>Olor a sangre</b> (Noche III): cada herida abierta en la base suma 1 caminante al ataque.</li>
+    <li><b>Asedio</b> (Noche III): 1 bruto y 2 caminantes a la puerta principal; 1 corredor a la ventana más débil.</li>
+  </ul>
+  </div>
+  </div>
+  <p style="font-size:9pt">Cada mazo va a tener su propio dorso, distinguible de un vistazo por color e ícono. El de zombies usa la ilustración de la mano que sale del suelo. Las cartas pasan del estilo vectorial del prototipo a <b>tinta sobre papel</b>, como las ilustraciones de los zombies, con una franja de color por familia en el borde izquierdo y el valor de raciones bien grande en las de Alimentos.</p>
+</section>
+
+<!-- ================= 18 ================= -->
+<section class="cap tight">
+  <div class="cap-head"><span class="num">18</span><h2>La base y la noche</h2></div>
+  <p>Una casa con patio sobre la calle Las Heras: dormitorio, cocina, sala común con la radio, patio y acceso al techo. Cinco entradas: <b>puerta principal, puerta del patio, ventana de la cocina, ventana del dormitorio y techo</b>.</p>
+  <p><b>Defensa de una entrada</b> = nivel de barricada (0 a 3) + trampa + Percepción del guardia.</p>
+  <p><b>Construcción.</b> Cada día reciben 1 ficha (2 con Taller). Cada barricada, trampa o mejora gasta 1 ficha y sus materiales. Las fichas no se guardan.</p>
+  <div class="cols">
+  <div>
+  <h4>Barricadas</h4>
+  <table class="compacta"><thead><tr><th>Nivel</th><th>Cuesta</th></tr></thead><tbody>
+    <tr><td>0 → 1 · tablones</td><td>1 Madera, 1 Clavos</td></tr>
+    <tr><td>1 → 2 · doble tablón</td><td>2 Madera, 1 Clavos</td></tr>
+    <tr><td>2 → 3 · blindaje</td><td>1 Chapa, 1 Clavos</td></tr>
+  </tbody></table>
+  <h4>Mejoras</h4>
+  <table class="compacta"><thead><tr><th>Mejora</th><th>Cuesta · efecto</th></tr></thead><tbody>
+    <tr><td>Taller</td><td>2 Madera, 2 Clavos, 1 Chapa · 2 fichas por día</td></tr>
+    <tr><td>Huerta</td><td>2 Madera, 1 Semillas, 2 raciones de agua · +1 ración los días pares</td></tr>
+    <tr><td>Recolector de agua</td><td>2 Chapa, 1 Alambre · +2 raciones de agua cuando llueve</td></tr>
+    <tr><td>Cama extra</td><td>2 Madera, 1 Clavos, 1 Cuerda · lugar para un rescatado (hay 4 camas)</td></tr>
+  </tbody></table>
+  </div>
+  <div>
+  <h4>Trampas (una por entrada)</h4>
+  <table class="compacta"><thead><tr><th>Trampa</th><th>Cuesta</th><th class="c">Def.</th></tr></thead><tbody>
+    <tr><td>Alarma de latas: nadie queda sorprendido</td><td>1 Cuerda, 1 Alambre</td><td class="c">+1</td></tr>
+    <tr><td>Estacas: el primero recibe d6</td><td>2 Madera, 1 Clavos</td><td class="c">+1</td></tr>
+    <tr><td>Alambre de púas (ventanas, techo)</td><td>2 Alambre</td><td class="c">+2</td></tr>
+    <tr><td>Fosa tapada (puertas): +1 fatiga a quien cava</td><td>1 Madera, 1 Cuerda</td><td class="c">+2</td></tr>
+    <tr><td>Trampa incendiaria, un uso</td><td>1 Combustible, 1 Cuerda</td><td class="c">+3</td></tr>
+  </tbody></table>
+  </div>
+  </div>
+  <h3>La noche <span class="prop">propuesta</span></h3>
+  <ol>
+    <li><b>Carta de Noche.</b> Robá 1 carta de Noche (2 en el nivel 3; +1 si la señal está activada). La carta dice qué zombies atacan y qué entrada.</li>
+    <li><b>Fuerza del ataque</b> = caminante, corredor y chillón 1 cada uno; ácido 2; bruto 3.</li>
+    <li><b>Fuerza ≤ Defensa:</b> los rechazan. Las trampas de un uso se gastan igual.</li>
+    <li><b>Fuerza > Defensa:</b> la barricada baja 1 nivel por cada punto de diferencia. Si llega a 0 y sobra diferencia, <b>entran</b>.</li>
+    <li><b>Si entran:</b> sin alarma ni guardia, cada zombie ataca primero con ventaja a un superviviente al azar. Después, rondas: cada superviviente ataca una vez y cada zombie en pie ataca una vez, hasta que no quede ninguno.</li>
+  </ol>
+</section>
+
+<!-- ================= 19 ================= -->
+<section class="tight">
+  <div class="cap-head" style="margin-top:10pt"><span class="num">19</span><h2>La señal de socorro</h2></div>
+  <p>Cinco etapas, en orden. Se marcan en la Fase de Base con los objetos ya en la base.</p>
+  <table>
+    <thead><tr><th class="c">Etapa</th><th>Qué es</th><th>Cómo se cumple</th></tr></thead>
+    <tbody>
+      <tr><td class="c n">1</td><td>Radio</td><td>Llevar a la base la Radio portátil (o una antena o radio de las cartas de evento).</td></tr>
+      <tr><td class="c n">2</td><td>Energía</td><td>El Generador y 1 Combustible. Encenderlo es ruido Máximo: esa noche, +1 carta de Noche.</td></tr>
+      <tr><td class="c n">3</td><td>Baliza</td><td>Entregar 1 Bengala, o armar un fuego en el techo: 2 Madera, 1 Combustible y 1 ficha de construcción.</td></tr>
+      <tr><td class="c n">4</td><td>Mensaje</td><td>El Manual técnico o el GPS (con uno alcanza). Don Elías puede reemplazarlos.</td></tr>
+      <tr><td class="c n">5</td><td>Activación</td><td>Con las etapas 1 a 4, desde el <b>día 17</b>, gastan 1 Combustible. Desde esa noche hasta el día 20, +1 carta de Noche cada noche.</td></tr>
+    </tbody>
+  </table>
+  <p>Completar antes no adelanta el rescate: el helicóptero llega el día 20. Conviene activar tarde, pero no tanto que falte combustible o alguien vivo.</p>
+</section>
+
+<!-- ================= 20 ================= -->
+<section class="cap">
+  <div class="cap-head"><span class="num">20</span><h2>Montaje en Tabletop Simulator</h2></div>
+  <table>
+    <thead><tr><th>Componente</th><th>Objeto de TTS</th><th>Archivo</th></tr></thead>
+    <tbody>
+      <tr><td>Cada mazo</td><td>Custom Deck</td><td>Cartas de 750 × 1050 px en una hoja de hasta 10 × 7 (69 cartas + la carta oculta abajo a la derecha). Lado máximo 4096 px. JPG calidad 90. Dorso propio de 750 × 1050.</td></tr>
+      <tr><td>Losetas de calle y edificio</td><td>Custom Tile</td><td>1500 × 1500 px (500 por zona), JPG.</td></tr>
+      <tr><td>Base, ciudad, tiempo</td><td>Custom Board</td><td>3600 × 2240, 3200 × 2100 y 3600 × 1200 px, JPG.</td></tr>
+      <tr><td>Hoja de jugador</td><td>Custom Tile</td><td>2400 × 1600 px, JPG.</td></tr>
+      <tr><td>Zombies (tranquilo / alerta)</td><td>Custom Tile circular</td><td>512 × 512 por cara.</td></tr>
+      <tr><td>Ruido, daño, olor a sangre</td><td>Custom Token</td><td>256 × 256, PNG con transparencia.</td></tr>
+      <tr><td>Supervivientes</td><td>Custom Figurine</td><td>600 × 900, PNG con transparencia.</td></tr>
+      <tr><td>Dados</td><td>Nativos de TTS</td><td>—</td></tr>
+    </tbody>
+  </table>
+  <ul>
+    <li><b>Versión en el nombre</b> de cada archivo (<span class="maq">alimentos_v01_hoja_01.jpg</span>): TTS guarda las imágenes en caché por dirección.</li>
+    <li><b>Borde quemado pintado</b>: TTS no recorta el borde irregular de las cartas.</li>
+    <li>Al importar un archivo local, subilo a la <b>Steam Cloud</b> (Modding → Cloud Manager) para que tus amigos lo vean.</li>
+    <li>El script <span class="maq">herramientas/hoja_de_cartas.py</span> arma las hojas de cartas desde imágenes sueltas.</li>
+    <li>Asientos de jugador: Orange, Green y Blue. Mazos y descartes al costado del mapa. Publicación en el Workshop como "Solo amigos".</li>
+  </ul>
+</section>
+
+<!-- ================= 21 ================= -->
+<section class="tight">
+  <div class="cap-head" style="margin-top:10pt"><span class="num">21</span><h2>Ideas en estudio</h2></div>
+  <p>Propuestas del equipo que todavía no son regla. Se prueban después de la base.</p>
+  <ul>
+    <li><b>La última noche</b> (clímax del día 20): la activación atrae oleadas sobre el plano de la base, que se juega como mapa táctico. Alguien tiene que mantener la baliza en el techo hasta que aterrice el helicóptero, que espera 2 turnos y se va.</li>
+    <li><b>Cartas de hito</b> en días fijos: el helicóptero pasa (día 1), primera transmisión (5), se corta la luz (8), los otros (10), la migración (14), confirmación del punto de aterrizaje (17).</li>
+    <li><b>Cartas de trauma</b> al llegar a fatiga 3 o ver morir a un compañero: Insomnio, Temblor, Acumulador…</li>
+    <li><b>Zombies nuevos:</b> rastrero (oculto boca abajo), hinchado, enredado. La mochila del caído se queda en el barrio y se puede recuperar.</li>
+    <li><b>Barrios y edificios nuevos</b>, modo solitario, escenario corto «La primera semana», tutorial, niveles de dificultad y campaña.</li>
+    <li><b>Ganchos de TTS:</b> botón para robar del mazo de zombies, horda automática, mazos que cambian solos con el nivel de peligro, diario automático.</li>
+  </ul>
+</section>
+
+<!-- ================= 22 ================= -->
+<section class="tight">
+  <div class="cap-head" style="margin-top:10pt"><span class="num">22</span><h2>Pendientes</h2></div>
+  <ol>
+    <li><b>Duración real:</b> con 1 turno = 1 hora, una expedición tiene 10 a 12 turnos. Hay que medir si entran 10 expediciones en 2 horas o conviene que 1 turno sean 2 horas.</li>
+    <li><b>Tabla de Rebuscar</b> y valores de raciones: los propuso la coordinación del equipo; falta que Mecánicas y Balance los revisen.</li>
+    <li><b>Zonas del cuerpo</b>: ¿se mantienen con la herida única o se simplifica más?</li>
+    <li><b>Ataque nocturno</b>: probar cuántas noches entran zombies en cada nivel.</li>
+    <li><b>Espiral de fatiga y hambre.</b></li>
+    <li><b>Arte:</b> rehacer cartas en tinta y papel, dorsos por mazo, losetas finales.</li>
+    <li><b>Nombre del juego.</b></li>
+  </ol>
+  <p class="pie-doc">Fuentes: los artefactos de Día 30 (kit y simulador de la prueba 1, base y losetas, cartas de objetos, mesa en línea, dirección de arte), los documentos del equipo en diseno/ y las decisiones de Santiago del 14 de octubre de 2026.</p>
+</section>
+
+<!-- ================= REFERENCIA ================= -->
+<section class="cap ref">
+  <div class="cap-head"><span class="num">R</span><h2>Referencia rápida</h2></div>
+  <div class="cols">
+  <div>
+  <h4>El día</h4>
+  <ol>
+    <li><b>Base:</b> ¿día 20? · peligro (día 8 y 15) · Amanecer · curar (2 Med = 1 herida) · construir · señal · ¿descanso?</li>
+    <li><b>Planificación:</b> sale 1 por jugador · guardia · mochila.</li>
+    <li><b>Expedición:</b> 08:00 + viaje · 1 turno = 1 h · noche 19:00 · fin 21:00.</li>
+    <li><b>Noche:</b> descargar · raciones (1, o 2 con fatiga) · sangre · fatiga −1 si descansó · borrar esfuerzo · carta de Noche.</li>
+  </ol>
+  <h4>El turno</h4>
+  <ol>
+    <li>Supervivientes: 3 PA.</li>
+    <li>Aparición: 1 carta de zombies (2 de noche).</li>
+    <li>Zombies: atacan · van al ruido · van hacia vos · quietos.</li>
+    <li>Horda: 5 fichas → 3 caminantes.</li>
+    <li>Disipación −1 ficha; heridas abiertas +1 ficha.</li>
+    <li>Reloj +1 h.</li>
+  </ol>
+  <h4>Ruido</h4>
+  <p>Silencio 0/0 · Bajo 1 zona/1 ficha · Medio 2/1 · Alto 3/2 · Máximo todo/3 · −1 nivel por pared, puerta cerrada, ventana o barricada.</p>
+  <h4>Combate</h4>
+  <p>d20 + F (cuerpo) o D (fuego) ≥ Defensa · daño dado + F (cuerpo) · ventaja contra tranquilo · 20: máximo · 1: falla, +1 ficha, se traba.</p>
+  <h4>Heridas</h4>
+  <p>−1 sangre · abierta: +1 ficha de ruido por turno · limpiar: 1 PA + agua · curar: 2 Medicina · morís con sangre 0 o 2 en la cabeza.</p>
+  </div>
+  <div>
+  <h4>Acciones</h4>
+  <table>
+    <thead><tr><th>Acción</th><th class="c">PA</th><th>Ruido</th></tr></thead>
+    <tbody>
+      <tr><td>Sigilo</td><td class="c">2</td><td>—</td></tr>
+      <tr><td>Caminar</td><td class="c">1</td><td>Bajo</td></tr>
+      <tr><td>Correr 1–2 zonas ▲</td><td class="c">1</td><td>Medio</td></tr>
+      <tr><td>Esconderse</td><td class="c">1</td><td>—</td></tr>
+      <tr><td>Abrir / cerrar</td><td class="c">1</td><td>Bajo</td></tr>
+      <tr><td>Forzar ▲</td><td class="c">2</td><td>Medio</td></tr>
+      <tr><td>Romper ventana ▲</td><td class="c">1</td><td>Alto</td></tr>
+      <tr><td>Barricar ▲</td><td class="c">2</td><td>Medio</td></tr>
+      <tr><td>Atacar</td><td class="c">1</td><td>Del arma</td></tr>
+      <tr><td>Destrabar</td><td class="c">1</td><td>—</td></tr>
+      <tr><td>Distraer</td><td class="c">1</td><td>Medio allá</td></tr>
+      <tr><td>Rebuscar</td><td class="c">2</td><td>Bajo</td></tr>
+      <tr><td>Limpiar herida</td><td class="c">1</td><td>—</td></tr>
+      <tr><td>Primeros auxilios</td><td class="c">2</td><td>Bajo</td></tr>
+      <tr><td>Comer al paso</td><td class="c">1</td><td>—</td></tr>
+      <tr><td>Intercambiar / Vigilar</td><td class="c">1</td><td>—</td></tr>
+      <tr><td>Salir del barrio</td><td class="c">1</td><td>—</td></tr>
+    </tbody>
+  </table>
+  <h4>Fatiga</h4>
+  <p>4 marcas ▲ = +1 · 1: come 2 · 2: no corre · 3: 2 PA · más de 3: −1 sangre.</p>
+  <h4>Zombies</h4>
+  <p>Caminante D8 V5 +2 · Corredor D12 V4 +3, 2 zonas · Bruto D10 V12 +4 · Ácido D9 V6 +2 · Chillón D8 V4 +1.</p>
+  <h4>Peligro</h4>
+  <p>Nivel 1: días 1–7 · Nivel 2: 8–14 · Nivel 3: 15–20.</p>
+  </div>
+  </div>
+</section>
+
+</body>
+</html>
