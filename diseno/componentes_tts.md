@@ -109,7 +109,7 @@ Todas las fichas genéricas van en **bolsas infinitas**, para no contar existenc
 | Ruido | 40 (bolsa infinita) | Custom Token | 1 | — |
 | Daño de zombie | Bolsa infinita | Custom Token | 1 (y de 3) | — |
 | Herida: rasguño, laceración, fractura y mordedura | Bolsa infinita por tipo | Custom Token | 1 | 2d6 (o el dado de herida) |
-| Herida abierta ("olor a sangre") | 6 (2 por jugador) en bolsa infinita | Custom Token | 1 | — | Va encima de la ficha de herida mientras no se limpie. En cada paso de reloj, pone 1 ficha de ruido en la zona del superviviente. Se quita con 1 carta de Alimento (agua) o con Primeros auxilios |
+| Herida abierta ("olor a sangre") | 6 (2 por jugador) en bolsa infinita | Custom Token | 1. Va encima de la ficha de herida mientras no se limpie. En cada paso de reloj, pone 1 ficha de ruido en la zona del superviviente. Se quita con 1 carta de Alimento (agua) o con Primeros auxilios | — |
 | Fatiga | Bolsa infinita | Custom Token | 1 | — |
 | Bala (disparos de munición) | Bolsa infinita | Custom Token | 1 | — |
 | Voz | Bolsa infinita | Custom Token | 1 | — |
@@ -168,7 +168,7 @@ Formato de carta: 750 × 1050 px, proporción 5:7 (como una carta de póker), qu
 | Supervivientes | 7 + oculta | 4 × 2 | 750 × 1050 | 3000 × 2100 | 1 | `supervivientes_dorso` (silueta) |
 | Acciones (4 por jugador) | 4 + oculta → 3 × 2 | 3 × 2 | 750 × 1050 | 2250 × 2100 | 1 por color de jugador (3) | `dorso_carta.png` (el 30 rojo) |
 | Zombies (perfiles) | 5 + oculta | 3 × 2 | 750 × 1050 | 2250 × 2100 | 1 | `zombies_dorso` |
-| Aparición de zombies | Unos 12–15 diseños + oculta (copias en TTS) | 4 × 4 | 750 × 1050 | 3000 × 4200 → reducida a 2926 × 4096 | 1 | `aparicion_dorso` (mano del suelo) |
+| Aparición de zombies | Unos 12–15 diseños + oculta (copias en TTS) | 4 × 4 | 750 × 1050 | 2924 × 4096 (cartas de 731 × 1024) | 1 | `aparicion_dorso` (mano del suelo) |
 | Referencia | 6 + oculta → 4 × 2 | 4 × 2 | 750 × 1050 | 3000 × 2100 | 1 | `referencia_dorso` |
 | Kit prueba 1 | 7 + oculta | 4 × 2 | 750 × 1050 | 3000 × 2100 | 1 | `botin_dorso` |
 
@@ -370,7 +370,7 @@ Basado en `dibujarBase()`: un plano a tinta de la casa con patio.
 
 - 5 entradas con un recuadro de defensa (puerta principal, puerta del patio, ventana de la cocina, ventana del dormitorio y techo). Cada una tiene una casilla para apilar tablones (nivel 0–3) y otra para la ficha de trampa.
 - Camas (4 + cama extra): un hueco de carta para cada superviviente que se queda en la base. Más un puesto de **guardia**.
-- **Depósito:** 6 casillas de recurso con un contador nativo encima, y una zona para dejar las cartas de material, comida y agua que vuelven de la expedición.
+- **Depósito:** 5 casillas de recurso (Alimento, Medicinas, Materiales, Munición, Combustible) con un contador nativo encima, y una zona para dejar las cartas de material y alimento que vuelven de la expedición.
 - **Mejoras** (taller, huerta, recolector, cama extra): casillas con el coste impreso y la ficha de "hecho".
 - **Señal de socorro:** una tira de 5 etapas con nombre y requisito (Radio o antena · Energía · Baliza · Mensaje · Activación), con la etapa 5 en rojo y el aviso "ruido máximo: atrae una horda".
 
@@ -403,6 +403,38 @@ Recomendación sobre la pregunta abierta de la dirección de arte: **las fichas 
 | Ficha de edificio | Círculo de 0,9 u | Dorso: casita en papel sobre tinta (como `fichaDorso`). Frente: número 1–6 sobre papel |
 
 Las fichas de zombie no llevan texto. El tipo se reconoce por la ilustración y por una **marca de borde**: caminante sin marca, corredor con 2 rayas, bruto con aro doble, ácido con un punto verde y chillón con ondas.
+
+**¿Hace falta la ficha de herida abierta?** Sí. La herida (zona y tipo) es permanente hasta curarla en la base. Lo de "abierta" es un estado aparte que se quita en la expedición, limpiándola con agua. Si no hubiera ficha, habría que recordar qué heridas generan ruido en cada turno. Con la ficha encima de la herida, el paso de reloj se resuelve mirando la hoja: cada gota roja deja 1 ficha de ruido en tu zona.
+
+### 3.10 Carta de aparición de zombies · 750 × 1050
+
+El contenido (tipos, cantidades, textos especiales y cuántas copias) lo define `diseno/mazo_aparicion.md`. Esta es la plantilla. La carta se lee **de un vistazo desde la mesa**, porque se roba en cada turno: lo que importa es el tipo de zombie y el número del nivel actual.
+
+```
+ 0 ┌──────────────────────────────────────────┐
+48 │ TIPO DE ZOMBIE            [● marca]      │  48–130  nombre del tipo en Big Shoulders 72 px
+   │                                          │          + marca de borde del tipo (la misma de la ficha)
+140│ ┌──────────────────────────────────────┐ │ 140–600  ilustración a página casi completa (654 × 460),
+   │ │  ilustración del zombie (tinta)      │ │          recorte de las ilustraciones 2:3 existentes
+   │ └──────────────────────────────────────┘ │
+612│ ┌──────────┬──────────┬──────────┐       │ 612–860  TABLA DE CANTIDADES: 3 columnas iguales (218 px)
+   │ │ NIVEL 1  │ NIVEL 2  │ NIVEL 3  │       │          rótulo "NIVEL n" en Cond 30 px sobre una franja
+   │ │   ①      │   ②      │   ③      │       │          con el tono del calendario (claro, oscuro, quemado)
+   │ │    1     │    2     │    3     │       │          número en Big Shoulders 150 px; "—" si es 0
+   │ └──────────┴──────────┴──────────┘       │
+872│ Texto especial opcional (Barlow 28 px)   │ 872–960  hasta 3 líneas; si no hay, queda una frase de sabor
+   │ «Sabor a máquina» (Special Elite 24 px)  │          en Special Elite
+972│ Aparición · 7/36                         │ 972–1002 pie: número de carta
+   └──────────────────────────────────────────┘
+```
+
+- **Legibilidad de las cantidades:** son lo más importante de la carta. El número va a 150 px (unos 110 px en la hoja exportada). Hasta con la carta chica sobre el descarte, sin zoom, se distingue 1, 2 o 3. Cada columna repite su nivel de dos formas, con el rótulo "NIVEL 2" y con el número en círculo. Además va en el tono de papel de su franja del calendario, así se busca la columna por color.
+- **Dónde aparecen:** si la carta dice el lugar (borde de la loseta más ruidosa, zona de la puerta, etc.), se imprime como un icono chico sobre la tabla. El texto va en el bloque especial.
+- **Cartas especiales** (horda, nada, "el chillón llama", etc.) usan la misma estructura. Si no aparece ningún zombie, la tabla muestra "—" en las 3 columnas y el texto especial crece.
+- **Varios tipos en una carta:** la ilustración se divide en 2 y la tabla tiene 2 filas (una por tipo), con números de 100 px.
+- **Dorso:** `aparicion_dorso`. La mano que sale del suelo (`mano_del_suelo.jpg`) recortada en un círculo, sobre noche, con la palabra "APARICIÓN" en óxido. Tiene que ser distinto del dorso del botín (mochila) y del de las acciones (el 30 rojo).
+- **Tipo TTS:** Custom Deck. En la hoja van solo los diseños únicos y las copias se hacen en TTS, igual que en el botín.
+- **Texto en voseo:** por ejemplo, "Si hay un superviviente escondido en esa loseta, robá otra carta".
 
 ---
 
@@ -539,10 +571,14 @@ python3 herramientas/hoja_de_cartas.py arte/cartas/supervivientes/ --cols 4 --fi
 | Cartas de acción | Solo está diseñada "Movimiento y sigilo" | Se reserva una hoja de 3 × 2 por jugador |
 | Fichas: tinta o color | Pregunta abierta en la dirección de arte | Recomendación: color fuerte con borde de tinta (sección 3.9) |
 | Infectado ácido y chillón | Marcados como "propuesta" | Se incluyen 4 fichas de cada uno. Son baratos de quitar |
+| Nombre "Día 30" | La partida pasa a 20 días | El logo y los dorsos con el 30 rojo quedan pendientes. Antes de imprimir dorsos definitivos hay que confirmar el nombre |
+| Mazo de aparición y prueba 1 | El kit usaba d6 de aparición. La decisión 8 lo reemplaza por el mazo | En el kit de TTS se usa el mazo a nivel 1. Si se quiere repetir la prueba 1 tal cual, alcanza con un d6 nativo suelto |
+| Agua: limpiar heridas | Nueva regla: herida sin limpiar = 1 ruido por turno | Hay que definir qué cuenta como herida "abierta": ¿todas, o solo laceración y mordedura? Hoy la ficha se pone en cualquier herida nueva |
 
 **Orden de trabajo sugerido:**
 1. Kit prueba 1: 2 losetas, hoja, 7 cartas, caminantes y fichas básicas.
 2. Mazo de botín, con las maquetas SVG actuales exportadas a PNG.
-3. Base, tiempo y ciudad.
-4. Losetas del juego completo y tablas de edificio.
-5. Supervivientes y acciones, después de la prueba 2.
+3. Mazo de aparición, cuando esté `mazo_aparicion.md`, y ficha de herida abierta.
+4. Base, tiempo (20 días) y ciudad.
+5. Losetas del juego completo y tablas de edificio.
+6. Supervivientes y acciones, después de la prueba 2.
