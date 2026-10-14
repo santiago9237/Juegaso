@@ -1,0 +1,1799 @@
+<!doctype html><html><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#fff;color:#000}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style></head><body>
+<title>Día 30 · Base y losetas</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Big+Shoulders+Stencil+Display:wght@700;900&family=Barlow+Condensed:wght@500;600;700&family=Barlow:wght@400;500;600&family=Special+Elite&display=swap">
+<style>
+/* Layout: mesa oscura de juego; la base, el plano de la ciudad y las losetas son hojas y cartones de papel apoyados encima. Un solo look nocturno, a propósito. */
+:root {
+  color-scheme: dark;
+  --mesa: #1c1915;
+  --mesa-2: #2a251f;
+  --papel: #dfcfae;
+  --papel-2: #d2bf98;
+  --papel-osc: #a8936d;
+  --tinta: #221e18;
+  --tinta-2: #4b4136;
+  --sepia: #6c5a42;
+  --oxido: #8e3f22;
+  --rojo: #8a2424;
+  --verde: #3d5f4a;
+  --azul: #33495f;
+  --ocre: #b88a2e;
+  --f-display: "Big Shoulders Stencil Display", "Impact", "Arial Narrow", sans-serif;
+  --f-cond: "Barlow Condensed", "Arial Narrow", sans-serif;
+  --f-body: "Barlow", "Segoe UI", system-ui, sans-serif;
+  --f-maquina: "Special Elite", "Courier New", monospace;
+  --ruido: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='260' height='260'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 .33 0 0 0 0 .25 0 0 0 0 .15 0 0 0 .24 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  --borde-roto: polygon(0.6% 0.8%, 14% 0, 31% 0.9%, 47% 0.1%, 63% 1%, 79% 0.2%, 93% 0.9%, 99.5% 0, 100% 16%, 99.3% 34%, 100% 52%, 99.4% 70%, 100% 86%, 99.4% 99.6%, 84% 100%, 67% 99.1%, 50% 100%, 33% 99.2%, 17% 100%, 0.4% 99.4%, 0 84%, 0.7% 66%, 0 49%, 0.6% 31%, 0 15%);
+}
+* { box-sizing: border-box; }
+[hidden] { display: none !important; }
+html { background: var(--mesa); }
+body {
+  margin: 0;
+  background:
+    radial-gradient(60% 50% at 15% 10%, rgba(120,90,50,.18), transparent 70%),
+    radial-gradient(50% 40% at 90% 80%, rgba(90,40,25,.18), transparent 70%),
+    var(--ruido), var(--mesa);
+  color: var(--papel);
+  font-family: var(--f-body); font-size: 16px; line-height: 1.5;
+  padding-inline: 18px; padding-block: 24px 64px;
+}
+h1, h2, h3 { margin: 0; text-wrap: balance; }
+p { margin: 0; }
+button { font: inherit; color: inherit; }
+:focus-visible { outline: 2px dashed var(--ocre); outline-offset: 3px; }
+.wrap { max-width: 1240px; margin-inline: auto; display: flex; flex-direction: column; gap: 28px; }
+
+/* ---------- hoja ---------- */
+.hoja { position: relative; color: var(--tinta); isolation: isolate; padding: 24px 24px 26px; filter: drop-shadow(0 14px 22px rgba(0,0,0,.5)); min-width: 0; }
+.hoja::before {
+  content: ""; position: absolute; inset: 0; z-index: -1;
+  background: radial-gradient(140% 110% at 50% 40%, transparent 55%, rgba(95,62,30,.42) 100%), var(--ruido), var(--papel);
+  clip-path: var(--borde-roto);
+}
+.gira-i { rotate: -.35deg; } .gira-d { rotate: .3deg; }
+.eyebrow { font-family: var(--f-maquina); font-size: 14px; color: var(--sepia); }
+.h-sec { font-family: var(--f-display); font-weight: 900; text-transform: uppercase; font-size: clamp(28px, 3.6vw, 38px); line-height: .95; }
+.h-sub { font-family: var(--f-cond); font-weight: 700; text-transform: uppercase; letter-spacing: .05em; font-size: 19px; line-height: 1.1; }
+.nota { font-family: var(--f-maquina); font-size: 13.5px; color: var(--sepia); }
+.cabeza { display: flex; flex-direction: column; gap: 4px; }
+
+/* ---------- botones ---------- */
+.btn {
+  appearance: none; cursor: pointer; border: 0; background: var(--tinta); color: var(--papel);
+  font-family: var(--f-cond); font-weight: 700; text-transform: uppercase; letter-spacing: .08em; font-size: 17px;
+  padding: 11px 20px; position: relative;
+  clip-path: polygon(1% 4%, 30% 0, 62% 6%, 99% 0, 100% 52%, 98% 100%, 66% 95%, 34% 100%, 0 96%, 2% 48%);
+  transition: transform .15s ease, background .15s ease;
+}
+.btn:hover:not(:disabled) { transform: translateY(-1px) rotate(-.5deg); background: var(--oxido); }
+.btn:disabled { opacity: .42; cursor: not-allowed; }
+.btn.rojo { background: var(--rojo); }
+.btn.hueco { background: transparent; color: var(--tinta); clip-path: none; }
+.btn.hueco::after { content: ""; position: absolute; inset: 0; border: 2px solid var(--tinta); filter: url(#temblor); pointer-events: none; }
+.btn.hueco:hover:not(:disabled) { background: rgba(34,30,24,.08); }
+.btn.chico { font-size: 14px; padding: 7px 12px; }
+.btn.claro { background: var(--papel); color: var(--tinta); }
+.btn.claro:hover:not(:disabled) { background: var(--papel-2); }
+
+/* ---------- cabecera ---------- */
+.cab { display: grid; grid-template-columns: auto minmax(0, 1fr); gap: 14px 32px; align-items: end; }
+.logo { font-family: var(--f-display); font-weight: 900; text-transform: uppercase; line-height: .8; display: flex; align-items: baseline; gap: 10px; }
+.logo .d { font-size: clamp(30px, 4.6vw, 44px); color: var(--papel); letter-spacing: .06em; }
+.logo .n { font-size: clamp(58px, 9vw, 88px); color: var(--rojo); filter: url(#temblor-suave); }
+.estado-dia { display: flex; flex-direction: column; gap: 10px; min-width: 0; }
+.dia-txt { font-family: var(--f-maquina); color: var(--papel-osc); font-size: 15px; }
+.dia-txt b { color: var(--papel); font-weight: 400; }
+.recursos { display: flex; flex-wrap: wrap; gap: 8px 22px; }
+.rec { display: flex; align-items: baseline; gap: 7px; font-family: var(--f-cond); font-weight: 600; text-transform: uppercase; letter-spacing: .06em; font-size: 14px; color: var(--papel-osc); }
+.rec b { font-family: var(--f-display); font-weight: 900; font-size: 26px; color: var(--papel); letter-spacing: 0; font-variant-numeric: tabular-nums; }
+.rec.alerta b { color: #d0654a; }
+
+/* fases del día: secuencia real del reglamento */
+.fases { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 0; border-top: 2px solid var(--tinta-2); border-bottom: 2px solid var(--tinta-2); }
+.fases li { padding: 9px 12px; font-family: var(--f-cond); font-weight: 600; text-transform: uppercase; letter-spacing: .07em; font-size: 14px; color: var(--papel-osc); display: flex; gap: 8px; align-items: baseline; border-right: 1px dashed var(--tinta-2); }
+.fases li:last-child { border-right: 0; }
+.fases li span { font-family: var(--f-display); font-weight: 900; font-size: 18px; }
+.fases li.hecha { color: var(--sepia); text-decoration: line-through; text-decoration-thickness: 1px; }
+.fases li.ahora { color: var(--papel); background: rgba(142,63,34,.28); }
+.fases li.ahora span { color: #d0654a; }
+
+/* ---------- pestañas ---------- */
+.pestanas { display: flex; gap: 6px; flex-wrap: wrap; }
+.pest {
+  appearance: none; border: 0; cursor: pointer; background: transparent; color: var(--papel-osc);
+  font-family: var(--f-cond); font-weight: 700; text-transform: uppercase; letter-spacing: .1em; font-size: 15px;
+  padding: 9px 16px; border-bottom: 3px solid transparent;
+}
+.pest:hover { color: var(--papel); }
+.pest[aria-selected="true"] { color: var(--papel); border-bottom-color: var(--oxido); }
+
+/* ---------- vista base ---------- */
+.base-grid { display: grid; grid-template-columns: minmax(0, 1.45fr) minmax(0, 1fr); gap: 28px; align-items: start; }
+.col { display: flex; flex-direction: column; gap: 28px; min-width: 0; }
+.plano { display: block; width: 100%; height: auto; margin-top: 14px; }
+.plano .entrada, .plano .mejora { cursor: pointer; }
+.plano .entrada:hover circle.badge, .plano .entrada:focus-visible circle.badge { stroke-width: 4; }
+.plano .mejora:hover rect.slot, .plano .mejora:focus-visible rect.slot { fill: rgba(142,63,34,.12); }
+.plano :focus-visible { outline: none; }
+
+.fichas-hoy { display: flex; flex-wrap: wrap; gap: 10px 22px; align-items: center; margin-top: 14px; }
+.ficha-c { width: 34px; height: 34px; border-radius: 50%; display: inline-grid; place-items: center; font-family: var(--f-display); font-weight: 900; font-size: 17px; color: var(--papel); background: var(--oxido); box-shadow: inset 0 0 0 2px var(--tinta), inset 0 0 0 5px rgba(223,207,174,.35); filter: url(#temblor-suave); }
+.ficha-c.gastada { background: transparent; color: var(--papel-osc); box-shadow: inset 0 0 0 2px var(--papel-osc); }
+.ficha-c.senal { background: var(--ocre); color: var(--tinta); }
+.fichas-hoy .grupo { display: flex; align-items: center; gap: 8px; font-family: var(--f-cond); font-weight: 600; text-transform: uppercase; letter-spacing: .05em; font-size: 14px; color: var(--tinta-2); }
+
+.listas-base { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 22px; margin-top: 18px; }
+.lista { display: flex; flex-direction: column; }
+.fila-l { display: grid; grid-template-columns: minmax(0, 1fr) auto auto; gap: 10px; align-items: center; padding-block: 7px; border-bottom: 1px dashed rgba(34,30,24,.35); font-size: 15px; }
+.fila-l:last-child { border-bottom: 0; }
+.fila-l .nom { font-family: var(--f-cond); font-weight: 600; font-size: 16px; line-height: 1.15; }
+.pips { display: flex; gap: 3px; }
+.pips i { width: 11px; height: 11px; border: 1.5px solid var(--tinta); display: block; }
+.pips i.on { background: repeating-linear-gradient(-45deg, var(--tinta) 0 2px, transparent 2px 4px); }
+.pips.cero i { border-color: var(--rojo); }
+.hecho { font-family: var(--f-cond); font-weight: 700; font-size: 12px; text-transform: uppercase; letter-spacing: .1em; color: var(--verde); border: 2px solid currentColor; padding: 0 6px; rotate: -3deg; }
+.diario { margin-top: 16px; font-family: var(--f-maquina); font-size: 14px; color: var(--tinta-2); display: flex; flex-direction: column; gap: 3px; min-height: 1.5em; }
+.diario-barra { display: flex; justify-content: space-between; align-items: center; gap: 12px; flex-wrap: wrap; margin-top: 10px; }
+
+/* supervivientes */
+.jugadores-sel { display: flex; align-items: center; gap: 12px; flex-wrap: wrap; margin-top: 12px; }
+.seg { display: inline-flex; border: 2px solid var(--tinta); }
+.seg button { appearance: none; border: 0; background: transparent; cursor: pointer; padding: 5px 12px; font-family: var(--f-cond); font-weight: 700; font-size: 15px; text-transform: uppercase; letter-spacing: .06em; color: var(--tinta); }
+.seg button + button { border-left: 2px solid var(--tinta); }
+.seg button[aria-pressed="true"] { background: var(--tinta); color: var(--papel); }
+.seg button:hover:not([aria-pressed="true"]) { background: rgba(34,30,24,.08); }
+.sups { display: flex; flex-direction: column; gap: 0; margin-top: 14px; }
+.sup { display: grid; grid-template-columns: 46px minmax(0, 1fr); gap: 4px 14px; align-items: center; padding-block: 13px; border-bottom: 1px dashed rgba(34,30,24,.4); }
+.sup:last-child { border-bottom: 0; }
+.ini { width: 46px; height: 46px; border-radius: 50%; display: grid; place-items: center; font-family: var(--f-display); font-weight: 900; font-size: 23px; color: var(--papel); background: var(--tinta-2); filter: url(#temblor-suave); grid-row: span 2; }
+.sup[data-rol="sale"] .ini { background: var(--oxido); }
+.sup[data-rol="guardia"] .ini { background: var(--verde); }
+.sup .quien { display: flex; flex-wrap: wrap; align-items: baseline; gap: 2px 10px; min-width: 0; }
+.sup .n { font-family: var(--f-cond); font-weight: 700; font-size: 20px; text-transform: uppercase; line-height: 1.05; }
+.sup .of { font-family: var(--f-maquina); font-size: 13px; color: var(--sepia); }
+.sup .linea { display: flex; flex-wrap: wrap; align-items: center; gap: 8px 14px; justify-content: space-between; }
+.estado-sup { display: flex; flex-wrap: wrap; align-items: center; gap: 4px 12px; font-size: 13.5px; color: var(--tinta-2); }
+.fat { display: inline-flex; align-items: center; gap: 3px; }
+.fat i { width: 10px; height: 10px; border: 1.5px solid var(--tinta-2); display: block; }
+.fat i.on { background: var(--tinta-2); }
+.herida { color: var(--rojo); font-family: var(--f-maquina); font-size: 13px; }
+.chequeo { margin-top: 14px; display: flex; flex-direction: column; gap: 4px; font-family: var(--f-maquina); font-size: 14px; }
+.chequeo .ok { color: var(--verde); }
+.chequeo .mal { color: var(--rojo); }
+.chequeo .ojo { color: var(--sepia); }
+
+/* destino */
+.destino-grid { display: grid; grid-template-columns: minmax(0, 1.25fr) minmax(0, 1fr); gap: 26px; align-items: start; margin-top: 16px; }
+.ciudad { display: block; width: 100%; height: auto; }
+.ciudad .barrio { cursor: pointer; }
+.ciudad .barrio:focus-visible { outline: none; }
+.ciudad .barrio:hover .borde, .ciudad .barrio:focus-visible .borde { stroke-width: 3.6; }
+.locs { display: flex; flex-direction: column; gap: 8px; }
+.loc {
+  appearance: none; border: 0; cursor: pointer; text-align: left; background: rgba(255,250,235,.25); color: var(--tinta);
+  padding: 10px 14px 11px; display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 2px 12px; position: relative;
+}
+.loc::after { content: ""; position: absolute; inset: 0; border: 2px solid var(--tinta); filter: url(#temblor); pointer-events: none; opacity: .55; }
+.loc:hover { background: rgba(255,250,235,.45); }
+.loc[aria-checked="true"] { background: rgba(142,63,34,.16); }
+.loc[aria-checked="true"]::after { opacity: 1; border-color: var(--oxido); border-width: 3px; }
+.loc .ln { font-family: var(--f-cond); font-weight: 700; font-size: 19px; text-transform: uppercase; line-height: 1.1; }
+.loc .lt { font-size: 13.5px; color: var(--tinta-2); grid-column: 1; }
+.loc .lh { font-family: var(--f-display); font-weight: 900; font-size: 24px; grid-row: span 2; align-self: center; text-align: right; line-height: 1; }
+.loc .lh small { display: block; font-family: var(--f-maquina); font-weight: 400; font-size: 12px; color: var(--sepia); }
+.peligro { letter-spacing: 2px; color: var(--rojo); }
+.peligro .apag { color: var(--papel-osc); }
+
+.reloj { margin-top: 18px; display: flex; flex-direction: column; gap: 6px; }
+.reloj .barra { display: flex; height: 26px; border: 2px solid var(--tinta); }
+.reloj .barra div { display: grid; place-items: center; font-family: var(--f-cond); font-weight: 600; font-size: 12px; text-transform: uppercase; letter-spacing: .05em; overflow: hidden; white-space: nowrap; border-right: 1px solid var(--tinta); }
+.reloj .barra div:last-child { border-right: 0; }
+.reloj .viaje { background: repeating-linear-gradient(-45deg, rgba(34,30,24,.35) 0 2px, transparent 2px 6px); }
+.reloj .saqueo { background: rgba(255,250,235,.3); }
+.reloj .noche { background: var(--tinta); color: var(--papel); }
+.reloj .alba { background: rgba(34,30,24,.12); }
+.reloj .horas { display: flex; justify-content: space-between; font-family: var(--f-maquina); font-size: 12px; color: var(--sepia); font-variant-numeric: tabular-nums; }
+.salir-barra { margin-top: 20px; display: flex; flex-wrap: wrap; gap: 14px 20px; align-items: center; justify-content: space-between; }
+.salir-barra p { max-width: 52ch; }
+
+/* ---------- vista expedición ---------- */
+.exp-grid { display: grid; grid-template-columns: minmax(0, 1fr) 300px; gap: 26px; align-items: start; }
+.exp-cab { display: flex; flex-wrap: wrap; align-items: end; justify-content: space-between; gap: 12px 24px; }
+.exp-cab .t { font-family: var(--f-display); font-weight: 900; text-transform: uppercase; font-size: clamp(34px, 5vw, 54px); line-height: .9; color: var(--papel); }
+.exp-cab .s { font-family: var(--f-maquina); color: var(--papel-osc); font-size: 14px; }
+.mapa-scroll { overflow-x: auto; padding: 18px 6px 26px; margin-inline: -6px; }
+.mapa { display: grid; gap: 3px; margin-inline: auto; position: relative; }
+.mapa.con-3d { cursor: crosshair; }
+.mapa.con-3d .equipo-mapa { display: none; }
+.acc3d { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 14px; }
+.acc3d[hidden] { display: none; }
+.equipo .m button.tok { border: 0; padding: 0; cursor: pointer; }
+.equipo .m button.tok[aria-pressed="true"] { outline: 3px solid var(--ocre); outline-offset: 2px; }
+.celda { position: relative; aspect-ratio: 1; rotate: var(--rot, 0deg); filter: drop-shadow(0 6px 8px rgba(0,0,0,.55)); }
+.celda svg { display: block; width: 100%; height: 100%; }
+.celda.cae { animation: caer .55s cubic-bezier(.2,.9,.3,1.15) both; animation-delay: var(--d, 0ms); }
+@keyframes caer { from { opacity: 0; transform: translateY(-46px) rotate(-7deg) scale(1.1); } 60% { opacity: 1; } to { opacity: 1; transform: none; } }
+.ficha-ed {
+  position: absolute; left: 50%; top: 63%; width: 21%; aspect-ratio: 1; translate: -50% -50%;
+  appearance: none; border: 0; padding: 0; background: transparent; cursor: pointer; border-radius: 50%;
+}
+.ficha-ed svg { width: 100%; height: 100%; display: block; filter: drop-shadow(0 3px 3px rgba(0,0,0,.45)); }
+.ficha-ed.gira { animation: girar .45s ease both; }
+@keyframes girar { 0% { transform: rotateY(0); } 50% { transform: rotateY(90deg) scale(1.15); } 100% { transform: rotateY(0); } }
+.sello-saq {
+  position: absolute; left: 50%; top: 50%; translate: -50% -50%; rotate: -14deg; pointer-events: none;
+  font-family: var(--f-display); font-weight: 900; font-size: clamp(13px, 2.1vw, 26px); letter-spacing: .08em; text-transform: uppercase;
+  color: var(--rojo); border: 3px solid var(--rojo); padding: 1px 8px; background: rgba(223,207,174,.72); filter: url(#temblor-suave); white-space: nowrap;
+}
+.equipo-mapa { position: absolute; left: 6%; top: 50%; translate: 0 -50%; display: flex; flex-direction: column; gap: 4px; pointer-events: none; }
+.tok { width: clamp(22px, 3vw, 34px); aspect-ratio: 1; border-radius: 50%; display: grid; place-items: center; font-family: var(--f-display); font-weight: 900; font-size: clamp(12px, 1.5vw, 17px); color: var(--papel); box-shadow: inset 0 0 0 2px var(--tinta), 0 3px 4px rgba(0,0,0,.5); }
+.mesa-vacia { border: 2px dashed var(--tinta-2); min-height: 280px; display: grid; place-items: center; text-align: center; padding: 30px; color: var(--papel-osc); font-family: var(--f-maquina); }
+.lado { display: flex; flex-direction: column; gap: 24px; }
+.equipo { display: flex; flex-direction: column; gap: 10px; margin-top: 10px; }
+.equipo .m { display: grid; grid-template-columns: 34px minmax(0, 1fr); gap: 10px; align-items: center; }
+.equipo .m .tok { width: 34px; font-size: 17px; }
+.equipo .m b { font-family: var(--f-cond); font-weight: 700; font-size: 17px; text-transform: uppercase; display: block; line-height: 1.1; }
+.equipo .m span { font-family: var(--f-maquina); font-size: 12.5px; color: var(--sepia); }
+.edifs { display: flex; flex-direction: column; margin-top: 10px; }
+.edifs .fila-l { grid-template-columns: minmax(0, 1fr) auto; }
+.edifs .est { font-family: var(--f-maquina); font-size: 13px; color: var(--sepia); }
+.edifs .est.rev { color: var(--tinta); }
+.edifs .est.saq { color: var(--rojo); }
+
+.edifs .fila-l.sel { background: rgba(142,63,34,.12); }
+.edifs button.fila-l { appearance: none; border: 0; border-bottom: 1px dashed rgba(34,30,24,.35); background: transparent; color: inherit; cursor: pointer; text-align: left; width: 100%; padding-inline: 4px; }
+.edifs button.fila-l:hover { background: rgba(34,30,24,.06); }
+.panel-ed { display: flex; flex-direction: column; gap: 10px; margin-top: 10px; }
+.panel-ed .tit { display: grid; grid-template-columns: 52px minmax(0, 1fr); gap: 12px; align-items: center; }
+.panel-ed .tit svg { width: 52px; height: 52px; }
+.panel-ed .tit b { font-family: var(--f-display); font-weight: 900; font-size: 26px; text-transform: uppercase; line-height: .95; display: block; }
+.panel-ed .tit span { font-family: var(--f-maquina); font-size: 13px; color: var(--sepia); }
+.panel-ed .aviso-6 { font-family: var(--f-maquina); font-size: 13.5px; color: var(--rojo); }
+.panel-ed .reg { display: flex; align-items: center; justify-content: space-between; gap: 10px; flex-wrap: wrap; }
+.tiradas { display: flex; flex-direction: column; gap: 6px; font-size: 14px; }
+.tiradas div { display: grid; grid-template-columns: 34px minmax(0, 1fr); gap: 8px; align-items: start; }
+.tiradas .d { font-family: var(--f-display); font-weight: 900; font-size: 20px; line-height: 1; text-align: center; border: 2px solid var(--tinta); padding: 3px 0; border-radius: 4px 7px 5px 6px; }
+.tiradas .aah { color: var(--rojo); }
+
+/* chips de zombies */
+.zs { display: inline-flex; flex-wrap: wrap; gap: 4px; }
+.z { display: inline-flex; align-items: center; gap: 3px; font-family: var(--f-cond); font-weight: 700; font-size: 14px; line-height: 1; padding: 3px 6px 3px 3px; border: 1.5px solid var(--tinta); border-radius: 12px 10px 11px 12px; white-space: nowrap; }
+.z i { font-style: normal; display: inline-grid; place-items: center; min-width: 18px; height: 18px; padding-inline: 3px; border-radius: 9px; background: var(--tinta); color: var(--papel); font-size: 12px; }
+.z.R i { background: var(--oxido); } .z.B i { background: var(--tinta-2); } .z.A i { background: #5d7a2a; } .z.H i { background: var(--ocre); color: var(--tinta); }
+.vacio-z { font-family: var(--f-maquina); font-size: 13px; color: var(--sepia); }
+
+/* ---------- tablas ---------- */
+.pasos-t { list-style: none; margin: 14px 0 0; padding: 0; display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 18px; }
+.pasos-t li { display: flex; flex-direction: column; gap: 4px; font-size: 15px; color: var(--tinta-2); min-width: 0; }
+.pasos-t b { font-family: var(--f-cond); font-weight: 700; text-transform: uppercase; letter-spacing: .04em; font-size: 18px; color: var(--tinta); display: flex; gap: 8px; align-items: baseline; }
+.pasos-t b span { font-family: var(--f-display); font-weight: 900; font-size: 26px; color: var(--oxido); }
+.bestiario { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 16px; }
+.bicho { margin: 0; background: var(--papel); color: var(--tinta); padding: 6px 6px 10px; box-shadow: 0 10px 20px rgba(0,0,0,.5); display: flex; flex-direction: column; gap: 6px; min-width: 0; }
+.bicho:nth-child(odd) { rotate: -1.2deg; } .bicho:nth-child(even) { rotate: 1deg; }
+.bicho img { display: block; width: 100%; aspect-ratio: 4/3; object-fit: cover; object-position: 50% 30%; }
+.bicho figcaption { padding-inline: 4px; display: flex; flex-direction: column; gap: 3px; }
+.bicho .bn { display: flex; align-items: center; gap: 6px; font-family: var(--f-cond); font-weight: 700; text-transform: uppercase; font-size: 17px; line-height: 1.1; }
+.bicho .st { font-family: var(--f-maquina); font-size: 12.5px; color: var(--sepia); }
+.bicho .fx { font-size: 13.5px; line-height: 1.35; color: var(--tinta-2); }
+.prop { font-family: var(--f-cond); font-weight: 700; font-size: 11px; letter-spacing: .1em; text-transform: uppercase; color: var(--oxido); border: 1.5px solid currentColor; padding: 0 5px; rotate: -3deg; display: inline-block; vertical-align: middle; }
+.chips-ed { display: flex; flex-wrap: wrap; gap: 8px; }
+.chip-ed { appearance: none; cursor: pointer; border: 2px solid var(--papel-osc); background: transparent; color: var(--papel); font-family: var(--f-cond); font-weight: 700; text-transform: uppercase; letter-spacing: .06em; font-size: 15px; padding: 6px 12px; }
+.chip-ed:hover { border-color: var(--papel); }
+.chip-ed[aria-pressed="true"] { background: var(--papel); color: var(--tinta); border-color: var(--papel); }
+.ficha-tabla { display: grid; grid-template-columns: minmax(0, 1.15fr) minmax(0, 1fr); gap: 28px; align-items: start; }
+.tabla-scroll { overflow-x: auto; }
+table.t { width: 100%; border-collapse: collapse; font-size: 14.5px; color: inherit; font-family: inherit; line-height: 1.4; }
+table.t th { font-family: var(--f-cond); font-weight: 700; text-transform: uppercase; letter-spacing: .06em; font-size: 13px; text-align: left; padding: 6px 8px; border-bottom: 2px solid var(--tinta); vertical-align: bottom; color: var(--tinta-2); }
+table.t th.ahora { color: var(--oxido); }
+table.t td { padding: 8px; border-bottom: 1px dashed rgba(34,30,24,.35); vertical-align: top; }
+table.t td.n { font-family: var(--f-display); font-weight: 900; font-size: 24px; line-height: 1; width: 34px; }
+table.t td.n.seis { color: var(--rojo); }
+table.t td.ahora { background: rgba(142,63,34,.09); }
+table.t td.rg { font-family: var(--f-cond); font-weight: 700; font-size: 16px; white-space: nowrap; font-variant-numeric: tabular-nums; }
+table.t td.rg small { display: block; font-family: var(--f-maquina); font-weight: 400; font-size: 11.5px; color: var(--sepia); }
+table.t tr.nota-fila td { border-bottom: 1px dashed rgba(34,30,24,.35); padding-top: 0; font-family: var(--f-maquina); font-size: 12.5px; color: var(--sepia); }
+table.t tr.con-nota td { border-bottom: 0; }
+table.t td.d20 { font-family: var(--f-display); font-weight: 900; font-size: 18px; white-space: nowrap; width: 54px; font-variant-numeric: tabular-nums; }
+table.t td.esp { font-family: var(--f-cond); font-weight: 700; white-space: nowrap; text-align: right; color: var(--tinta-2); }
+table.t tr.aah td { color: var(--rojo); }
+table.t tr.senal td:nth-child(2)::after { content: " · señal"; font-family: var(--f-cond); font-weight: 700; font-size: 12px; text-transform: uppercase; letter-spacing: .08em; color: var(--ocre); }
+table.t tr.rescate td:nth-child(2) { font-weight: 600; color: var(--verde); }
+table.t tr.mat td:nth-child(2)::after { content: " · para la base"; font-family: var(--f-cond); font-weight: 700; font-size: 12px; text-transform: uppercase; letter-spacing: .08em; color: var(--oxido); }
+
+/* ---------- depósito y trampas ---------- */
+.costo { display: inline-flex; flex-wrap: wrap; gap: 3px 5px; margin-top: 3px; }
+.costo span { font-family: var(--f-cond); font-weight: 600; font-size: 12.5px; text-transform: uppercase; letter-spacing: .05em; color: var(--tinta-2); border: 1px solid rgba(34,30,24,.45); padding: 0 5px; line-height: 1.45; }
+.costo span.falta { color: var(--rojo); border-color: var(--rojo); border-style: dashed; }
+.fila-l.ent { grid-template-columns: minmax(0, 1fr) auto auto; }
+.sub-ent { display: inline-flex; flex-wrap: wrap; gap: 4px 8px; align-items: center; }
+.def { display: flex; flex-direction: column; align-items: flex-end; gap: 2px; }
+.dv { font-family: var(--f-cond); font-weight: 700; font-size: 13px; text-transform: uppercase; letter-spacing: .06em; color: var(--tinta); white-space: nowrap; }
+.tr-tag { font-family: var(--f-cond); font-weight: 700; font-size: 12.5px; text-transform: uppercase; letter-spacing: .05em; color: var(--tinta); background: rgba(184,138,46,.45); padding: 0 6px; margin-top: 3px; }
+.dep-grid { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.3fr); gap: 28px; align-items: start; margin-top: 14px; }
+.deposito { display: flex; flex-direction: column; }
+.mat { display: grid; grid-template-columns: 40px minmax(0, 1fr); gap: 12px; padding-block: 9px; border-bottom: 1px dashed rgba(34,30,24,.35); }
+.mat:last-child { border-bottom: 0; }
+.mat .cant { font-family: var(--f-display); font-weight: 900; font-size: 30px; line-height: 1; text-align: right; font-variant-numeric: tabular-nums; }
+.mat.cero .cant { color: var(--rojo); }
+.mat > div, .tr-cab > div { display: flex; flex-direction: column; gap: 1px; min-width: 0; }
+.mn { font-family: var(--f-cond); font-weight: 700; font-size: 17px; text-transform: uppercase; letter-spacing: .04em; line-height: 1.1; }
+.ms { font-family: var(--f-maquina); font-size: 12.5px; color: var(--sepia); }
+.mf { font-size: 13.5px; color: var(--tinta-2); line-height: 1.4; }
+.mf i { font-style: normal; font-family: var(--f-cond); font-weight: 700; text-transform: uppercase; letter-spacing: .05em; font-size: 12.5px; color: var(--tinta); }
+.mf .d { font-family: var(--f-maquina); font-size: 12px; color: var(--sepia); }
+.trampas { display: grid; grid-template-columns: repeat(auto-fill, minmax(230px, 1fr)); gap: 14px; }
+.trampa { position: relative; padding: 12px 14px 12px; display: flex; flex-direction: column; gap: 8px; background: rgba(255,250,235,.22); }
+.trampa::after { content: ""; position: absolute; inset: 0; border: 2px solid var(--tinta); filter: url(#temblor); pointer-events: none; opacity: .5; }
+.trampa.sel { background: rgba(184,138,46,.22); }
+.trampa.sel::after { opacity: 1; border-color: var(--oxido); border-width: 3px; }
+.tr-cab { display: grid; grid-template-columns: 34px minmax(0, 1fr); gap: 10px; align-items: center; }
+.tr-l { width: 34px; height: 30px; display: grid; place-items: center; font-family: var(--f-display); font-weight: 900; font-size: 17px; color: var(--tinta); background: var(--ocre); clip-path: polygon(25% 0, 75% 0, 100% 50%, 75% 100%, 25% 100%, 0 50%); filter: url(#temblor-suave); }
+.trampa .fx { font-size: 13.5px; line-height: 1.4; color: var(--tinta-2); flex: 1; }
+.tr-pie { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 8px; }
+.punto-debil { margin-top: 14px; font-family: var(--f-maquina); font-size: 14px; color: var(--tinta-2); }
+.punto-debil b { color: var(--rojo); font-weight: 400; }
+@media (max-width: 860px) { .dep-grid { grid-template-columns: minmax(0, 1fr); } }
+.regla { font-size: 15px; color: var(--tinta-2); max-width: 70ch; }
+.regla b { color: var(--tinta); }
+
+/* ---------- losetas ---------- */
+.cat-sec { display: flex; flex-direction: column; gap: 16px; }
+.cat-sec .h-sec { color: var(--papel); }
+.cat-sec > .nota { color: var(--papel-osc); max-width: 70ch; font-size: 14px; }
+.catalogo { display: grid; grid-template-columns: repeat(auto-fill, minmax(190px, 1fr)); gap: 22px; }
+.tes-card { margin: 0; display: flex; flex-direction: column; gap: 8px; min-width: 0; }
+.tes-card .cart { filter: drop-shadow(0 8px 12px rgba(0,0,0,.55)); transition: transform .2s ease; }
+.tes-card:nth-child(odd) .cart { rotate: -.8deg; } .tes-card:nth-child(even) .cart { rotate: .7deg; }
+.tes-card:hover .cart { transform: translateY(-3px); }
+.tes-card svg { display: block; width: 100%; height: auto; }
+.tes-card figcaption { display: flex; flex-direction: column; gap: 1px; }
+.tes-card b { font-family: var(--f-cond); font-weight: 700; text-transform: uppercase; letter-spacing: .05em; font-size: 16px; color: var(--papel); }
+.tes-card span { font-family: var(--f-maquina); font-size: 12.5px; color: var(--papel-osc); }
+.fichas-ed { display: flex; flex-wrap: wrap; gap: 18px; align-items: center; }
+.fichas-ed figure { margin: 0; display: flex; flex-direction: column; align-items: center; gap: 6px; }
+.fichas-ed svg { width: 74px; height: 74px; filter: drop-shadow(0 4px 5px rgba(0,0,0,.5)); }
+.fichas-ed figcaption { font-family: var(--f-maquina); font-size: 12px; color: var(--papel-osc); }
+
+footer { font-family: var(--f-maquina); font-size: 13px; color: var(--papel-osc); }
+
+@media (max-width: 1000px) {
+  .base-grid, .exp-grid, .ficha-tabla { grid-template-columns: minmax(0, 1fr); }
+  .bestiario { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+  .pasos-t { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+@media (max-width: 560px) {
+  .bestiario { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .pasos-t { grid-template-columns: minmax(0, 1fr); }
+}
+@media (max-width: 760px) {
+  .destino-grid, .listas-base { grid-template-columns: minmax(0, 1fr); }
+  .cab { grid-template-columns: minmax(0, 1fr); }
+  .fases { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .fases li:nth-child(2) { border-right: 0; }
+  .fases li:nth-child(-n+2) { border-bottom: 1px dashed var(--tinta-2); }
+  .catalogo { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px; }
+}
+@media (max-width: 480px) {
+  .hoja { padding: 20px 16px 22px; }
+  .sup { grid-template-columns: 40px minmax(0, 1fr); }
+  .ini { width: 40px; height: 40px; font-size: 20px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  * { transition: none !important; animation: none !important; }
+}
+</style>
+
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <defs id="defs-tinta">
+    <filter id="temblor"><feTurbulence type="fractalNoise" baseFrequency=".045" numOctaves="2" seed="3"/><feDisplacementMap in="SourceGraphic" scale="3.2"/></filter>
+    <filter id="temblor-suave"><feTurbulence type="fractalNoise" baseFrequency=".06" numOctaves="2" seed="8"/><feDisplacementMap in="SourceGraphic" scale="2.2"/></filter>
+    <filter id="tb" x="-5%" y="-5%" width="110%" height="110%"><feTurbulence type="fractalNoise" baseFrequency=".05" numOctaves="2" seed="5"/><feDisplacementMap in="SourceGraphic" scale="3"/></filter>
+    <filter id="grano" x="0" y="0" width="100%" height="100%"><feTurbulence type="fractalNoise" baseFrequency=".9" numOctaves="3" seed="2" stitchTiles="stitch"/><feColorMatrix values="0 0 0 0 .33  0 0 0 0 .25  0 0 0 0 .15  0 0 0 .3 0"/></filter>
+    <radialGradient id="vin" cx="50%" cy="45%" r="75%"><stop offset="55%" stop-color="#5f3e1e" stop-opacity="0"/><stop offset="100%" stop-color="#5f3e1e" stop-opacity=".38"/></radialGradient>
+    <pattern id="hatch" width="6" height="6" patternUnits="userSpaceOnUse" patternTransform="rotate(45)"><line x1="0" y1="0" x2="0" y2="6" stroke="#221e18" stroke-width="1.1" opacity=".6"/></pattern>
+    <pattern id="hatch-fino" width="5" height="5" patternUnits="userSpaceOnUse" patternTransform="rotate(-40)"><line x1="0" y1="0" x2="0" y2="5" stroke="#221e18" stroke-width=".7" opacity=".4"/></pattern>
+    <pattern id="hatch-ox" width="7" height="7" patternUnits="userSpaceOnUse" patternTransform="rotate(45)"><line x1="0" y1="0" x2="0" y2="7" stroke="#8e3f22" stroke-width="2" opacity=".55"/></pattern>
+    <pattern id="cruzado" width="7" height="7" patternUnits="userSpaceOnUse" patternTransform="rotate(45)"><path d="M0 0V7M0 0H7" stroke="#221e18" stroke-width=".9" opacity=".55" fill="none"/></pattern>
+    <pattern id="puntos" width="9" height="9" patternUnits="userSpaceOnUse"><circle cx="2" cy="3" r=".8" fill="#221e18" opacity=".35"/><circle cx="6.5" cy="7" r=".6" fill="#221e18" opacity=".28"/><circle cx="7" cy="1.5" r=".5" fill="#221e18" opacity=".22"/></pattern>
+    <pattern id="baldosa" width="14" height="14" patternUnits="userSpaceOnUse"><path d="M0 .5H14M.5 0V14" stroke="#221e18" stroke-width=".8" opacity=".22" fill="none"/></pattern>
+  </defs>
+</svg>
+
+<div class="wrap">
+
+  <header class="cab">
+    <h1 class="logo"><span class="d">Día</span><span class="n">30</span></h1>
+    <div class="estado-dia">
+      <p class="dia-txt"><b>Día 6 de 30</b> · fase de aprendizaje · <span id="consumo"></span></p>
+      <div class="recursos" id="recursos"></div>
+    </div>
+  </header>
+
+  <ol class="fases" id="fases" aria-label="Fases del día">
+    <li data-f="base"><span>1</span>Base</li>
+    <li data-f="plan"><span>2</span>Planificación</li>
+    <li data-f="exp"><span>3</span>Expedición</li>
+    <li data-f="noche"><span>4</span>Regreso y noche</li>
+  </ol>
+
+  <nav class="pestanas" role="tablist" aria-label="Vistas">
+    <button class="pest" role="tab" id="tab-base" data-tab="base" aria-controls="vista-base">La base</button>
+    <button class="pest" role="tab" id="tab-exp" data-tab="exp" aria-controls="vista-exp">Expedición</button>
+    <button class="pest" role="tab" id="tab-tablas" data-tab="tablas" aria-controls="vista-tablas">Zombies y botín</button>
+    <button class="pest" role="tab" id="tab-losetas" data-tab="losetas" aria-controls="vista-losetas">Losetas</button>
+  </nav>
+
+  <!-- ============ BASE ============ -->
+  <main id="vista-base" role="tabpanel" aria-labelledby="tab-base" class="col">
+    <div class="base-grid">
+      <section class="hoja gira-i" aria-labelledby="t-base">
+        <div class="cabeza">
+          <span class="eyebrow">Refugio · casa con patio sobre calle Las Heras</span>
+          <h2 class="h-sec" id="t-base">La base</h2>
+        </div>
+        <svg class="plano" id="plano" viewBox="0 0 900 560" role="group" aria-label="Plano de la base visto desde arriba"></svg>
+        <div class="fichas-hoy">
+          <div class="grupo" id="fichas-cons"></div>
+          <div class="grupo"><span class="ficha-c senal" aria-hidden="true">S</span>Ficha de señal aparte</div>
+        </div>
+        <div class="listas-base">
+          <div>
+            <h3 class="h-sub">Puntos de entrada</h3>
+            <div class="lista" id="lista-entradas"></div>
+          </div>
+          <div>
+            <h3 class="h-sub">Mejoras permanentes</h3>
+            <div class="lista" id="lista-mejoras"></div>
+          </div>
+        </div>
+        <div class="diario-barra">
+          <div class="diario" id="diario" aria-live="polite"></div>
+          <button class="btn hueco chico" id="btn-deshacer" type="button">Deshacer</button>
+        </div>
+      </section>
+
+      <section class="hoja gira-d" aria-labelledby="t-plan">
+        <div class="cabeza">
+          <span class="eyebrow">Planificación · quién sale y quién se queda</span>
+          <h2 class="h-sec" id="t-plan">Supervivientes</h2>
+        </div>
+        <div class="jugadores-sel">
+          <span class="nota">Jugadores en la mesa</span>
+          <div class="seg" id="seg-jug" role="group" aria-label="Cantidad de jugadores">
+            <button type="button" data-j="1">1</button><button type="button" data-j="2">2</button><button type="button" data-j="3">3</button>
+          </div>
+        </div>
+        <div class="sups" id="sups"></div>
+        <div class="chequeo" id="chequeo" aria-live="polite"></div>
+        <p class="nota" style="margin-top:12px">Sale uno por jugador. Los que se quedan descansan y quitan 1 de fatiga; el de guardia no descansa pero suma su Percepción a la defensa.</p>
+      </section>
+    </div>
+
+    <section class="hoja gira-d" aria-labelledby="t-dep">
+      <div class="cabeza">
+        <span class="eyebrow">Construcción · qué hay en el depósito y qué se puede armar</span>
+        <h2 class="h-sec" id="t-dep">Depósito y trampas</h2>
+      </div>
+      <div class="dep-grid">
+        <div>
+          <h3 class="h-sub">Materiales</h3>
+          <p class="nota" style="margin-top:4px">Cada material sale de resultados concretos de las tablas de botín (edificio y tirada d20).</p>
+          <div class="deposito" id="deposito"></div>
+        </div>
+        <div>
+          <h3 class="h-sub">Trampas</h3>
+          <p class="nota" style="margin-top:4px">Una trampa por entrada. Suma a la defensa de esa entrada. Elijan la trampa y después toquen la entrada en el plano.</p>
+          <div class="trampas" id="lista-trampas" style="margin-top:12px"></div>
+          <p class="punto-debil" id="punto-debil"></p>
+        </div>
+      </div>
+    </section>
+
+    <section class="hoja gira-i" aria-labelledby="t-dest">
+      <div class="cabeza">
+        <span class="eyebrow">Planificación · destino de la expedición</span>
+        <h2 class="h-sec" id="t-dest">¿A dónde vamos?</h2>
+      </div>
+      <div class="destino-grid">
+        <svg class="ciudad" id="ciudad" viewBox="0 0 640 420" role="group" aria-label="Mapa de la ciudad con los barrios a visitar"></svg>
+        <div>
+          <div class="locs" id="locs" role="radiogroup" aria-label="Destino"></div>
+          <div class="reloj" id="reloj"></div>
+        </div>
+      </div>
+      <div class="salir-barra">
+        <p class="nota" id="resumen-salida"></p>
+        <button class="btn rojo" id="btn-salir" type="button">Salir de expedición</button>
+      </div>
+    </section>
+  </main>
+
+  <!-- ============ EXPEDICIÓN ============ -->
+  <main id="vista-exp" role="tabpanel" aria-labelledby="tab-exp" hidden>
+    <div class="exp-grid">
+      <div class="col" style="gap:8px">
+        <div class="exp-cab">
+          <div>
+            <p class="s" id="exp-sub">Todavía no salió nadie</p>
+            <h2 class="t" id="exp-t">La mesa está vacía</h2>
+          </div>
+          <div style="display:flex;gap:10px;flex-wrap:wrap">
+            <button class="btn claro chico" id="btn-rearmar" type="button">Rearmar mapa</button>
+            <button class="btn claro chico" id="btn-volver" type="button">Volver a la base</button>
+          </div>
+        </div>
+        <div class="mapa-scroll"><div class="mapa" id="mapa"></div></div>
+        <p class="nota" style="color:var(--papel-osc)">Cada loseta tiene 3 × 3 zonas de unos 10 m (rejilla punteada). El equipo entra por la flecha. Toca una ficha de edificio para revelarla: aparecen sus zombies y se puede registrar.</p>
+      </div>
+      <aside class="lado">
+        <section class="hoja gira-d">
+          <span class="eyebrow">Edificio</span>
+          <div class="panel-ed" id="panel-ed" aria-live="polite"></div>
+        </section>
+        <section class="hoja gira-i">
+          <span class="eyebrow">Fichas de edificio en el barrio</span>
+          <div class="edifs" id="edifs"></div>
+        </section>
+        <section class="hoja gira-d">
+          <span class="eyebrow">Equipo en la calle</span>
+          <div class="equipo" id="equipo"></div>
+          <div class="acc3d" id="acc3d" hidden>
+            <button class="btn chico" id="btn-activar" type="button">Activar zombies</button>
+            <button class="btn claro chico" id="btn-errantes" type="button">Errantes · d6</button>
+            <p class="nota" id="nota3d" style="flex-basis:100%">Toca la ficha de un superviviente y después una zona del mapa para moverlo.</p>
+          </div>
+          <div class="reloj" id="reloj-exp"></div>
+        </section>
+      </aside>
+    </div>
+  </main>
+
+  <!-- ============ ZOMBIES Y BOTÍN ============ -->
+  <main id="vista-tablas" role="tabpanel" aria-labelledby="tab-tablas" class="col" hidden>
+    <section class="hoja gira-i" aria-labelledby="t-como-ed">
+      <span class="eyebrow">Propuesta a probar · basada en Zombicide</span>
+      <h2 class="h-sec" id="t-como-ed">Entrar a un edificio</h2>
+      <ol class="pasos-t">
+        <li><b><span>1</span>Revelar</b>Al cruzar la puerta se da vuelta la ficha de edificio (1 a 6) y se busca su fila en la tabla de ese tipo.</li>
+        <li><b><span>2</span>Colocar zombies</b>Se usa la columna de la fase del día. Se reparten de a uno por las habitaciones, de la más lejana a la puerta hacia la más cercana. Bruto y chillón van a la más lejana.</li>
+        <li><b><span>3</span>Registrar</b>Cada Registrar (2 PA, ruido bajo) gasta 1 registro del edificio y tira d20 en su tabla de botín. No se puede registrar con zombies en tu zona.</li>
+        <li><b><span>4</span>Saqueado</b>Cuando se gastan todos los registros el edificio queda saqueado. Lo que no entra en la mochila se queda ahí.</li>
+      </ol>
+      <p class="regla" style="margin-top:16px"><b>Si ya anocheció (19:00)</b>, se lee la columna de la fase siguiente; en días 21 a 30 se suma 1 corredor. <b>Ventaja</b> o <b>desventaja</b> en el registro: se tiran dos d20 y se toma el mejor o el peor.</p>
+    </section>
+
+    <section class="cat-sec" aria-labelledby="t-bichos">
+      <h2 class="h-sec" id="t-bichos">Quién espera adentro</h2>
+      <div class="bestiario" id="bestiario"></div>
+    </section>
+
+    <section class="cat-sec" aria-labelledby="t-tabla-ed">
+      <h2 class="h-sec" id="t-tabla-ed">Tabla por edificio</h2>
+      <div class="chips-ed" id="chips-ed" role="group" aria-label="Tipo de edificio"></div>
+      <div class="hoja gira-d">
+        <div class="ficha-tabla" id="ficha-tabla"></div>
+      </div>
+    </section>
+
+    <section class="hoja gira-i" aria-labelledby="t-errantes">
+      <span class="eyebrow">Propuesta · como las zonas de aparición de Zombicide</span>
+      <h2 class="h-sec" id="t-errantes" style="font-size:30px">Errantes en la calle</h2>
+      <div class="ficha-tabla" style="margin-top:12px">
+        <div class="tabla-scroll"><table class="t" id="tabla-errantes"></table></div>
+        <p class="regla">Cada vez que el reloj avanza una hora, se tira 1 d6 en la loseta de calle con más fichas de ruido (si hay empate, la más cercana al equipo). Los errantes aparecen en el borde de esa loseta. Si ya anocheció, se tira dos veces.</p>
+      </div>
+    </section>
+  </main>
+
+  <!-- ============ LOSETAS ============ -->
+  <main id="vista-losetas" role="tabpanel" aria-labelledby="tab-losetas" class="col" hidden>
+    <section class="cat-sec">
+      <span class="eyebrow" style="color:var(--papel-osc)">Juego de losetas · 3 × 3 zonas cada una</span>
+      <h2 class="h-sec">Calles</h2>
+      <p class="nota">Las calles entran y salen siempre por el centro de cada borde, así cualquier loseta encaja con cualquier otra. Con estas cinco piezas se arma cualquier trazado.</p>
+      <div class="catalogo" id="cat-calles"></div>
+    </section>
+    <section class="cat-sec">
+      <h2 class="h-sec">Edificios</h2>
+      <p class="nota">Cada edificio tiene la puerta hacia la vereda y se gira para mirar a la calle. Las habitaciones y patios son las zonas donde se busca. Todos reciben ficha de edificio boca abajo, salvo la plaza.</p>
+      <div class="catalogo" id="cat-edificios"></div>
+    </section>
+    <section class="cat-sec">
+      <h2 class="h-sec">Fichas de edificio</h2>
+      <p class="nota">Dorso propio (casa sobre tinta) para no confundirlas con las fichas de acción. Al entrar se da vuelta y se consulta la tabla de ese tipo de edificio.</p>
+      <div class="fichas-ed" id="cat-fichas"></div>
+    </section>
+  </main>
+
+  <footer>Día 30 · juego cooperativo de Santiago · base, trampas, mapa y losetas, borrador v0.2</footer>
+</div>
+
+<script>
+(() => {
+  "use strict";
+  const $ = id => document.getElementById(id);
+  const T = "#221e18", T2 = "#4b4136", P = "#dccba6", P2 = "#d2bf98", PO = "#a8936d", PISO = "#e6d9bc", VER = "#d3c19a", ASF = "#bba983";
+  const OX = "#8e3f22", RJ = "#8a2424", VE = "#3d5f4a", AZ = "#33495f", OC = "#b88a2e";
+  const F_DISP = "Big Shoulders Stencil Display, Impact, sans-serif";
+  const F_COND = "Barlow Condensed, Arial Narrow, sans-serif";
+  const F_MAQ = "Special Elite, Courier New, monospace";
+  const COLOR_JUG = [OX, VE, AZ];
+
+  function rng(seed) { let a = seed >>> 0; return () => { a |= 0; a = a + 0x6D2B79F5 | 0; let t = Math.imul(a ^ a >>> 15, 1 | a); t = t + Math.imul(t ^ t >>> 7, 61 | t) ^ t; return ((t ^ t >>> 14) >>> 0) / 4294967296; }; }
+  const esc = s => String(s).replace(/[&<>"]/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]));
+  const leer = k => { try { return localStorage.getItem(k); } catch (e) { return null; } };
+  const guardar = (k, v) => { try { localStorage.setItem(k, v); } catch (e) {} };
+
+  // =================================================================
+  //  Dibujo a tinta: piezas sueltas
+  // =================================================================
+  const arbol = (x, y, r) => `<g filter="url(#tb)"><circle cx="${x}" cy="${y}" r="${r}" fill="url(#hatch)" stroke="${T}" stroke-width="1.8"/><circle cx="${x - r * .2}" cy="${y - r * .15}" r="${r * .55}" fill="none" stroke="${T}" stroke-width="1" opacity=".55"/><circle cx="${x}" cy="${y}" r="1.8" fill="${T}"/></g>`;
+  const auto = (x, y, ang, extra = "") => `<g transform="translate(${x} ${y}) rotate(${ang})" filter="url(#tb)"><rect x="-13" y="-24" width="26" height="48" rx="6" fill="url(#hatch)" stroke="${T}" stroke-width="2"/><rect x="-13" y="-24" width="26" height="48" rx="6" fill="${P2}" opacity=".35"/><rect x="-10" y="-13" width="20" height="10" fill="${P}" stroke="${T}" stroke-width="1.4"/><rect x="-10" y="9" width="20" height="7" fill="${P}" stroke="${T}" stroke-width="1.4"/>${extra}</g>`;
+  const caja = (x, y, s) => `<g><rect x="${x}" y="${y}" width="${s}" height="${s}" fill="${P2}" stroke="${T}" stroke-width="1.5"/><path d="M${x} ${y}L${x + s} ${y + s}M${x + s} ${y}L${x} ${y + s}" stroke="${T}" stroke-width=".9" opacity=".6"/></g>`;
+  const estante = (x, y, w, h, pat = "hatch") => `<rect x="${x}" y="${y}" width="${w}" height="${h}" fill="url(#${pat})" stroke="${T}" stroke-width="1.6"/>`;
+  const cama = (x, y, w = 34, h = 54) => `<g><rect x="${x}" y="${y}" width="${w}" height="${h}" fill="${P}" stroke="${T}" stroke-width="1.8"/><rect x="${x + 4}" y="${y + 4}" width="${w - 8}" height="11" rx="3" fill="${PISO}" stroke="${T}" stroke-width="1.2"/><path d="M${x} ${y + 22}H${x + w}" stroke="${T}" stroke-width="1" opacity=".6"/><rect x="${x}" y="${y + 22}" width="${w}" height="${h - 22}" fill="url(#hatch-fino)"/></g>`;
+  const mesaRedonda = (x, y, r) => `<g><circle cx="${x}" cy="${y}" r="${r}" fill="${P}" stroke="${T}" stroke-width="1.8"/>${[0, 90, 180, 270].map(a => { const rad = a * Math.PI / 180; return `<rect x="${x + Math.cos(rad) * (r + 8) - 5}" y="${y + Math.sin(rad) * (r + 8) - 5}" width="10" height="10" fill="${P2}" stroke="${T}" stroke-width="1.2"/>`; }).join("")}</g>`;
+  const cruz = (x, y, s, c) => `<path d="M${x - s / 3} ${y - s}h${s * 2 / 3}v${s * 2 / 3}h${s * 2 / 3}v${s * 2 / 3}h-${s * 2 / 3}v${s * 2 / 3}h-${s * 2 / 3}v-${s * 2 / 3}h-${s * 2 / 3}v-${s * 2 / 3}h${s * 2 / 3}z" fill="${c}" stroke="${T}" stroke-width="1.4"/>`;
+  const escombro = (r, x, y) => { let s = ""; for (let i = 0; i < 5; i++) { const cx = x + (r() - .5) * 26, cy = y + (r() - .5) * 20, k = 2 + r() * 4; s += `<path d="M${cx - k} ${cy}L${cx} ${cy - k}L${cx + k} ${cy + k * .4}Z" fill="${P2}" stroke="${T}" stroke-width="1"/>`; } return s; };
+  const muro = (x1, y1, x2, y2, w = 7) => `<line x1="${x1}" y1="${y1}" x2="${x2}" y2="${y2}" stroke="${T}" stroke-width="${w}" stroke-linecap="square"/>`;
+  // pared con hueco de paso [a, b] (sobre el eje de la pared)
+  const pared = (x1, y1, x2, y2, a, b, w = 4.5) => {
+    if (a == null) return muro(x1, y1, x2, y2, w);
+    if (y1 === y2) return muro(x1, y1, a, y1, w) + muro(b, y1, x2, y1, w);
+    return muro(x1, y1, x1, a, w) + muro(x1, b, x1, y2, w);
+  };
+  const vereda = () => `<rect x="0" y="250" width="300" height="50" fill="${VER}"/><rect x="0" y="250" width="300" height="50" fill="url(#baldosa)"/><path d="M0 250.5H300" stroke="${T}" stroke-width="1.4" opacity=".55"/>`;
+  // edificio con muro exterior y puerta en el lado sur (hacia la vereda)
+  function edif(x1, y1, x2, y2, puerta, opts = {}) {
+    const [a, b] = puerta;
+    let s = `<rect x="${x1}" y="${y1}" width="${x2 - x1}" height="${y2 - y1}" fill="${PISO}"/><rect x="${x1}" y="${y1}" width="${x2 - x1}" height="${y2 - y1}" fill="url(#baldosa)" opacity=".7"/>`;
+    s += `<rect x="${a}" y="${y2}" width="${b - a}" height="${250 - y2}" fill="${VER}"/>`;
+    let m = muro(x1, y1, x2, y1) + muro(x1, y1, x1, y2) + muro(x2, y1, x2, y2) + muro(x1, y2, a, y2) + muro(b, y2, x2, y2);
+    if (opts.garaje) m += `<path d="M${a} ${y2}H${b}" stroke="${T}" stroke-width="2" stroke-dasharray="6 4"/>`;
+    else m += `<path d="M${a} ${y2}V${y2 - (b - a)}A${b - a} ${b - a} 0 0 1 ${b} ${y2}" fill="none" stroke="${T}" stroke-width="1.2" stroke-dasharray="3 3"/><path d="M${a} ${y2}V${y2 - (b - a)}" stroke="${T}" stroke-width="2.4"/>`;
+    return { piso: s, muros: m };
+  }
+  const ventanaH = (x, y, w) => `<rect x="${x}" y="${y - 4}" width="${w}" height="8" fill="${PISO}"/><path d="M${x} ${y - 2}H${x + w}M${x} ${y + 2}H${x + w}" stroke="${T}" stroke-width="1.2"/>`;
+  const ventanaV = (x, y, h) => `<rect x="${x - 4}" y="${y}" width="8" height="${h}" fill="${PISO}"/><path d="M${x - 2} ${y}V${y + h}M${x + 2} ${y}V${y + h}" stroke="${T}" stroke-width="1.2"/>`;
+
+  // =================================================================
+  //  Losetas de edificio (dibujadas con la puerta al sur; se giran)
+  // =================================================================
+  const TIPOS = {
+    casa: { n: "Casa", z: "Dormitorio, cocina y living", dib(r) {
+      const e = edif(40, 34, 262, 238, [182, 214]);
+      return vereda() + arbol(18, 70, 14) + arbol(283, 205, 12) + e.piso +
+        `<g filter="url(#tb)">${cama(56, 48, 34, 52)}<rect x="96" y="48" width="14" height="14" fill="${P2}" stroke="${T}" stroke-width="1.2"/>
+        ${estante(46, 142, 13, 88)}<rect x="46" y="142" width="40" height="13" fill="url(#hatch)" stroke="${T}" stroke-width="1.4"/><circle cx="66" cy="148" r="4" fill="none" stroke="${T}" stroke-width="1.2"/>${mesaRedonda(102, 196, 13)}
+        <rect x="160" y="46" width="88" height="20" fill="url(#cruzado)" stroke="${T}" stroke-width="1.8"/><rect x="160" y="46" width="12" height="34" fill="${P2}" stroke="${T}" stroke-width="1.4"/><rect x="236" y="46" width="12" height="34" fill="${P2}" stroke="${T}" stroke-width="1.4"/>
+        <rect x="166" y="176" width="70" height="44" fill="none" stroke="${T}" stroke-width="1" stroke-dasharray="4 3"/>
+        ${e.muros}${pared(140, 34, 140, 238, 98, 128)}${pared(40, 128, 140, 128, 72, 100)}${ventanaH(70, 34, 26)}${ventanaV(262, 100, 30)}${ventanaV(40, 170, 26)}</g>`;
+    } },
+    almacen: { n: "Almacén", z: "Salón de venta, depósito y patio", dib(r) {
+      const e = edif(62, 48, 240, 238, [134, 166]);
+      return vereda() + `<rect x="66" y="238" width="170" height="12" fill="url(#hatch-ox)" stroke="${T}" stroke-width="1"/>` + arbol(272, 58, 15) + `<g filter="url(#tb)"><circle cx="28" cy="96" r="9" fill="url(#cruzado)" stroke="${T}" stroke-width="1.6"/><circle cx="28" cy="122" r="9" fill="url(#cruzado)" stroke="${T}" stroke-width="1.6"/></g>` + escombro(r, 270, 150) + e.piso +
+        `<g filter="url(#tb)">${estante(72, 58, 158, 12)}${estante(72, 78, 12, 120)}${estante(218, 110, 12, 60)}<rect x="168" y="188" width="56" height="14" fill="${P2}" stroke="${T}" stroke-width="1.6"/>${caja(176, 74, 16)}${caja(196, 82, 14)}${caja(100, 196, 14)}
+        ${e.muros}${pared(62, 108, 160, 108, 120, 150)}${ventanaV(240, 180, 24)}</g>`;
+    } },
+    farmacia: { n: "Farmacia", z: "Mostrador, góndolas y depósito", dib(r) {
+      const e = edif(25, 25, 275, 238, [134, 166]);
+      let cajas = ""; for (let i = 0; i < 6; i++) cajas += caja(38 + i * 28 + (r() * 6 | 0), 36 + (r() * 22 | 0), 16 + (r() * 6 | 0));
+      return vereda() + cruz(96, 266, 11, VE) + e.piso +
+        `<g filter="url(#tb)">${cajas}${estante(44, 114, 84, 10)}${estante(44, 150, 84, 10)}${estante(44, 186, 84, 10)}
+        <rect x="190" y="182" width="72" height="12" fill="${P2}" stroke="${T}" stroke-width="1.6"/><rect x="250" y="112" width="12" height="82" fill="${P2}" stroke="${T}" stroke-width="1.6"/>
+        ${e.muros}${pared(25, 95, 275, 95, 222, 252)}${ventanaH(60, 238, 40)}${ventanaH(196, 238, 40)}</g>`;
+    } },
+    supermercado: { n: "Supermercado", z: "Góndolas, cajas y depósito", dib(r) {
+      const e = edif(15, 15, 285, 240, [116, 184]);
+      let gond = ""; for (let i = 0; i < 6; i++) gond += estante(34 + i * 31, 36, 12, 132, i % 2 ? "cruzado" : "hatch");
+      let cajas = ""; for (let i = 0; i < 5; i++) cajas += caja(243 + (r() * 22 | 0), 30 + i * 38 + (r() * 8 | 0), 15 + (r() * 6 | 0));
+      return vereda() + e.piso + `<g filter="url(#tb)">${gond}${cajas}
+        <rect x="30" y="194" width="34" height="14" fill="${P2}" stroke="${T}" stroke-width="1.6"/><rect x="76" y="194" width="34" height="14" fill="${P2}" stroke="${T}" stroke-width="1.6"/>
+        <rect x="194" y="200" width="16" height="22" fill="none" stroke="${T}" stroke-width="1.4"/><path d="M194 206h16M194 212h16" stroke="${T}" stroke-width=".8"/>
+        ${e.muros}${pared(230, 15, 230, 240, 96, 136)}${ventanaH(30, 240, 70)}${ventanaH(200, 240, 26)}</g>` + auto(258, 274, 90);
+    } },
+    comisaria: { n: "Comisaría", z: "Celdas, oficinas y armería", dib(r) {
+      const e = edif(25, 25, 275, 238, [134, 166]);
+      let rejas = ""; for (let x = 28; x < 252; x += 7) rejas += `<path d="M${x} 103V109" stroke="${T}" stroke-width="2.2"/>`;
+      return vereda() + auto(62, 275, 90, `<rect x="-12" y="-4" width="24" height="5" fill="${AZ}" stroke="${T}" stroke-width="1"/>`) + e.piso +
+        `<g filter="url(#tb)"><rect x="34" y="34" width="44" height="16" fill="${P2}" stroke="${T}" stroke-width="1.4"/><rect x="114" y="34" width="44" height="16" fill="${P2}" stroke="${T}" stroke-width="1.4"/><rect x="194" y="34" width="44" height="16" fill="${P2}" stroke="${T}" stroke-width="1.4"/>
+        ${rejas}<path d="M25 106H252" stroke="${T}" stroke-width="1.5"/>
+        <rect x="56" y="178" width="88" height="20" fill="${P2}" stroke="${T}" stroke-width="1.6"/><rect x="88" y="203" width="14" height="12" fill="none" stroke="${T}" stroke-width="1.2"/>
+        <rect x="232" y="122" width="34" height="86" fill="url(#cruzado)" stroke="${T}" stroke-width="1.6"/><path d="M232 151h34M232 180h34" stroke="${T}" stroke-width="1.2"/>
+        ${e.muros}${muro(105, 25, 105, 106, 4.5)}${muro(185, 25, 185, 106, 4.5)}${muro(252, 25, 252, 106, 4.5)}${ventanaV(25, 160, 30)}</g>`;
+    } },
+    hospital: { n: "Hospital", z: "Salas, pasillo y guardia", dib(r) {
+      const e = edif(15, 15, 285, 240, [124, 176]);
+      return vereda() + auto(250, 274, 90, cruz(0, 0, 7, RJ)) + e.piso +
+        `<g filter="url(#tb)">${cama(28, 26, 26, 48)}${cama(64, 26, 26, 48)}${cama(118, 26, 26, 48)}${cama(154, 26, 26, 48)}${cama(208, 26, 26, 48)}${cama(244, 26, 26, 48)}
+        ${cama(30, 186, 44, 30)}${cama(226, 186, 44, 30)}<rect x="104" y="194" width="92" height="14" fill="${P2}" stroke="${T}" stroke-width="1.6"/>
+        ${e.muros}${pared(15, 104, 285, 104, 56, 84)}${muro(100, 15, 100, 104, 4.5)}${muro(195, 15, 195, 104, 4.5)}
+        ${pared(15, 176, 285, 176, 228, 256)}${muro(95, 176, 95, 240, 4.5)}${muro(205, 176, 205, 240, 4.5)}${ventanaV(285, 40, 40)}${ventanaV(15, 40, 40)}</g>`;
+    } },
+    ferreteria: { n: "Ferretería", z: "Estanterías, taller y depósito", dib(r) {
+      const e = edif(25, 30, 275, 238, [134, 166]);
+      let tabl = ""; for (let i = 0; i < 6; i++) tabl += `<rect x="${188 + (r() * 6 | 0)}" y="${178 + i * 7}" width="${66 + (r() * 10 | 0)}" height="5" fill="${P2}" stroke="${T}" stroke-width="1"/>`;
+      return vereda() + `<g filter="url(#tb)"><circle cx="18" cy="60" r="9" fill="url(#cruzado)" stroke="${T}" stroke-width="1.6"/></g>` + e.piso +
+        `<g filter="url(#tb)">${estante(46, 50, 14, 150, "cruzado")}${estante(82, 50, 14, 150)}${estante(118, 50, 14, 110, "cruzado")}
+        <rect x="186" y="44" width="78" height="20" fill="${P2}" stroke="${T}" stroke-width="1.6"/><path d="M196 54h20M226 50l8 8M244 50v10" stroke="${T}" stroke-width="2"/>${tabl}
+        <circle cx="250" cy="100" r="9" fill="url(#hatch)" stroke="${T}" stroke-width="1.6"/><circle cx="250" cy="122" r="9" fill="url(#hatch)" stroke="${T}" stroke-width="1.6"/>
+        ${e.muros}${pared(172, 30, 172, 238, 140, 168)}${ventanaH(50, 238, 50)}</g>`;
+    } },
+    taller: { n: "Taller mecánico", z: "Fosa, banco y oficina", dib(r) {
+      const e = edif(20, 25, 280, 238, [76, 224], { garaje: true });
+      return vereda() + e.piso + `<g filter="url(#tb)"><ellipse cx="190" cy="196" rx="22" ry="10" fill="${T}" opacity=".3"/>
+        <rect x="118" y="40" width="64" height="108" fill="none" stroke="${T}" stroke-width="1.6" stroke-dasharray="5 3"/>
+        ${estante(28, 36, 16, 190, "cruzado")}<circle cx="254" cy="186" r="11" fill="none" stroke="${T}" stroke-width="5"/><circle cx="254" cy="212" r="11" fill="none" stroke="${T}" stroke-width="5"/>
+        <rect x="216" y="38" width="56" height="44" fill="${PISO}" stroke="${T}" stroke-width="1.4"/><rect x="226" y="48" width="30" height="14" fill="${P2}" stroke="${T}" stroke-width="1.2"/>
+        ${e.muros}${muro(216, 25, 216, 82, 4.5)}${muro(216, 82, 236, 82, 4.5)}</g>` + auto(150, 96, 0);
+    } },
+    gasolinera: { n: "Estación de servicio", z: "Surtidores, minimercado y baño", dib(r) {
+      const e = edif(62, 20, 240, 100, [134, 166]);
+      return vereda() + e.piso + `<g filter="url(#tb)"><rect x="40" y="122" width="220" height="112" fill="url(#hatch-fino)" stroke="${T}" stroke-width="2" stroke-dasharray="9 5"/>
+        <rect x="78" y="164" width="30" height="40" fill="${P2}" stroke="${T}" stroke-width="1.6"/><rect x="85" y="172" width="16" height="10" fill="${T}"/><rect x="85" y="186" width="16" height="10" fill="${T}"/>
+        <rect x="192" y="164" width="30" height="40" fill="${P2}" stroke="${T}" stroke-width="1.6"/><rect x="199" y="172" width="16" height="10" fill="${T}"/><rect x="199" y="186" width="16" height="10" fill="${T}"/>
+        <circle cx="30" cy="40" r="7" fill="none" stroke="${T}" stroke-width="1.6"/><circle cx="30" cy="62" r="7" fill="none" stroke="${T}" stroke-width="1.6"/>
+        ${estante(72, 30, 90, 10)}<rect x="196" y="30" width="34" height="34" fill="none" stroke="${T}" stroke-width="1.4"/>
+        ${e.muros}${muro(196, 20, 196, 64, 4)}${muro(196, 64, 230, 64, 4)}</g>` + auto(150, 196, 0) + escombro(r, 270, 70);
+    } },
+    escuela: { n: "Escuela", z: "Aulas, pasillo y patio", dib(r) {
+      const e = edif(15, 15, 285, 162, [134, 166]);
+      const bancos = (x0, y0) => { let s = ""; for (let i = 0; i < 3; i++) for (let j = 0; j < 3; j++) s += `<rect x="${x0 + i * 22}" y="${y0 + j * 20}" width="15" height="10" fill="${P2}" stroke="${T}" stroke-width="1.2"/>`; return s; };
+      return vereda() + `<rect x="15" y="162" width="270" height="78" fill="${P}"/>` + e.piso +
+        `<g filter="url(#tb)">${bancos(28, 48)}${bancos(208, 48)}<path d="M28 30h64M208 30h64" stroke="${T}" stroke-width="5"/>
+        <rect x="18" y="168" width="264" height="70" fill="none" stroke="${T}" stroke-width="1.6" stroke-dasharray="2 4"/><rect x="134" y="236" width="32" height="6" fill="${P}"/>
+        <circle cx="48" cy="204" r="5" fill="${T}"/><path d="M48 204V178" stroke="${T}" stroke-width="2"/><path d="M48 178h16l-4 6 4 6H48" fill="${RJ}" stroke="${T}" stroke-width="1"/>
+        <path d="M210 180h20v20h-20zM230 190h20v20h-20zM210 200h20v20h-20zM230 210h20" fill="none" stroke="${T}" stroke-width="1.4"/>
+        ${e.muros}${muro(105, 15, 105, 130, 4.5)}${muro(195, 15, 195, 130, 4.5)}${pared(15, 130, 285, 130, 56, 84)}${muro(195, 130, 244, 130, 4.5)}<rect x="216" y="128" width="28" height="5" fill="${PISO}"/>${ventanaH(36, 15, 46)}${ventanaH(216, 15, 46)}</g>` + arbol(272, 196, 12);
+    } },
+    plaza: { n: "Plaza", z: "Senderos, fuente y bancos", dib(r) {
+      let arb = ""; [[48, 52], [252, 48], [44, 200], [256, 206], [150, 34], [36, 126], [264, 128], [104, 214], [198, 220]].forEach(([x, y]) => { arb += arbol(x + (r() - .5) * 8, y + (r() - .5) * 8, 13 + r() * 6); });
+      return vereda() + `<g filter="url(#tb)"><path d="M10 10L290 240M290 10L10 240" stroke="${VER}" stroke-width="18"/><path d="M150 0V250" stroke="${VER}" stroke-width="16"/>        <circle cx="150" cy="128" r="40" fill="${VER}" stroke="${T}" stroke-width="2"/><circle cx="150" cy="128" r="28" fill="url(#hatch-fino)" stroke="${T}" stroke-width="2.4"/>
+        <rect x="96" y="76" width="22" height="7" fill="${P2}" stroke="${T}" stroke-width="1.2"/><rect x="186" y="172" width="22" height="7" fill="${P2}" stroke="${T}" stroke-width="1.2"/>
+        <rect x="6" y="6" width="288" height="240" fill="none" stroke="${T}" stroke-width="1.4" stroke-dasharray="1 5"/></g>` + arb;
+    }, sinFicha: true },
+  };
+  const ORDEN_TIPOS = ["casa", "almacen", "farmacia", "supermercado", "comisaria", "hospital", "ferreteria", "taller", "gasolinera", "escuela", "plaza"];
+
+  // =================================================================
+  //  Zombies y botín (propuesta a probar)
+  //  Zombies: C caminante, R corredor, B bruto, A infectado ácido, H chillón
+  //  Fila por ficha: [días 1-10, días 11-20, días 21-30, registros, v|d|"", nota]
+  // =================================================================
+  const DIA = 6;
+  const FASE = DIA <= 10 ? 0 : DIA <= 20 ? 1 : 2;
+  const FASES = ["Días 1–10", "Días 11–20", "Días 21–30"];
+  const ZOMBIES = {
+    C: { n: "Caminante", img: "img/caminante.jpg", st: "Defensa 8 · 1 zona", fx: "Poca vitalidad. Llega en grupo." },
+    R: { n: "Corredor", img: "img/corredor.jpg", st: "Defensa 12 · 2 zonas", fx: "Se mueve 2 zonas por activación. Difícil de acertar." },
+    B: { n: "Bruto", img: "img/bruto.jpg", st: "Defensa 10 · 1 zona", fx: "Mucha vitalidad. Siempre empieza en la habitación más lejana." },
+    A: { n: "Infectado ácido", img: "img/infectado_acido.jpg", st: "Defensa 9 · 1 zona", fx: "Si te golpea, además se rompe un objeto de tu mochila (lo eliges tú).", prop: true },
+    H: { n: "Chillón", img: "img/chillon.jpg", st: "Defensa 8 · 1 zona", fx: "Si detecta a alguien, chilla: ruido máximo en su zona y aparece 1 caminante en la puerta.", prop: true },
+  };
+  const TABLAS = {
+    casa: { z: [
+      ["—", "1C", "1C", 1, "d", "Ya pasaron otros."],
+      ["1C", "2C", "2C 1R", 1, "", ""],
+      ["1C", "2C 1R", "3C 1R", 2, "", ""],
+      ["2C", "3C", "3C 1R 1H", 2, "", "La puerta está trabada: hay que forzarla (2 PA, ruido medio)."],
+      ["1C", "2C", "2C 1R", 3, "v", "Despensa intacta."],
+      ["3C 1R", "4C 1R 1B", "4C 2R 1A", 3, "v", "Trampa: la familia entera sigue adentro. Todos empiezan en la zona de la puerta."],
+    ], b: [
+      [1, 2, "¡Aaah! Un caminante sale del placard: aparece en tu zona. No encuentras nada.", null, "aah"],
+      [3, 4, "Nada útil.", null, "nada"],
+      [5, 5, "Soga del tendedero: cuerda ×1", 1, "", { cuerda: 1 }],
+      [6, 8, "Comida ×1 (latas)", 1],
+      [9, 9, "Estante desarmado: madera ×1", 2, "", { madera: 1 }],
+      [10, 11, "Agua ×1", 1],
+      [12, 12, "Vendas", 1],
+      [13, 13, "Frasco de clavos del garaje: clavos ×1", 1, "", { clavos: 1 }],
+      [14, 14, "Cuchillo de cocina · d4 · silencio", 1],
+      [15, 15, "Bate · d6 · ruido bajo", 1],
+      [16, 16, "Linterna", 1],
+      [17, 17, "Analgésicos", 1],
+      [18, 18, "Mochila grande: +2 espacios", 0],
+      [19, 19, "Pistola · d10 · ruido máximo, con munición ×1", 1],
+      [20, 20, "Rescate: alguien estaba escondido. Roba un superviviente del mazo.", null, "rescate"],
+    ] },
+    almacen: { z: [
+      ["—", "1C", "1C 1R", 1, "d", "Persiana forzada: alguien llegó antes."],
+      ["1C", "1C 1R", "2C 1R", 1, "", ""],
+      ["2C", "2C 1R", "3C 1R", 2, "", ""],
+      ["1C", "2C", "2C 1H", 2, "", "Persiana baja: subirla es ruido medio."],
+      ["1C", "2C 1R", "2C 1R", 3, "v", "El depósito no se tocó."],
+      ["2C 1B", "3C 1R 1B", "3C 1R 1B 1H", 3, "v", "Trampa: el bruto está en el depósito, entre ustedes y el botín."],
+    ], b: [
+      [1, 2, "¡Aaah! Un caminante aparece en tu zona. No encuentras nada.", null, "aah"],
+      [3, 4, "Nada útil.", null, "nada"],
+      [5, 8, "Comida ×1", 1],
+      [9, 9, "Pallet de madera: madera ×2", 2, "", { madera: 2 }],
+      [10, 12, "Comida ×2", 2],
+      [13, 14, "Agua ×2", 2],
+      [15, 15, "Fósforos y velas", 1],
+      [16, 16, "Sobres de semillas: semillas ×1", 1, "", { semillas: 1 }],
+      [17, 17, "Rollo de alambre y cinta: alambre ×1", 1, "", { alambre: 1 }],
+      [18, 18, "Baterías", 1],
+      [19, 19, "Cajón de bebidas: agua ×3", 2],
+      [20, 20, "Libreta de fiado del almacenero: revela la ficha de otro edificio de este barrio.", 0],
+    ] },
+    farmacia: { z: [
+      ["1C", "1C 1R", "2C 1R", 1, "d", "Saqueada a medias."],
+      ["1C", "2C", "2C 1R", 1, "", ""],
+      ["2C", "2C 1R", "3C 1R 1A", 2, "", ""],
+      ["2C 1R", "3C 1R", "3C 2R 1H", 2, "", "Reja de seguridad: forzarla dispara la alarma (ruido máximo) salvo con palanca."],
+      ["1C", "2C 1R", "2C 1R 1A", 3, "v", "Mucho botín."],
+      ["4C 1R", "4C 2R 1B", "5C 2R 1B 1A", 3, "v", "Trampa mortal: los infectados vinieron a buscar remedios."],
+    ], b: [
+      [1, 2, "¡Aaah! Un caminante sale de detrás del mostrador: aparece en tu zona.", null, "aah"],
+      [3, 3, "La vitrina tenía alarma: ruido máximo. No encuentras nada.", null, "aah"],
+      [4, 5, "Estantes vacíos.", null, "nada"],
+      [6, 9, "Vendas", 1],
+      [10, 12, "Desinfectante", 1],
+      [13, 14, "Analgésicos", 1],
+      [15, 16, "Botiquín completo: vendas, desinfectante y férula", 1],
+      [17, 18, "Antibióticos (frenan la infección)", 1],
+      [19, 19, "Antibióticos ×2", 1],
+      [20, 20, "Kit de sutura: cierra una laceración durante la expedición", 1],
+    ] },
+    supermercado: { z: [
+      ["2C", "3C", "3C 1R", 1, "d", "Vaciado. Solo quedan góndolas tiradas."],
+      ["2C", "3C 1R", "4C 1R", 2, "", ""],
+      ["3C", "3C 1R", "4C 1R 1H", 2, "", ""],
+      ["3C 1R", "4C 1R", "4C 2R 1A", 3, "", "Las cajas bloquean la entrada: solo se sale por el depósito."],
+      ["2C", "3C 1R", "3C 1R 1H", 4, "v", "El depósito está lleno."],
+      ["5C 1R", "6C 2R 1B", "6C 2R 1B 1H", 4, "v", "Trampa: una horda quedó encerrada. Las puertas automáticas hacen ruido medio al entrar."],
+    ], b: [
+      [1, 3, "¡Aaah! Un caminante sale de una góndola: aparece en tu zona.", null, "aah"],
+      [4, 4, "Un carrito rueda y choca: ruido medio. No encuentras nada.", null, "aah"],
+      [5, 5, "Nada útil.", null, "nada"],
+      [6, 6, "Góndola metálica desarmada: chapa ×1", 2, "", { chapa: 1 }],
+      [7, 11, "Comida ×1", 1],
+      [12, 14, "Comida ×2", 2],
+      [15, 16, "Agua ×2", 2],
+      [17, 17, "Bidón de agua: agua ×4", 2],
+      [18, 18, "Linterna y pilas", 1],
+      [19, 19, "Garrafa de gas: combustible ×1", 2, "", { combustible: 1 }],
+      [20, 20, "Pallet intacto: comida ×3 y agua ×2 (cada uno ocupa lo suyo)", 2],
+    ] },
+    comisaria: { z: [
+      ["1C", "1R", "1C 1R", 1, "d", "Armería vacía."],
+      ["1C 1R", "2C 1R", "2C 1R 1B", 1, "", ""],
+      ["2C 1R", "2C 1R 1B", "3C 1R 1B", 2, "", ""],
+      ["1C", "2C 1R", "2C 2R 1H", 2, "", "Puerta blindada: hace falta palanca o la llave del patrullero (1 registro en la vereda)."],
+      ["2C 1R", "2C 1R 1B", "2C 2R 1B", 3, "v", "La armería sigue cerrada y llena."],
+      ["2C 2R 1B", "3C 2R 2B", "3C 3R 2B 1A", 3, "v", "Trampa: el último bastión de la policía. Los brutos llevan chaleco (+2 a su defensa)."],
+    ], b: [
+      [1, 2, "¡Aaah! Un corredor sale de una oficina: aparece en tu zona.", null, "aah"],
+      [3, 4, "Nada útil.", null, "nada"],
+      [5, 5, "Rollo de la valla de contención: alambre ×1", 1, "", { alambre: 1 }],
+      [6, 8, "Munición ×1", 1],
+      [9, 10, "Munición ×2", 1],
+      [11, 12, "Tonfa · d6 · ruido bajo", 1],
+      [13, 13, "Chaleco antibalas: +2 a tu defensa", 2],
+      [14, 15, "Pistola · d10 · ruido máximo, con munición ×1", 1],
+      [16, 16, "Escopeta · d12 · ruido máximo", 2],
+      [17, 17, "Par de walkie-talkies", 1],
+      [18, 18, "Radio de la guardia: cumple la etapa 1 de la señal", 2, "senal"],
+      [19, 19, "Bengalas ×2: etapa 3 de la señal, o Distraer sin carta", 1, "senal"],
+      [20, 20, "Rescate: alguien quedó en una celda. Forzar la reja (2 PA, ruido medio) y roba un superviviente.", null, "rescate"],
+    ] },
+    hospital: { z: [
+      ["2C", "2C 1R", "2C 1R 1A", 1, "d", "Evacuado hace semanas."],
+      ["2C 1R", "3C 1R", "3C 1R 1A", 2, "", ""],
+      ["3C 1R", "3C 2R", "4C 2R 1A", 2, "", ""],
+      ["2C", "3C 1R", "3C 1R 1H", 3, "", "Sin luz: las zonas interiores están a oscuras (desventaja al atacar)."],
+      ["2C 1R", "3C 1R", "3C 2R 1A", 4, "v", "La farmacia interna está cerrada con llave y llena."],
+      ["5C 2R", "6C 2R 1B", "6C 3R 1B 2A", 4, "v", "Trampa mortal: la sala de infecciosos. Cualquier rasguño que recibas acá ya está infectado."],
+    ], b: [
+      [1, 3, "¡Aaah! Un caminante se levanta de una camilla: aparece en tu zona (en días 21–30, un infectado ácido).", null, "aah"],
+      [4, 4, "Nada útil.", null, "nada"],
+      [5, 5, "Sábanas anudadas: cuerda ×1", 1, "", { cuerda: 1 }],
+      [6, 8, "Vendas ×2", 1],
+      [9, 10, "Desinfectante", 1],
+      [11, 12, "Analgésicos", 1],
+      [13, 14, "Antibióticos", 1],
+      [15, 15, "Antibióticos ×3", 1],
+      [16, 16, "Bisturí · d4 · silencio. Permite amputar en la base", 1],
+      [17, 17, "Camilla plegable: cargas a un herido sin perder movimiento", 2],
+      [18, 18, "Generador de emergencia: cumple la etapa 2 de la señal (con combustible)", 4, "senal"],
+      [19, 19, "Botiquín completo ×2", 2],
+      [20, 20, "Rescate: alguien atrincherado en el quirófano. Roba un superviviente.", null, "rescate"],
+    ] },
+    ferreteria: { z: [
+      ["—", "1C", "1C 1R", 1, "d", "Se llevaron casi todo."],
+      ["1C", "2C", "2C 1R", 1, "", ""],
+      ["1C 1R", "2C 1R", "2C 1R 1B", 2, "", ""],
+      ["2C", "2C 1B", "3C 1B 1H", 2, "", "Estanterías altas: dentro no se ve más allá de 1 zona."],
+      ["1C", "2C 1R", "2C 1R 1B", 3, "v", "El corralón del fondo está lleno."],
+      ["3C 1B", "3C 1R 2B", "4C 1R 2B 1A", 3, "v", "Trampa: los obreros del corralón siguen ahí."],
+    ], b: [
+      [1, 2, "¡Aaah! Un caminante aparece en tu zona. No encuentras nada.", null, "aah"],
+      [3, 3, "Una estantería se desploma: ruido alto. No encuentras nada.", null, "aah"],
+      [4, 5, "Nada útil.", null, "nada"],
+      [6, 8, "Clavos y tornillos: clavos ×2", 1, "", { clavos: 2 }],
+      [9, 10, "Tablones: madera ×2", 2, "", { madera: 2 }],
+      [11, 11, "Chapas acanaladas: chapa ×2", 2, "", { chapa: 2 }],
+      [12, 12, "Martillo · d6 · ruido bajo", 1],
+      [13, 13, "Hacha · d8 · ruido medio", 2],
+      [14, 14, "Palanca: forzar cuesta 1 PA en vez de 2", 1],
+      [15, 15, "Rollo de alambre de púas: alambre ×2", 1, "", { alambre: 2 }],
+      [16, 16, "Bidón de combustible ×1", 2, "", { combustible: 1 }],
+      [17, 17, "Antena y cable coaxial: cumple la etapa 1 de la señal", 2, "senal"],
+      [18, 18, "Generador portátil: cumple la etapa 2 de la señal (con combustible)", 4, "senal"],
+      [19, 19, "Soga y semillas del corralón: cuerda ×1 y semillas ×1", 1, "", { cuerda: 1, semillas: 1 }],
+      [20, 20, "Motosierra · 2d8 · ruido máximo. Gasta 1 combustible por expedición", 2],
+    ] },
+    taller: { z: [
+      ["—", "1C", "1C 1B", 1, "d", "Desarmado por otros."],
+      ["1C", "1C 1R", "2C 1R", 1, "", ""],
+      ["1C 1B", "2C 1B", "2C 1R 1B", 2, "", ""],
+      ["2C", "2C 1R", "2C 1R 1A", 2, "", "Fosa abierta: quien corre por la zona del elevador tira d20 + Destreza contra 10 o cae (fractura en piernas)."],
+      ["1C", "1C 1R", "2C 1R 1B", 3, "v", "Herramientas y repuestos sin tocar."],
+      ["2C 2B", "3C 1R 2B", "3C 2R 2B 1H", 3, "v", "Trampa: el portón cae detrás de ustedes. Para salir hay que forzarlo."],
+    ], b: [
+      [1, 2, "¡Aaah! Un caminante sale de abajo de un auto: aparece en tu zona.", null, "aah"],
+      [3, 3, "Cede el gato hidráulico: ruido alto. No encuentras nada.", null, "aah"],
+      [4, 5, "Nada útil.", null, "nada"],
+      [6, 8, "Chapa de un capó: chapa ×1", 2, "", { chapa: 1 }],
+      [9, 11, "Combustible ×1", 2, "", { combustible: 1 }],
+      [12, 12, "Llave inglesa · d6 · ruido bajo", 1],
+      [13, 13, "Batería de auto: da energía a la radio por 3 días", 2],
+      [14, 14, "Combustible ×2", 2, "", { combustible: 2 }],
+      [15, 15, "Palanca: forzar cuesta 1 PA en vez de 2", 1],
+      [16, 16, "Soplete: abre puertas y rejas con ruido bajo", 2],
+      [17, 17, "Caja de bulones y alambre: clavos ×1 y alambre ×1", 1, "", { clavos: 1, alambre: 1 }],
+      [18, 18, "Generador: cumple la etapa 2 de la señal (con combustible)", 4, "senal"],
+      [19, 19, "GPS de un auto: cumple la etapa 4 de la señal", 1, "senal"],
+      [20, 20, "Un auto arranca: vuelven todos a la base sin gastar horas, pero arrancar es ruido máximo.", null, "rescate"],
+    ] },
+    gasolinera: { z: [
+      ["—", "1C", "1C 1R", 1, "d", "Los surtidores están secos."],
+      ["1C", "1C 1R", "2C 1R", 1, "", ""],
+      ["1C 1R", "2C 1R", "2C 2R", 2, "", ""],
+      ["2C", "2C 1R", "2C 1R 1H", 2, "", "Nafta en el piso: un disparo o una pifia con arma de fuego en esta loseta explota (d10 a cada uno en la zona)."],
+      ["1C", "2C", "2C 1R 1A", 3, "v", "El tanque de reserva tiene combustible."],
+      ["3C 2R", "4C 2R 1B", "4C 3R 1B 1A", 3, "v", "Trampa: los corredores salen de los autos de la cola. Empiezan junto a los surtidores."],
+    ], b: [
+      [1, 2, "¡Aaah! Un caminante aparece en tu zona. No encuentras nada.", null, "aah"],
+      [3, 4, "Nada útil.", null, "nada"],
+      [5, 5, "Cartel de chapa caído: chapa ×1", 2, "", { chapa: 1 }],
+      [6, 9, "Snacks: comida ×1", 1],
+      [10, 11, "Agua ×1", 1],
+      [12, 14, "Combustible ×1", 2, "", { combustible: 1 }],
+      [15, 15, "Combustible ×2", 2, "", { combustible: 2 }],
+      [16, 16, "Mapa de rutas: el próximo viaje a otro barrio cuesta 1 hora menos", 0],
+      [17, 17, "Encendedor y bengala ×1: etapa 3 de la señal, o Distraer sin carta", 1, "senal"],
+      [18, 18, "Botella incendiaria · d10 a toda una zona · ruido alto", 1],
+      [19, 19, "GPS: cumple la etapa 4 de la señal", 1, "senal"],
+      [20, 20, "Garrafas llenas: combustible ×3", 2, "", { combustible: 3 }],
+    ] },
+    escuela: { z: [
+      ["1C", "2C", "2C 1R", 1, "d", "Fue refugio y ya la vaciaron."],
+      ["2C", "2C 1R", "3C 1R", 1, "", ""],
+      ["2C 1R", "3C 1R", "3C 2R 1H", 2, "", ""],
+      ["1C", "2C", "2C 1R", 2, "", "Mensaje en el pizarrón: revela la ficha de otro edificio de este barrio."],
+      ["2C", "2C 1R", "3C 1R 1H", 3, "v", "El comedor tiene reservas."],
+      ["5C 1R", "6C 2R", "6C 3R 1H 1A", 3, "v", "Trampa: el gimnasio fue un centro de evacuación."],
+    ], b: [
+      [1, 2, "¡Aaah! Un caminante aparece en tu zona. No encuentras nada.", null, "aah"],
+      [3, 3, "Tocas el timbre de recreo: ruido máximo. No encuentras nada.", null, "aah"],
+      [4, 5, "Nada útil.", null, "nada"],
+      [6, 6, "Pupitres rotos: madera ×1", 2, "", { madera: 1 }],
+      [7, 7, "Soga de trepar del gimnasio: cuerda ×2", 1, "", { cuerda: 2 }],
+      [8, 9, "Comedor: comida ×1", 1],
+      [10, 11, "Agua ×1", 1],
+      [12, 13, "Botiquín de enfermería: vendas y analgésicos", 1],
+      [14, 14, "Bate de sóftbol · d6 · ruido bajo", 1],
+      [15, 15, "Mochila grande: +2 espacios", 0],
+      [16, 16, "Megáfono: Distraer con alcance de 4 zonas", 1],
+      [17, 17, "Mapa escolar del barrio: revela 2 fichas de edificio en tu próximo destino", 0],
+      [18, 18, "Manual de radioaficionado: cumple la etapa 4 de la señal", 1, "senal"],
+      [19, 19, "Radio del laboratorio: cumple la etapa 1 de la señal", 2, "senal"],
+      [20, 20, "Rescate: alguien vive en el gimnasio. Roba un superviviente.", null, "rescate"],
+    ] },
+  };
+  const ERRANTES = [["1–2", "—", "—", "1C"], ["3–4", "1C", "1C", "2C"], ["5", "1C", "2C", "1C 1R"], ["6", "1R", "1C 1R", "2R 1H"]];
+
+  function zChips(str) {
+    if (!str || str === "—") return `<span class="vacio-z">Vacío</span>`;
+    return `<span class="zs">${str.split(" ").map(p => { const n = p.slice(0, -1), k = p.slice(-1); return `<span class="z ${k}" title="${n} × ${ZOMBIES[k].n}"><i>${n}</i>${ZOMBIES[k].n.split(" ")[0]}</span>`; }).join("")}</span>`;
+  }
+  const modTxt = m => m === "v" ? "con ventaja" : m === "d" ? "con desventaja" : "";
+  function tirarBotin(tipo, mod) {
+    const d = () => 1 + Math.floor(Math.random() * 20);
+    const a = d(), b = d();
+    const t = mod === "v" ? Math.max(a, b) : mod === "d" ? Math.min(a, b) : a;
+    const fila = TABLAS[tipo].b.find(x => t >= x[0] && t <= x[1]);
+    return { t, dados: mod ? [a, b] : [a], fila };
+  }
+
+  // =================================================================
+  //  Losetas de calle (máscara de conexiones N=1 E=2 S=4 O=8)
+  // =================================================================
+  const DIRS = [["N", 1], ["E", 2], ["S", 4], ["W", 8]];
+  const CALLES = [
+    { m: 10, n: "Recta", z: "La calle cruza de lado a lado" },
+    { m: 3, n: "Esquina", z: "Giro de 90°" },
+    { m: 14, n: "Calle en T", z: "Tres salidas" },
+    { m: 15, n: "Cruce", z: "Cuatro salidas" },
+    { m: 8, n: "Calle cortada", z: "Barricada de autos y bolsas" },
+  ];
+  function brazo(d, w) {
+    const a = 150 - w / 2;
+    return d === "N" ? [a, -2, w, 152] : d === "S" ? [a, 150, w, 152] : d === "E" ? [150, a, 152, w] : [-2, a, 152, w];
+  }
+  function teselaCalleInner(mask, seed, entrada) {
+    const r = rng(seed);
+    const arms = DIRS.filter(([, b]) => mask & b).map(([d]) => d);
+    const rects = w => [[150 - w / 2, 150 - w / 2, w, w], ...arms.map(d => brazo(d, w))];
+    const rect = ([x, y, w, h], extra) => `<rect x="${x}" y="${y}" width="${w}" height="${h}" ${extra}/>`;
+    let s = "";
+    // terreno libre: esquinas y lados sin calle
+    const huecos = [[40, 40], [260, 40], [40, 260], [260, 260]];
+    if (!arms.includes("N")) huecos.push([150, 38]);
+    if (!arms.includes("S")) huecos.push([150, 262]);
+    if (!arms.includes("E")) huecos.push([262, 150]);
+    if (!arms.includes("W")) huecos.push([38, 150]);
+    huecos.forEach(([x, y]) => { const k = r(); if (k < .45) s += arbol(x + (r() - .5) * 10, y + (r() - .5) * 10, 13 + r() * 7); else if (k < .7) s += escombro(r, x, y); else if (k < .82) s += `<g filter="url(#tb)"><rect x="${x - 14}" y="${y - 10}" width="28" height="20" fill="url(#cruzado)" stroke="${T}" stroke-width="1.4"/></g>`; });
+    // vereda + asfalto con cordón (truco de trazo + relleno)
+    s += `<g filter="url(#tb)">` + rects(144).map(q => rect(q, `fill="${VER}" stroke="${T}" stroke-width="3"`)).join("") + rects(144).map(q => rect(q, `fill="${VER}"`)).join("") + rects(144).map(q => rect(q, `fill="url(#baldosa)"`)).join("") + `</g>`;
+    s += `<g filter="url(#tb)">` + rects(110).map(q => rect(q, `fill="${ASF}" stroke="${T}" stroke-width="6"`)).join("") + rects(110).map(q => rect(q, `fill="${ASF}"`)).join("") + rects(110).map(q => rect(q, `fill="url(#puntos)"`)).join("") + `</g>`;
+    // línea central
+    const cruce = arms.length >= 3;
+    const ini = cruce ? 62 : (arms.length === 1 ? 30 : 0);
+    let lin = "";
+    arms.forEach(d => {
+      const [x2, y2] = d === "N" ? [150, 0] : d === "S" ? [150, 300] : d === "E" ? [300, 150] : [0, 150];
+      const ux = Math.sign(x2 - 150), uy = Math.sign(y2 - 150);
+      lin += `<path d="M${150 + ux * ini} ${150 + uy * ini}L${x2} ${y2}" stroke="${T2}" stroke-width="3" stroke-dasharray="14 11" fill="none"/>`;
+      if (cruce) for (let i = -44; i <= 44; i += 11) {
+        const cx = 150 + ux * 70 + (uy ? i : 0), cy = 150 + uy * 70 + (ux ? i : 0);
+        lin += ux ? `<rect x="${cx - 7}" y="${cy - 3}" width="14" height="6" fill="${P}" stroke="${T}" stroke-width=".8"/>` : `<rect x="${cx - 3}" y="${cy - 7}" width="6" height="14" fill="${P}" stroke="${T}" stroke-width=".8"/>`;
+      }
+    });
+    s += `<g filter="url(#tb)" opacity=".9">${lin}</g>`;
+    // grietas, alcantarilla, autos
+    const grieta = () => { let x = 110 + r() * 80, y = 110 + r() * 80, d = `M${x} ${y}`; for (let i = 0; i < 4; i++) { x += (r() - .5) * 36; y += (r() - .5) * 36; d += `L${x} ${y}`; } return `<path d="${d}" fill="none" stroke="${T}" stroke-width="1.1" opacity=".7"/>`; };
+    s += `<g filter="url(#tb)">${grieta()}${grieta()}<circle cx="${150 + (r() > .5 ? 30 : -30)}" cy="${150 + (r() > .5 ? 30 : -30)}" r="8" fill="url(#cruzado)" stroke="${T}" stroke-width="1.6"/></g>`;
+    if (arms.length === 1) {
+      // calle cortada: barricada
+      const d = arms[0], horiz = d === "E" || d === "W";
+      let b = "";
+      for (let i = -2; i <= 2; i++) b += horiz ? `<ellipse cx="${150 + (d === "W" ? -6 : 6)}" cy="${150 + i * 20}" rx="9" ry="10" fill="${P2}" stroke="${T}" stroke-width="1.5"/>` : `<ellipse cx="${150 + i * 20}" cy="${150 + (d === "N" ? -6 : 6)}" rx="10" ry="9" fill="${P2}" stroke="${T}" stroke-width="1.5"/>`;
+      s += `<g filter="url(#tb)">${b}</g>` + auto(horiz ? 150 + (d === "W" ? 40 : -40) : 150 - 18, horiz ? 150 + 20 : 150 + (d === "N" ? 40 : -40), horiz ? 75 : 12);
+    } else {
+      const d = arms[Math.floor(r() * arms.length)];
+      const t = 70 + r() * 50, lado = r() > .5 ? 26 : -26;
+      const [x, y, ang] = d === "N" ? [150 + lado, 150 - t, 0] : d === "S" ? [150 + lado, 150 + t, 180] : d === "E" ? [150 + t, 150 + lado, 90] : [150 - t, 150 + lado, 270];
+      s += auto(x, y, ang + (r() - .5) * 30);
+    }
+    if (entrada) s += flecha(entrada);
+    return s;
+  }
+  function flecha(d) {
+    const rot = { W: 0, N: 90, E: 180, S: 270 }[d];
+    return `<g transform="rotate(${rot} 150 150)" filter="url(#tb)"><path d="M10 128L40 150L10 172" fill="none" stroke="${OX}" stroke-width="7" stroke-linejoin="round"/><path d="M30 128L60 150L30 172" fill="none" stroke="${OX}" stroke-width="7" stroke-linejoin="round" opacity=".6"/></g>`;
+  }
+
+  // envoltura común de una loseta (papel, grano, rejilla de zonas, borde)
+  function tesela(inner, etiqueta) {
+    const zonas = `<path d="M100 0V300M200 0V300M0 100H300M0 200H300" stroke="${T}" stroke-width="1" stroke-dasharray="2 5" opacity=".35"/>`;
+    let placa = "";
+    if (etiqueta) {
+      const txt = etiqueta.toUpperCase(), w = txt.length * 10.4 + 24;
+      placa = `<g filter="url(#tb)"><rect x="${150 - w / 2}" y="131" width="${w}" height="28" fill="${P}" stroke="${T}" stroke-width="2.2"/></g><text x="150" y="152" text-anchor="middle" font-family="${F_DISP}" font-weight="900" font-size="18" letter-spacing="1" fill="${T}">${esc(txt)}</text>`;
+    }
+    return `<svg viewBox="0 0 300 300" xmlns="http://www.w3.org/2000/svg"><rect width="300" height="300" fill="${P}"/>${inner}${zonas}<rect width="300" height="300" filter="url(#grano)"/><rect width="300" height="300" fill="url(#vin)"/>${placa}<rect x="1.5" y="1.5" width="297" height="297" fill="none" stroke="${T}" stroke-width="3"/></svg>`;
+  }
+  const teselaEdificio = (tipo, seed, rot) => tesela(`<g transform="rotate(${rot} 150 150)">${TIPOS[tipo].dib(rng(seed))}</g>`, TIPOS[tipo].n);
+  const teselaCalle = (mask, seed, entrada) => tesela(teselaCalleInner(mask, seed, entrada));
+
+  // fichas de edificio
+  const casita = (c) => `<path d="M22 12L33 21V33H11V21Z" fill="none" stroke="${c}" stroke-width="2.4" stroke-linejoin="round"/><rect x="19" y="25" width="6" height="8" fill="${c}"/>`;
+  const fichaDorso = () => `<svg viewBox="0 0 44 44" aria-hidden="true"><circle cx="22" cy="22" r="20" fill="${T}"/><circle cx="22" cy="22" r="20" fill="none" stroke="${P}" stroke-width="1" stroke-dasharray="2 2.5" opacity=".5" transform="scale(.82) translate(4.8 4.8)"/><g filter="url(#temblor-suave)">${casita(P)}</g><circle cx="22" cy="22" r="20.5" fill="none" stroke="${T}" stroke-width="2"/></svg>`;
+  const fichaFrente = n => `<svg viewBox="0 0 44 44" aria-hidden="true"><circle cx="22" cy="22" r="20" fill="${P}"/><circle cx="22" cy="22" r="20" fill="none" stroke="${T}" stroke-width="2.4" filter="url(#temblor)"/><circle cx="22" cy="22" r="16" fill="none" stroke="${T}" stroke-width=".8" stroke-dasharray="2 2.4" opacity=".6"/><text x="22" y="30.5" text-anchor="middle" font-family="${F_DISP}" font-weight="900" font-size="24" fill="${n === 6 ? RJ : T}">${n}</text></svg>`;
+
+  // =================================================================
+  //  Estado de la partida (ejemplo: día 6)
+  // =================================================================
+  const S = {
+    jugadores: 2,
+    recursos: { comida: 6, agua: 4, medicinas: 2, madera: 3, clavos: 2, chapa: 1, alambre: 1, cuerda: 1, combustible: 1, semillas: 0 },
+    senal: 3,
+    fichas: 1, fichasMax: 1,
+    entradas: [
+      { id: "principal", n: "Puerta principal", nivel: 2, trampa: null },
+      { id: "patio", n: "Puerta del patio", nivel: 1, trampa: null },
+      { id: "vcocina", n: "Ventana de la cocina", nivel: 1, trampa: "alarma" },
+      { id: "vdorm", n: "Ventana del dormitorio", nivel: 0, trampa: null },
+      { id: "techo", n: "Techo (claraboya)", nivel: 1, trampa: null },
+    ],
+    mejoras: [
+      { id: "taller", n: "Taller", hecho: false, efecto: "2 fichas de construcción por día", c: { madera: 2, clavos: 2, chapa: 1 } },
+      { id: "huerta", n: "Huerta", hecho: false, efecto: "Comida extra cada pocos días", c: { madera: 2, semillas: 1, agua: 2 } },
+      { id: "agua", n: "Recolector de agua", hecho: false, efecto: "Agua extra cuando llueve (canaleta de chapa)", c: { chapa: 2, alambre: 1 } },
+      { id: "cama", n: "Cama extra", hecho: false, efecto: "Lugar para un rescatado más", c: { madera: 2, clavos: 1, cuerda: 1 } },
+    ],
+    colocando: null,
+    sups: [
+      { id: "marta", n: "Marta Ríos", of: "Enfermera", fat: 0, herida: null, rol: "sale" },
+      { id: "julio", n: "Julio Benítez", of: "Ex policía", fat: 1, herida: "Brazo izquierdo", rol: "guardia" },
+      { id: "sofia", n: "Sofía Paz", of: "Mecánica", fat: 0, herida: null, rol: "sale" },
+      { id: "nico", n: "Nico Ferrer", of: "Estudiante · rescatado el día 4", fat: 2, herida: null, rol: "base" },
+    ],
+    destino: "centro",
+    fase: "plan",
+    diario: ["Día 6. Amanece nublado. Quedan 6 latas."],
+    deshacer: [],
+    mapa: null,
+    tab: "base",
+  };
+
+  const LOCS = [
+    { id: "acacias", n: "Las Acacias", t: "Barrio residencial", h: 1, peligro: 1, pl: "P3", pool: ["casa", "casa", "almacen", "casa", "casa"], saqueados: 2, poly: "128,192 228,176 258,238 236,302 150,308 112,252", c: [186, 242] },
+    { id: "norte", n: "Barrio Norte", t: "Escuela y casas", h: 1, peligro: 1, pl: "T2", pool: ["escuela", "casa", "farmacia", "almacen", "casa"], saqueados: 0, poly: "268,58 382,52 404,118 362,166 280,162 252,112", c: [328, 110] },
+    { id: "centro", n: "Centro", t: "Comercios y servicios", h: 2, peligro: 2, pl: "T1", pool: ["farmacia", "supermercado", "comisaria", "casa", "almacen", "ferreteria"], saqueados: 0, poly: "430,118 562,108 594,198 548,262 444,252 418,190", c: [505, 186] },
+    { id: "industrial", n: "Parque industrial", t: "Galpones y talleres", h: 2, peligro: 2, pl: "T3", pool: ["taller", "gasolinera", "ferreteria", "supermercado", "taller", "almacen", "casa"], saqueados: 0, poly: "388,298 522,288 562,344 522,386 402,388 370,342", c: [466, 340] },
+    { id: "hospital", n: "Hospital San Roque", t: "Zona sanitaria", h: 3, peligro: 3, pl: "T2", pool: ["hospital", "farmacia", "plaza", "casa", "almacen"], saqueados: 0, poly: "38,40 152,34 172,100 130,138 50,132 24,86", c: [100, 86] },
+  ];
+  const locPorId = Object.fromEntries(LOCS.map(l => [l.id, l]));
+  const PLANTILLAS = {
+    P3: ["BRB", "RRB", "BRB"],
+    T1: ["BRBB", "RRRR", "BRBB"],
+    T2: ["BBRB", "RRRB", "BRRR"],
+    T3: ["BRBBB", "RRRRR", "BBBRB"],
+  };
+  const BASE_XY = [318, 236];
+
+  // =================================================================
+  //  Plano de la base
+  // =================================================================
+  const ABERTURAS = {
+    principal: { ori: "h", a: 400, b: 460, fijo: 440, dentro: -1, badge: [430, 463], puerta: true },
+    patio: { ori: "v", a: 330, b: 380, fijo: 640, dentro: -1, badge: [666, 355], puerta: true },
+    vcocina: { ori: "v", a: 300, b: 350, fijo: 60, dentro: 1, badge: [34, 325] },
+    vdorm: { ori: "h", a: 150, b: 210, fijo: 50, dentro: 1, badge: [180, 25] },
+    techo: { ori: "t", badge: [604, 250] },
+  };
+  const colNivel = l => l === 0 ? RJ : l === 1 ? OC : T;
+  const tipoAb = id => ABERTURAS[id].ori === "t" ? "techo" : ABERTURAS[id].puerta ? "puerta" : "ventana";
+
+  // =================================================================
+  //  Materiales, costos y trampas
+  //  Cada material sale de filas concretas de las tablas de botín (campo 6 de cada fila).
+  // =================================================================
+  const MATS = {
+    madera: { n: "Madera", s: "Tablones, pallets, muebles desarmados" },
+    clavos: { n: "Clavos", s: "Clavos, tornillos y bulones" },
+    chapa: { n: "Chapa", s: "Chapas, capós, carteles, góndolas" },
+    alambre: { n: "Alambre", s: "Alambre común o de púas" },
+    cuerda: { n: "Cuerda", s: "Sogas, tendederos, sábanas anudadas" },
+    combustible: { n: "Combustible", s: "Nafta, gasoil o garrafas" },
+    semillas: { n: "Semillas", s: "Sobres de semillas de huerta" },
+  };
+  const NOM_REC = { comida: "comida", agua: "agua", medicinas: "medicinas", madera: "madera", clavos: "clavos", chapa: "chapa", alambre: "alambre", cuerda: "cuerda", combustible: "combustible", semillas: "semillas" };
+  // costo para subir la barricada desde el nivel actual
+  const COSTO_BARR = [
+    { c: { madera: 1, clavos: 1 }, t: "tablones clavados" },
+    { c: { madera: 2, clavos: 1 }, t: "doble tablón" },
+    { c: { chapa: 1, clavos: 1 }, t: "blindaje de chapa" },
+  ];
+  const TRAMPAS = {
+    alarma: { n: "Alarma de latas", l: "A", c: { cuerda: 1, alambre: 1 }, def: 1, en: ["puerta", "ventana", "techo"],
+      fx: "Latas vacías de la despensa colgadas de un hilo. Si algo entra por acá se despiertan todos: nadie queda sorprendido durmiendo." },
+    estacas: { n: "Estacas", l: "E", c: { madera: 2, clavos: 1 }, def: 1, en: ["puerta", "ventana"],
+      fx: "Tablas con clavos hacia afuera, bajo la abertura. El primer zombie que entra por acá recibe d6 de daño." },
+    puas: { n: "Alambre de púas", l: "P", c: { alambre: 2 }, def: 2, en: ["ventana", "techo"],
+      fx: "Enredado en el marco. Los corredores que entran por acá pierden su segundo movimiento esa noche." },
+    fosa: { n: "Fosa tapada", l: "F", c: { madera: 1, cuerda: 1 }, fatiga: 1, def: 2, en: ["puerta"],
+      fx: "Un pozo frente a la puerta, tapado con tablas sobre una soga. El primer zombie cae y queda fuera del evento. Cavar da 1 de fatiga a alguien que se queda en la base." },
+    incendiaria: { n: "Trampa incendiaria", l: "I", c: { combustible: 1, cuerda: 1 }, def: 3, unUso: true, en: ["puerta"],
+      fx: "Un bidón con mecha. La primera noche que algo ataca esta entrada se enciende: +3 a la defensa y ruido alto. Después se borra." },
+  };
+  const NOM_TIPO = { puerta: "puertas", ventana: "ventanas", techo: "techo" };
+  const defensa = e => e.nivel + (e.trampa ? TRAMPAS[e.trampa].def : 0);
+  const falta = c => Object.entries(c).filter(([k, n]) => (S.recursos[k] || 0) < n).map(([k, n]) => `${n - (S.recursos[k] || 0)} de ${NOM_REC[k]}`);
+  const alcanza = c => !falta(c).length;
+  const pagar = c => Object.entries(c).forEach(([k, n]) => { S.recursos[k] -= n; });
+  const costoHTML = c => `<span class="costo">${Object.entries(c).map(([k, n]) => `<span class="${(S.recursos[k] || 0) < n ? "falta" : ""}">${n} ${NOM_REC[k]}</span>`).join("")}</span>`;
+  const costoTxt = c => Object.entries(c).map(([k, n]) => `${n} ${NOM_REC[k]}`).join(", ");
+  // dónde se consigue cada material: se lee de las tablas de botín
+  function fuentes(mat) {
+    const out = [];
+    Object.entries(TABLAS).forEach(([tipo, t]) => t.b.forEach(f => { if (f[5] && f[5][mat]) out.push({ tipo, d: f[0] === f[1] ? String(f[0]) : f[0] + "–" + f[1], n: f[5][mat], prob: f[1] - f[0] + 1 }); }));
+    return out;
+  }
+  function usos(mat) {
+    const u = [];
+    if (COSTO_BARR.some(b => b.c[mat])) u.push("barricadas");
+    Object.values(TRAMPAS).forEach(t => { if (t.c[mat]) u.push(t.n.toLowerCase()); });
+    S.mejoras.forEach(m => { if (m.c[mat]) u.push(m.n.toLowerCase()); });
+    return u;
+  }
+
+  function tablones(id, nivel) {
+    const ab = ABERTURAS[id]; let s = "";
+    for (let k = 0; k < nivel; k++) {
+      const ang = k % 2 ? 5 : -6;
+      if (ab.ori === "h") { const y = ab.fijo + ab.dentro * (11 + k * 9); s += `<rect x="${ab.a - 12}" y="${y - 3.5}" width="${ab.b - ab.a + 24}" height="7" fill="${PO}" stroke="${T}" stroke-width="1.5" transform="rotate(${ang} ${(ab.a + ab.b) / 2} ${y})"/>`; }
+      else if (ab.ori === "v") { const x = ab.fijo + ab.dentro * (11 + k * 9); s += `<rect x="${x - 3.5}" y="${ab.a - 12}" width="7" height="${ab.b - ab.a + 24}" fill="${PO}" stroke="${T}" stroke-width="1.5" transform="rotate(${ang} ${x} ${(ab.a + ab.b) / 2})"/>`; }
+      else { s += `<rect x="568" y="${222 + k * 20}" width="70" height="7" fill="${PO}" stroke="${T}" stroke-width="1.5" transform="rotate(${ang} 603 ${225 + k * 20})"/>`; }
+    }
+    return s;
+  }
+
+  function token(x, y, letra, color, r = 15) {
+    return `<g><circle cx="${x}" cy="${y + 3}" r="${r}" fill="${T}" opacity=".35"/><circle cx="${x}" cy="${y}" r="${r}" fill="${color}" stroke="${T}" stroke-width="2.4" filter="url(#tb)"/><text x="${x}" y="${y + 6.5}" text-anchor="middle" font-family="${F_DISP}" font-weight="900" font-size="${r * 1.15}" fill="${P}">${letra}</text></g>`;
+  }
+
+  function dibujarBase() {
+    const R = S.recursos;
+    const m = Object.fromEntries(S.mejoras.map(x => [x.id, x.hecho]));
+    let s = `<rect width="900" height="560" fill="none"/>`;
+    // calle
+    s += `<rect x="0" y="470" width="900" height="20" fill="${VER}"/><rect x="0" y="470" width="900" height="20" fill="url(#baldosa)"/>`;
+    s += `<g filter="url(#tb)"><rect x="-4" y="490" width="908" height="80" fill="${ASF}" stroke="${T}" stroke-width="3"/><rect x="-4" y="490" width="908" height="80" fill="url(#puntos)"/><path d="M0 528H900" stroke="${T2}" stroke-width="3" stroke-dasharray="18 12"/></g>`;
+    s += `<text x="880" y="552" text-anchor="end" font-family="${F_MAQ}" font-size="15" fill="${T2}">calle Las Heras</text>`;
+    s += auto(150, 512, 84) + auto(760, 540, 96);
+    // terreno, cerco y patio
+    s += `<g filter="url(#tb)"><rect x="20" y="16" width="862" height="454" fill="none" stroke="${T}" stroke-width="2" stroke-dasharray="10 6"/><rect x="398" y="466" width="72" height="8" fill="${P}"/></g>`;
+    s += arbol(860, 440, 16) + arbol(48, 470 - 30, 13) + escombro(rng(4), 860, 60);
+    // casa
+    s += `<rect x="60" y="50" width="580" height="390" fill="${PISO}"/><rect x="60" y="50" width="580" height="390" fill="url(#baldosa)" opacity=".7"/>`;
+    // taller (mejora) en su zona
+    s += `<g class="mejora" data-id="taller" tabindex="0" role="button" aria-label="${m.taller ? "Taller construido" : "Construir taller"}">`;
+    if (m.taller) s += `<g filter="url(#tb)"><rect x="360" y="66" width="150" height="28" fill="${P2}" stroke="${T}" stroke-width="1.8"/><path d="M372 80h30M420 72l10 12M450 70v20M470 80h24" stroke="${T}" stroke-width="2.4"/>${estante(590, 70, 30, 110, "cruzado")}${caja(530, 140, 22)}${caja(500, 152, 16)}</g>`;
+    else s += `<rect class="slot" x="352" y="62" width="276" height="128" fill="url(#hatch-fino)" stroke="${T}" stroke-width="1.6" stroke-dasharray="8 6"/><text x="490" y="122" text-anchor="middle" font-family="${F_COND}" font-weight="700" font-size="22" letter-spacing="2" fill="${T2}">TALLER</text><text x="490" y="144" text-anchor="middle" font-family="${F_MAQ}" font-size="14" fill="${T2}">sin construir · tocar para construir</text>`;
+    s += `</g>`;
+    // dormitorio: camas
+    const camasX = [80, 130, 180, 230];
+    s += `<g filter="url(#tb)">${camasX.map(x => cama(x, 96, 40, 72)).join("")}</g>`;
+    s += `<g class="mejora" data-id="cama" tabindex="0" role="button" aria-label="${m.cama ? "Cama extra construida" : "Construir cama extra"}">`;
+    s += m.cama ? `<g filter="url(#tb)">${cama(282, 96, 40, 72)}</g>` : `<rect class="slot" x="282" y="96" width="40" height="72" fill="none" stroke="${T}" stroke-width="1.5" stroke-dasharray="5 4"/><text x="302" y="186" text-anchor="middle" font-family="${F_MAQ}" font-size="11" fill="${T2}">+cama</text>`;
+    s += `</g>`;
+    // cocina: mesada, cocina, despensa (latas = comida) y bidones (agua)
+    let latas = ""; for (let i = 0; i < Math.min(R.comida, 9); i++) latas += `<circle cx="${118 + i * 13}" cy="416" r="5" fill="${P}" stroke="${T}" stroke-width="1.2"/>`;
+    let bidones = ""; for (let i = 0; i < Math.min(R.agua, 6); i++) bidones += `<circle cx="${128 + i * 20}" cy="258" r="8" fill="url(#cruzado)" stroke="${T}" stroke-width="1.5"/>`;
+    s += `<g filter="url(#tb)"><rect x="70" y="240" width="26" height="190" fill="url(#hatch)" stroke="${T}" stroke-width="1.8"/><rect x="70" y="378" width="26" height="40" fill="${P2}" stroke="${T}" stroke-width="1.4"/><circle cx="83" cy="390" r="5" fill="none" stroke="${T}" stroke-width="1.2"/><circle cx="83" cy="406" r="5" fill="none" stroke="${T}" stroke-width="1.2"/>
+      <rect x="108" y="404" width="124" height="26" fill="none" stroke="${T}" stroke-width="1.6"/>${latas}${bidones}${mesaRedonda(170, 330, 20)}</g>`;
+    // sala común: mesa de planificación con mapa y radio, escalera, botiquín, tablones (materiales)
+    let tabl = ""; for (let i = 0; i < Math.min(R.madera, 8); i++) tabl += `<rect x="${256 + (i % 2) * 3}" y="${426 - i * 6}" width="70" height="5" fill="${P2}" stroke="${T}" stroke-width="1"/>`;
+    s += `<g filter="url(#tb)"><rect x="330" y="262" width="196" height="104" fill="${P2}" stroke="${T}" stroke-width="2.2"/><rect x="346" y="274" width="112" height="78" fill="${P}" stroke="${T}" stroke-width="1.2" transform="rotate(-3 402 313)"/>
+      <path d="M352 300h100M352 326h100M386 278v70M420 278v70" stroke="${T}" stroke-width="1" opacity=".6" transform="rotate(-3 402 313)"/><circle cx="430" cy="300" r="6" fill="none" stroke="${RJ}" stroke-width="2"/>
+      <rect x="474" y="278" width="40" height="26" fill="${T2}" stroke="${T}" stroke-width="1.4"/><path d="M506 278l10 -22" stroke="${T}" stroke-width="2"/><circle cx="484" cy="291" r="5" fill="${P}"/>
+      <rect x="568" y="212" width="70" height="80" fill="${PISO}" stroke="${T}" stroke-width="1.8"/>${[0, 1, 2, 3, 4, 5, 6].map(i => `<path d="M568 ${222 + i * 10}h70" stroke="${T}" stroke-width="1.1"/>`).join("")}
+      ${tabl}<rect x="252" y="210" width="34" height="22" fill="${P}" stroke="${T}" stroke-width="1.6"/>${cruz(269, 221, 6, RJ)}</g>`;
+    s += `<text x="494" y="324" text-anchor="middle" font-family="${F_MAQ}" font-size="12" fill="${T}">señal ${S.senal}/10</text>`;
+    s += `<text x="292" y="228" font-family="${F_MAQ}" font-size="12" fill="${T}">×${R.medicinas}</text>`;
+    // patio: huerta y recolector
+    s += `<g class="mejora" data-id="huerta" tabindex="0" role="button" aria-label="${m.huerta ? "Huerta construida" : "Construir huerta"}">`;
+    if (m.huerta) { let h = ""; for (let f = 0; f < 5; f++) for (let c = 0; c < 8; c++) h += `<path d="M${694 + c * 19} ${92 + f * 24}l4 -7l4 7" fill="none" stroke="${VE}" stroke-width="1.8"/>`; s += `<g filter="url(#tb)"><rect x="680" y="70" width="170" height="130" fill="url(#hatch-fino)" stroke="${T}" stroke-width="1.8"/>${h}</g>`; }
+    else s += `<rect class="slot" x="680" y="70" width="170" height="130" fill="none" stroke="${T}" stroke-width="1.6" stroke-dasharray="8 6"/><text x="765" y="132" text-anchor="middle" font-family="${F_COND}" font-weight="700" font-size="20" letter-spacing="2" fill="${T2}">HUERTA</text><text x="765" y="152" text-anchor="middle" font-family="${F_MAQ}" font-size="13" fill="${T2}">sin construir</text>`;
+    s += `</g><g class="mejora" data-id="agua" tabindex="0" role="button" aria-label="${m.agua ? "Recolector de agua construido" : "Construir recolector de agua"}">`;
+    if (m.agua) s += `<g filter="url(#tb)"><circle cx="800" cy="300" r="30" fill="url(#cruzado)" stroke="${T}" stroke-width="2.4"/><circle cx="800" cy="300" r="18" fill="${AZ}" opacity=".35" stroke="${T}" stroke-width="1.2"/><path d="M640 300H770" stroke="${T}" stroke-width="3" stroke-dasharray="2 4"/></g>`;
+    else s += `<rect class="slot" x="752" y="258" width="96" height="84" fill="none" stroke="${T}" stroke-width="1.6" stroke-dasharray="8 6"/><text x="800" y="296" text-anchor="middle" font-family="${F_COND}" font-weight="700" font-size="15" letter-spacing="1" fill="${T2}">AGUA</text><text x="800" y="314" text-anchor="middle" font-family="${F_MAQ}" font-size="11" fill="${T2}">recolector</text>`;
+    s += `</g>`;
+    // muros
+    let mu = muro(60, 50, 640, 50, 9) + muro(60, 440, 640, 440, 9) + muro(60, 50, 60, 440, 9) + muro(640, 50, 640, 440, 9);
+    mu += pared(60, 230, 340, 230, 180, 220) + muro(340, 50, 340, 230, 5) + pared(340, 200, 640, 200, 440, 490, 5) + pared(240, 230, 240, 440, 300, 350, 5);
+    s += `<g filter="url(#tb)">${mu}</g>`;
+    // aberturas
+    Object.entries(ABERTURAS).forEach(([id, ab]) => {
+      if (ab.ori === "h") s += `<rect x="${ab.a}" y="${ab.fijo - 6}" width="${ab.b - ab.a}" height="12" fill="${PISO}"/>` + (ab.puerta ? `<path d="M${ab.a} ${ab.fijo}V${ab.fijo - 60}A60 60 0 0 1 ${ab.b} ${ab.fijo}" fill="none" stroke="${T}" stroke-width="1.2" stroke-dasharray="3 3"/>` : `<path d="M${ab.a} ${ab.fijo - 2.5}H${ab.b}M${ab.a} ${ab.fijo + 2.5}H${ab.b}" stroke="${T}" stroke-width="1.4"/>`);
+      if (ab.ori === "v") s += `<rect x="${ab.fijo - 6}" y="${ab.a}" width="12" height="${ab.b - ab.a}" fill="${PISO}"/>` + (ab.puerta ? `<path d="M${ab.fijo} ${ab.a}H${ab.fijo - 50}A50 50 0 0 0 ${ab.fijo} ${ab.b}" fill="none" stroke="${T}" stroke-width="1.2" stroke-dasharray="3 3"/>` : `<path d="M${ab.fijo - 2.5} ${ab.a}V${ab.b}M${ab.fijo + 2.5} ${ab.a}V${ab.b}" stroke="${T}" stroke-width="1.4"/>`);
+    });
+    // nombres de ambientes
+    const rotulo = (x, y, t) => `<text x="${x}" y="${y}" font-family="${F_COND}" font-weight="700" font-size="16" letter-spacing="2" fill="${T2}">${t}</text>`;
+    s += rotulo(80, 80, "DORMITORIO") + rotulo(108, 290, "COCINA") + rotulo(290, 390, "SALA COMÚN") + rotulo(686, 236, "PATIO") + rotulo(574, 206, "AL TECHO");
+    // supervivientes
+    const salen = S.sups.filter(x => x.rol === "sale"), base = S.sups.filter(x => x.rol === "base"), guard = S.sups.find(x => x.rol === "guardia");
+    salen.forEach((x, i) => { s += token(352 + i * 42, 392, x.n[0], OX); });
+    base.forEach((x, i) => { s += token(camasX[i] + 20, 146, x.n[0], T2); });
+    if (guard) s += token(494, 412, guard.n[0], VE) + `<text x="516" y="417" font-family="${F_MAQ}" font-size="12" fill="${T}">guardia</text>`;
+    if (salen.length) s += `<text x="${352 + salen.length * 42 - 10}" y="414" font-family="${F_MAQ}" font-size="12" fill="${OX}">salen</text>`;
+    // marcadores de barricada (encima de todo)
+    S.entradas.forEach(e => {
+      const ab = ABERTURAS[e.id];
+      s += `<g filter="url(#tb)">${tablones(e.id, e.nivel)}</g>`;
+      const tr = S.colocando ? TRAMPAS[S.colocando] : null;
+      const apta = tr && !e.trampa && tr.en.includes(tipoAb(e.id));
+      const puede = tr ? apta : S.fichas > 0 && e.nivel < 3 && alcanza(COSTO_BARR[e.nivel].c);
+      const [bx, by] = ab.badge;
+      const accion = tr ? (apta ? `. Poner ${tr.n.toLowerCase()} acá` : ". No se puede poner esta trampa acá") : (puede ? ". Reforzar" : "");
+      s += `<g class="entrada" data-id="${e.id}" tabindex="0" role="button" aria-label="${esc(e.n)}: barricada nivel ${e.nivel}${e.trampa ? ", trampa: " + TRAMPAS[e.trampa].n : ""}, defensa ${defensa(e)}${accion}" ${tr && !apta ? `opacity=".45"` : ""}>
+        ${puede ? `<circle cx="${bx}" cy="${by}" r="${tr ? 24 : 21}" fill="${tr ? "rgba(184,138,46,.25)" : "none"}" stroke="${tr ? OC : OX}" stroke-width="${tr ? 2.6 : 1.6}" stroke-dasharray="3 3"/>` : ""}
+        <circle class="badge" cx="${bx}" cy="${by}" r="15" fill="${colNivel(e.nivel)}" stroke="${T}" stroke-width="2.5" filter="url(#tb)"/>
+        <text x="${bx}" y="${by + 6}" text-anchor="middle" font-family="${F_DISP}" font-weight="900" font-size="18" fill="${P}">${e.nivel}</text>
+        ${e.trampa ? `<g filter="url(#tb)"><path d="M${bx + 24} ${by - 11}h12l6 11l-6 11h-12l-6 -11z" fill="${OC}" stroke="${T}" stroke-width="2"/></g><text x="${bx + 30}" y="${by + 5}" text-anchor="middle" font-family="${F_DISP}" font-weight="900" font-size="13" fill="${T}">${TRAMPAS[e.trampa].l}</text>` : ""}</g>`;
+    });
+    $("plano").innerHTML = s;
+  }
+
+  // =================================================================
+  //  Acciones de base
+  // =================================================================
+  function instantanea() { return JSON.stringify({ r: S.recursos, f: S.fichas, fm: S.fichasMax, e: S.entradas, m: S.mejoras, d: S.diario, s: S.sups }); }
+  function restaurar(j) { const o = JSON.parse(j); S.recursos = o.r; S.fichas = o.f; S.fichasMax = o.fm; S.entradas = o.e; S.mejoras = o.m; S.diario = o.d; S.sups = o.s; }
+  let avisoBase = "";
+  function reforzar(id) {
+    const e = S.entradas.find(x => x.id === id);
+    if (e.nivel >= 3) { avisoBase = e.n + " ya está al máximo (nivel 3)."; return pintarBase(); }
+    if (S.fichas < 1) { avisoBase = "No quedan fichas de construcción hoy."; return pintarBase(); }
+    const b = COSTO_BARR[e.nivel];
+    if (!alcanza(b.c)) { avisoBase = `Para el ${b.t} falta ${falta(b.c).join(" y ")}.`; return pintarBase(); }
+    S.deshacer.push(instantanea());
+    S.fichas--; pagar(b.c); e.nivel++;
+    S.diario.push(`Reforzaron ${e.n.toLowerCase()} con ${b.t}: nivel ${e.nivel - 1} → ${e.nivel}.`);
+    avisoBase = ""; pintarTodo();
+  }
+  function construir(id) {
+    const m = S.mejoras.find(x => x.id === id);
+    if (m.hecho) return;
+    if (S.fichas < 1) { avisoBase = "No quedan fichas de construcción hoy."; return pintarBase(); }
+    if (!alcanza(m.c)) { avisoBase = `Para ${m.n.toLowerCase()} falta ${falta(m.c).join(" y ")}.`; return pintarBase(); }
+    S.deshacer.push(instantanea());
+    S.fichas--; pagar(m.c); m.hecho = true;
+    if (id === "taller") S.fichasMax = 2;
+    S.diario.push(`Construyeron ${m.n.toLowerCase()}.${id === "taller" ? " Desde mañana, 2 fichas por día." : ""}`);
+    avisoBase = ""; pintarTodo();
+  }
+  // trampas: primero se elige la trampa, después la entrada
+  function elegirTrampa(t) {
+    if (S.colocando === t) { S.colocando = null; avisoBase = ""; return pintarBase(); }
+    const tr = TRAMPAS[t];
+    if (S.fichas < 1) { avisoBase = "No quedan fichas de construcción hoy."; return pintarBase(); }
+    if (!alcanza(tr.c)) { avisoBase = `Para ${tr.n.toLowerCase()} falta ${falta(tr.c).join(" y ")}.`; return pintarBase(); }
+    if (tr.fatiga && !cavador()) { avisoBase = "Nadie en la base puede cavar la fosa sin llegar a 3 de fatiga."; return pintarBase(); }
+    if (!S.entradas.some(e => !e.trampa && tr.en.includes(tipoAb(e.id)))) { avisoBase = `No hay ${NOM_TIPO[tr.en[0]]} libres para ${tr.n.toLowerCase()}.`; return pintarBase(); }
+    S.colocando = t; avisoBase = ""; pintarBase();
+  }
+  const cavador = () => S.sups.filter(x => x.rol !== "sale" && x.fat < 2).sort((a, b) => a.fat - b.fat)[0];
+  function ponerTrampa(id) {
+    const tr = TRAMPAS[S.colocando], e = S.entradas.find(x => x.id === id);
+    if (e.trampa) { avisoBase = `${e.n} ya tiene ${TRAMPAS[e.trampa].n.toLowerCase()}. Una trampa por entrada.`; return pintarBase(); }
+    if (!tr.en.includes(tipoAb(id))) { avisoBase = `${tr.n} solo va en ${tr.en.map(x => NOM_TIPO[x]).join(" o ")}.`; return pintarBase(); }
+    S.deshacer.push(instantanea());
+    S.fichas--; pagar(tr.c); e.trampa = S.colocando;
+    let extra = "";
+    if (tr.fatiga) { const q = cavador(); q.fat += tr.fatiga; extra = ` ${q.n.split(" ")[0]} cavó: +1 de fatiga.`; }
+    S.diario.push(`Armaron ${tr.n.toLowerCase()} en ${e.n.toLowerCase()}: defensa ${defensa(e) - tr.def} → ${defensa(e)}.${extra}`);
+    S.colocando = null; avisoBase = ""; pintarTodo();
+  }
+  function tocarEntrada(id) { if (S.colocando) ponerTrampa(id); else reforzar(id); }
+
+  function pintarRecursos() {
+    const R = S.recursos;
+    const consumo = S.sups.reduce((a, x) => a + (x.fat > 0 ? 2 : 1), 0);
+    const mats = Object.keys(MATS).reduce((a, k) => a + R[k], 0);
+    const items = [["Comida", R.comida, R.comida < consumo], ["Agua", R.agua], ["Medicinas", R.medicinas], ["Materiales", mats], ["Señal", S.senal + "/10"]];
+    $("recursos").innerHTML = items.map(([n, v, al]) => `<span class="rec${al ? " alerta" : ""}"><b>${v}</b>${n}</span>`).join("");
+    $("consumo").textContent = `esta noche comen ${consumo} (los que tienen fatiga comen 2)`;
+  }
+
+  function pintarDeposito() {
+    const R = S.recursos;
+    $("deposito").innerHTML = Object.entries(MATS).map(([k, m]) => {
+      const f = fuentes(k).sort((a, b) => b.prob - a.prob);
+      const donde = f.map(x => `${TIPOS[x.tipo].n} <span class="d">${x.d}</span>`).join(" · ");
+      return `<div class="mat${R[k] ? "" : " cero"}"><b class="cant">${R[k]}</b><div><span class="mn">${m.n}</span><span class="ms">${esc(m.s)}</span>
+        <span class="mf"><i>Dónde:</i> ${donde}</span><span class="mf"><i>Para:</i> ${esc(usos(k).join(", "))}</span></div></div>`;
+    }).join("");
+    $("lista-trampas").innerHTML = Object.entries(TRAMPAS).map(([k, t]) => {
+      const sel = S.colocando === k;
+      const ok = S.fichas > 0 && alcanza(t.c);
+      return `<div class="trampa${sel ? " sel" : ""}">
+        <div class="tr-cab"><span class="tr-l" aria-hidden="true">${t.l}</span><div><span class="mn">${esc(t.n)}</span><span class="ms">+${t.def} defensa · ${t.en.map(x => NOM_TIPO[x]).join(", ")}${t.unUso ? " · un solo uso" : ""}</span></div></div>
+        <p class="fx">${esc(t.fx)}</p>
+        <div class="tr-pie">${costoHTML(t.c)}${t.fatiga ? `<span class="costo"><span>+1 fatiga</span></span>` : ""}
+          <button class="btn ${sel ? "rojo" : "hueco"} chico" type="button" data-trampa="${k}" aria-pressed="${sel}" ${!sel && !ok ? "disabled" : ""}>${sel ? "Cancelar" : "Armar"}</button></div>
+      </div>`;
+    }).join("");
+    const debil = S.entradas.reduce((a, e) => defensa(e) < defensa(a) ? e : a);
+    $("punto-debil").innerHTML = `Punto más débil: <b>${esc(debil.n.toLowerCase())}</b>, defensa ${defensa(debil)}. Defensa de una entrada = nivel de barricada + trampa (+ Percepción del guardia).`;
+  }
+
+  function pintarBase() {
+    dibujarBase();
+    let f = "Fichas de construcción hoy";
+    for (let i = 0; i < S.fichasMax; i++) f += `<span class="ficha-c${i < S.fichas ? "" : " gastada"}" aria-hidden="true">C</span>`;
+    $("fichas-cons").innerHTML = f + `<span class="nota">${S.fichas} de ${S.fichasMax}</span>`;
+    const tr = S.colocando ? TRAMPAS[S.colocando] : null;
+    $("lista-entradas").innerHTML = S.entradas.map(e => {
+      const b = COSTO_BARR[e.nivel];
+      const apta = tr && !e.trampa && tr.en.includes(tipoAb(e.id));
+      const boton = tr
+        ? `<button class="btn ${apta ? "" : "hueco "}chico" type="button" data-ref="${e.id}" ${apta ? "" : "disabled"}>Poner acá</button>`
+        : `<button class="btn hueco chico" type="button" data-ref="${e.id}" ${e.nivel >= 3 || !S.fichas || !alcanza(b.c) ? "disabled" : ""}>Reforzar</button>`;
+      return `<div class="fila-l ent"><span><span class="nom">${esc(e.n)}</span><br><span class="sub-ent">${e.trampa ? `<span class="tr-tag">${esc(TRAMPAS[e.trampa].n)} +${TRAMPAS[e.trampa].def}</span>` : ""}${e.nivel < 3 && !tr ? costoHTML(b.c) : ""}</span></span>
+        <span class="def"><span class="pips${e.nivel === 0 ? " cero" : ""}" aria-label="barricada nivel ${e.nivel} de 3">${[0, 1, 2].map(i => `<i class="${i < e.nivel ? "on" : ""}"></i>`).join("")}</span><span class="dv" title="Defensa">def ${defensa(e)}</span></span>${boton}</div>`;
+    }).join("");
+    $("lista-mejoras").innerHTML = S.mejoras.map(m => `<div class="fila-l"><span><span class="nom">${esc(m.n)}</span><br><span class="nota" style="font-size:12.5px">${esc(m.efecto)}</span>${m.hecho ? "" : `<br>${costoHTML(m.c)}`}</span><span></span>${m.hecho ? `<span class="hecho">Hecho</span>` : `<button class="btn hueco chico" type="button" data-mej="${m.id}" ${!S.fichas || !alcanza(m.c) ? "disabled" : ""}>Construir</button>`}</div>`).join("");
+    const lineas = S.diario.slice(-3).map(t => `<span>${esc(t)}</span>`);
+    if (avisoBase) lineas.push(`<span style="color:var(--rojo)">${esc(avisoBase)}</span>`);
+    else if (tr) lineas.push(`<span style="color:var(--oxido)">Armando ${esc(tr.n.toLowerCase())} (${esc(costoTxt(tr.c))}): toquen una entrada marcada en el plano.</span>`);
+    else lineas.push(`<span style="color:var(--sepia)">Todo gasta 1 ficha de construcción y los materiales que se ven al lado.</span>`);
+    $("diario").innerHTML = lineas.join("");
+    $("btn-deshacer").disabled = !S.deshacer.length;
+    pintarDeposito();
+  }
+
+  // =================================================================
+  //  Planificación: supervivientes
+  // =================================================================
+  function setRol(id, rol) {
+    const x = S.sups.find(s => s.id === id);
+    if (rol === "guardia") S.sups.forEach(s => { if (s.rol === "guardia") s.rol = "base"; });
+    x.rol = rol;
+    pintarTodo();
+  }
+  function chequeo() {
+    const salen = S.sups.filter(x => x.rol === "sale");
+    const base = S.sups.filter(x => x.rol !== "sale");
+    const guard = S.sups.find(x => x.rol === "guardia");
+    const msgs = [];
+    let ok = true;
+    if (salen.length !== S.jugadores) { ok = false; msgs.push(["mal", `Tienen que salir ${S.jugadores} (uno por jugador). Ahora salen ${salen.length}.`]); }
+    else msgs.push(["ok", `Salen ${salen.length}: ${salen.map(x => x.n.split(" ")[0]).join(" y ")}.`]);
+    if (!base.length) msgs.push(["ojo", "Nadie queda en la base: la guardia de esta noche no está resuelta (pendiente en las reglas)."]);
+    else if (!guard) msgs.push(["ojo", "Falta elegir quién hace guardia esta noche."]);
+    else msgs.push(["ok", `Guardia: ${guard.n.split(" ")[0]}.`]);
+    const cansados = salen.filter(x => x.fat >= 2 || x.herida);
+    cansados.forEach(x => msgs.push(["ojo", `${x.n.split(" ")[0]} sale ${x.herida ? "herido" : "con " + x.fat + " de fatiga"}. Podría quedarse a descansar.`]));
+    if (!S.destino) { ok = false; msgs.push(["mal", "Elijan un destino en el mapa."]); }
+    return { ok, msgs, salen };
+  }
+  function pintarPlan() {
+    document.querySelectorAll("#seg-jug button").forEach(b => b.setAttribute("aria-pressed", String(+b.dataset.j === S.jugadores)));
+    $("sups").innerHTML = S.sups.map(x => `<div class="sup" data-rol="${x.rol}">
+      <span class="ini" aria-hidden="true">${x.n[0]}</span>
+      <div class="quien"><span class="n">${esc(x.n)}</span><span class="of">${esc(x.of)}</span></div>
+      <div class="linea">
+        <span class="estado-sup"><span class="fat" title="Fatiga ${x.fat} de 3">Fatiga ${[0, 1, 2].map(i => `<i class="${i < x.fat ? "on" : ""}"></i>`).join("")}</span>${x.herida ? `<span class="herida">Herida: ${esc(x.herida)}</span>` : ""}</span>
+        <span class="seg" role="group" aria-label="Qué hace ${esc(x.n)}">${[["sale", "Sale"], ["base", "Base"], ["guardia", "Guardia"]].map(([r, t]) => `<button type="button" data-sup="${x.id}" data-rol="${r}" aria-pressed="${x.rol === r}">${t}</button>`).join("")}</span>
+      </div></div>`).join("");
+    const c = chequeo();
+    $("chequeo").innerHTML = c.msgs.map(([k, t]) => `<span class="${k}">${k === "ok" ? "✓" : k === "mal" ? "✗" : "·"} ${esc(t)}</span>`).join("");
+    $("btn-salir").disabled = !c.ok;
+    const l = locPorId[S.destino];
+    $("resumen-salida").textContent = c.ok && l ? `${c.salen.map(x => x.n.split(" ")[0]).join(" y ")} salen a las 08:00 hacia ${l.n}. Llegan a las ${hh(8 + l.h)}.` : "Completen la planificación para salir.";
+  }
+
+  // =================================================================
+  //  Destino: mapa de la ciudad
+  // =================================================================
+  const hh = h => String(h).padStart(2, "0") + ":00";
+  function dibujarCiudad() {
+    let s = "";
+    // río y avenidas
+    s += `<g filter="url(#tb)"><path d="M-10 344C70 330 140 384 232 378S330 404 372 432" fill="none" stroke="${T}" stroke-width="22" opacity=".85"/><path d="M-10 344C70 330 140 384 232 378S330 404 372 432" fill="none" stroke="${P2}" stroke-width="17"/><path d="M-10 344C70 330 140 384 232 378S330 404 372 432" fill="none" stroke="url(#hatch-fino)" stroke-width="17"/></g>`;
+    s += `<text x="120" y="398" font-family="${F_MAQ}" font-size="13" fill="${T2}" transform="rotate(8 120 398)">río Seco</text>`;
+    s += `<g filter="url(#tb)" stroke="${T}" fill="none"><path d="M0 236H640" stroke-width="5"/><path d="M0 236H640" stroke="${P}" stroke-width="2.4"/><path d="M318 0V420" stroke-width="5"/><path d="M318 0V420" stroke="${P}" stroke-width="2.4"/><path d="M80 420L620 20" stroke-width="1.4" stroke-dasharray="6 5"/></g>`;
+    s += `<text x="628" y="228" text-anchor="end" font-family="${F_MAQ}" font-size="12" fill="${T2}">Av. San Martín</text>`;
+    // barrios
+    LOCS.forEach(l => {
+      const sel = S.destino === l.id;
+      const r = rng(l.c[0] * 7 + l.c[1]);
+      let manzanas = "";
+      for (let i = -3; i <= 3; i++) for (let j = -2; j <= 2; j++) { if (r() < .25) continue; const w = 12 + r() * 6, h = 10 + r() * 6; manzanas += `<rect x="${l.c[0] + i * 20 - w / 2}" y="${l.c[1] + j * 20 - h / 2}" width="${w}" height="${h}" fill="${sel ? "url(#hatch-ox)" : "url(#hatch)"}" stroke="${T}" stroke-width=".9"/>`; }
+      s += `<clipPath id="cp-${l.id}"><polygon points="${l.poly}"/></clipPath>`;
+      s += `<g class="barrio" data-id="${l.id}" tabindex="0" role="radio" aria-checked="${sel}" aria-label="${esc(l.n)}, ${l.h} ${l.h === 1 ? "hora" : "horas"}, peligro ${l.peligro} de 3">
+        <polygon points="${l.poly}" fill="${sel ? "rgba(142,63,34,.14)" : "rgba(223,207,174,.4)"}"/>
+        <g clip-path="url(#cp-${l.id})" filter="url(#tb)">${manzanas}</g>
+        <polygon class="borde" points="${l.poly}" fill="none" stroke="${sel ? OX : T}" stroke-width="${sel ? 3.4 : 2}" filter="url(#tb)"/>
+        <text x="${l.c[0]}" y="${l.c[1] - 4}" text-anchor="middle" font-family="${F_COND}" font-weight="700" font-size="17" letter-spacing="1" fill="${sel ? OX : T}" stroke="${P}" stroke-width="5" paint-order="stroke">${esc(l.n.toUpperCase())}</text>
+        <text x="${l.c[0]}" y="${l.c[1] + 15}" text-anchor="middle" font-family="${F_MAQ}" font-size="13" fill="${T}" stroke="${P}" stroke-width="4" paint-order="stroke">${l.h} h · ${"☠".repeat(l.peligro)}</text></g>`;
+    });
+    // ruta y base
+    const l = locPorId[S.destino];
+    if (l) s += `<path d="M${BASE_XY[0]} ${BASE_XY[1]}L${l.c[0]} ${l.c[1] + 24}" stroke="${OX}" stroke-width="3" stroke-dasharray="7 6" fill="none" filter="url(#tb)" pointer-events="none"/>`;
+    s += `<g filter="url(#tb)" pointer-events="none"><rect x="${BASE_XY[0] - 15}" y="${BASE_XY[1] - 15}" width="30" height="30" fill="${T}" stroke="${T}" stroke-width="2"/><path d="M${BASE_XY[0] - 9} ${BASE_XY[1] - 9}L${BASE_XY[0] + 9} ${BASE_XY[1] + 9}M${BASE_XY[0] + 9} ${BASE_XY[1] - 9}L${BASE_XY[0] - 9} ${BASE_XY[1] + 9}" stroke="${RJ}" stroke-width="4"/></g>`;
+    s += `<text x="${BASE_XY[0] + 22}" y="${BASE_XY[1] + 32}" font-family="${F_DISP}" font-weight="900" font-size="18" fill="${T}" stroke="${P}" stroke-width="4" paint-order="stroke" pointer-events="none">BASE</text>`;
+    s += `<g transform="translate(596 380)" filter="url(#tb)"><circle r="20" fill="none" stroke="${T}" stroke-width="1.4"/><path d="M0 -26V26M-26 0H26" stroke="${T}" stroke-width="1"/><path d="M0 -20L5 0H-5Z" fill="${T}"/></g><text x="596" y="350" text-anchor="middle" font-family="${F_DISP}" font-weight="900" font-size="13" fill="${T}">N</text>`;
+    $("ciudad").innerHTML = s;
+  }
+
+  function pintarLocs() {
+    $("locs").innerHTML = LOCS.map(l => {
+      const tipos = [...new Set(l.pool)].map(t => TIPOS[t].n.toLowerCase()).join(", ");
+      return `<button class="loc" type="button" role="radio" aria-checked="${S.destino === l.id}" data-loc="${l.id}">
+        <span class="ln">${esc(l.n)}</span>
+        <span class="lh">${l.h} h<small>de ida</small></span>
+        <span class="lt"><span class="peligro" aria-label="peligro ${l.peligro} de 3">${"☠".repeat(l.peligro)}<span class="apag">${"☠".repeat(3 - l.peligro)}</span></span> · ${esc(l.t)} · ${esc(tipos)}${l.saqueados ? ` · <b style="color:var(--rojo)">${l.saqueados} saqueados</b>` : ""}</span>
+      </button>`;
+    }).join("");
+  }
+
+  function relojHTML(l) {
+    if (!l) return "";
+    const lleg = 8 + l.h, ult = 19 - l.h, saq = ult - lleg;
+    const seg = (cls, h, txt) => h > 0 ? `<div class="${cls}" style="flex:${h}" title="${txt}">${h >= 2 ? txt : ""}</div>` : "";
+    return `<span class="nota">Reloj de horas · anochece a las 19:00</span>
+      <div class="barra">${seg("alba", 1, "alba")}${seg("viaje", l.h, "ida")}${seg("saqueo", saq, saq + " h para buscar")}${seg("viaje", l.h, "vuelta")}${seg("noche", 2, "noche")}</div>
+      <div class="horas"><span>07</span><span>08 sale</span><span>${hh(lleg).slice(0, 2)} llega</span><span>${hh(ult).slice(0, 2)} vuelve</span><span>19</span><span>21</span></div>
+      <span class="nota">Para volver con luz hay que dejar ${esc(l.n)} a las ${hh(ult)}.</span>`;
+  }
+
+  // =================================================================
+  //  Expedición: armado del mapa con losetas
+  // =================================================================
+  function armarMapa(locId, seed) {
+    const l = locPorId[locId], r = rng(seed);
+    const pl = PLANTILLAS[l.pl], H = pl.length, W = pl[0].length;
+    const esR = (x, y) => x >= 0 && y >= 0 && x < W && y < H && pl[y][x] === "R";
+    let ent = null;
+    for (let y = 0; y < H && !ent; y++) if (esR(0, y)) ent = [0, y];
+    const pool = [...l.pool];
+    for (let i = pool.length - 1; i > 0; i--) { const j = Math.floor(r() * (i + 1)); [pool[i], pool[j]] = [pool[j], pool[i]]; }
+    const celdas = []; let ib = 0, saq = l.saqueados;
+    for (let y = 0; y < H; y++) for (let x = 0; x < W; x++) {
+      if (pl[y][x] === "R") {
+        let m = (esR(x, y - 1) ? 1 : 0) | (esR(x + 1, y) ? 2 : 0) | (esR(x, y + 1) ? 4 : 0) | (esR(x - 1, y) ? 8 : 0);
+        const entrada = ent && ent[0] === x && ent[1] === y;
+        if (entrada) m |= 8;
+        // una calle que muere en el borde del mapa sigue hacia afuera
+        const op = { 1: [4, y === H - 1], 4: [1, y === 0], 2: [8, x === 0], 8: [2, x === W - 1] }[m];
+        if (op && op[1]) m |= op[0];
+        celdas.push({ k: "calle", m, entrada: entrada ? "W" : null, seed: Math.floor(r() * 1e9) });
+      } else {
+        const tipo = pool[ib++] || "plaza";
+        const puertas = [["S", 0, x, y + 1], ["W", 90, x - 1, y], ["N", 180, x, y - 1], ["E", 270, x + 1, y]].filter(([, , a, b]) => esR(a, b));
+        const p = puertas[Math.floor(r() * puertas.length)] || ["S", 0];
+        const sinFicha = !!TIPOS[tipo].sinFicha;
+        let estado = sinFicha ? "nada" : "oculta";
+        if (!sinFicha && saq > 0) { estado = "saqueado"; saq--; }
+        celdas.push({ k: "edif", tipo, rot: p[1], seed: Math.floor(r() * 1e9), num: 1 + Math.floor(r() * 6), estado, reg: 0, res: [] });
+      }
+    }
+    return { loc: locId, W, H, celdas, seed };
+  }
+
+  function pintarMapa(animar) {
+    const M = S.mapa, cont = $("mapa");
+    if (!M) {
+      cont.style.gridTemplateColumns = "1fr"; cont.style.minWidth = "0";
+      cont.innerHTML = `<div class="mesa-vacia">Planifiquen en la base, elijan destino y toquen «Salir de expedición».<br>Las losetas se arman acá.</div>`;
+      $("exp-t").textContent = "La mesa está vacía"; $("exp-sub").textContent = "Todavía no salió nadie";
+      $("btn-rearmar").disabled = true;
+      $("equipo").innerHTML = `<p class="nota">Nadie en la calle.</p>`; $("reloj-exp").innerHTML = ""; $("edifs").innerHTML = `<p class="nota">Sin barrio todavía.</p>`;
+      $("panel-ed").innerHTML = `<p class="nota">Cuando salgan, acá se ve el edificio que revelen: sus zombies y lo que encuentran al registrar.</p>`;
+      return;
+    }
+    const l = locPorId[M.loc];
+    $("btn-rearmar").disabled = false;
+    $("exp-t").textContent = l.n;
+    $("exp-sub").textContent = `${l.t} · ${M.W} × ${M.H} losetas · llegan a las ${hh(8 + l.h)}`;
+    cont.style.gridTemplateColumns = `repeat(${M.W}, minmax(0, 1fr))`;
+    cont.style.minWidth = (M.W * 132) + "px";
+    cont.style.maxWidth = (M.W * 230) + "px";
+    const r = rng(M.seed + 7);
+    const salen = S.sups.filter(x => x.rol === "sale");
+    cont.innerHTML = M.celdas.map((c, i) => {
+      const rot = ((r() - .5) * 1.4).toFixed(2);
+      const svg = c.k === "calle" ? teselaCalle(c.m, c.seed, c.entrada) : teselaEdificio(c.tipo, c.seed, c.rot);
+      let extra = "";
+      if (c.k === "edif") extra = fichaOverlay(c, i);
+      if (c.entrada) extra += `<div class="equipo-mapa">${salen.map((x, j) => `<span class="tok" style="background:${COLOR_JUG[j]}">${x.n[0]}</span>`).join("")}</div>`;
+      return `<div class="celda${animar ? " cae" : ""}" style="--rot:${rot}deg;--d:${i * 85}ms" data-i="${i}">${svg}${extra}</div>`;
+    }).join("");
+    montar3D();
+    pintarLadoExp();
+  }
+  function fichaOverlay(c, i) {
+    const nom = TIPOS[c.tipo].n;
+    if (c.estado === "nada") return "";
+    if (c.estado === "saqueado") return `<span class="sello-saq">Saqueado</span>`;
+    if (c.estado === "oculta") return `<button class="ficha-ed" type="button" data-ficha="${i}" aria-label="${esc(nom)}: revelar ficha de edificio">${fichaDorso()}</button>`;
+    return `<button class="ficha-ed" type="button" data-ficha="${i}" aria-label="${esc(nom)}: ficha ${c.num}. Ver edificio">${fichaFrente(c.num)}</button>`;
+  }
+  function refrescarCelda(i, girar) {
+    const c = S.mapa.celdas[i];
+    const celda = document.querySelector(`.celda[data-i="${i}"]`);
+    celda.querySelectorAll(".ficha-ed, .sello-saq").forEach(n => n.remove());
+    celda.insertAdjacentHTML("beforeend", fichaOverlay(c, i));
+    const b = celda.querySelector(".ficha-ed");
+    if (b && girar) { b.classList.add("gira"); b.focus(); }
+  }
+  function tocarFicha(i) {
+    const c = S.mapa.celdas[i];
+    const girar = c.estado === "oculta";
+    if (girar) {
+      const fila = TABLAS[c.tipo].z[c.num - 1];
+      c.estado = "revelada"; c.reg = fila[3];
+      c.zombies = fila[FASE]; c.enPuerta = /zona de la puerta/.test(fila[5]);
+      montar3D();
+    }
+    S.sel = i;
+    refrescarCelda(i, girar);
+    pintarLadoExp();
+  }
+
+  // ---- figuras 3D sobre el mapa (figuras3d.js) ----
+  let jugSel = 0;
+  function montar3D() {
+    const F = window.Figuras3D;
+    if (!F || !S.mapa) return;
+    const salen = S.sups.filter(x => x.rol === "sale");
+    F.montar($("mapa"), S.mapa, salen.map((x, j) => ({ nombre: x.n, color: COLOR_JUG[j] })));
+    F.seleccionar(jugSel);
+    $("acc3d").hidden = false;
+    pintarNota3D();
+  }
+  function pintarNota3D(txt) {
+    const F = window.Figuras3D; if (!F) return;
+    const n = F.cuenta().zombies;
+    $("nota3d").textContent = (txt ? txt + " " : "") + `${n} zombie${n === 1 ? "" : "s"} en el mapa. Toca la ficha de un superviviente y después una zona para moverlo.`;
+  }
+  document.addEventListener("figuras3d", () => { montar3D(); if (S.mapa) pintarLadoExp(); });
+  function registrar() {
+    const c = S.mapa.celdas[S.sel];
+    if (!c || c.estado !== "revelada" || c.reg < 1) return;
+    const fila = TABLAS[c.tipo].z[c.num - 1];
+    const r = tirarBotin(c.tipo, fila[4]);
+    c.res.unshift(r); c.reg--;
+    if (c.reg === 0) { c.estado = "saqueado"; refrescarCelda(S.sel, false); }
+    pintarLadoExp();
+  }
+  function marcarSaqueado() {
+    const c = S.mapa.celdas[S.sel];
+    if (!c || c.estado !== "revelada") return;
+    c.estado = "saqueado"; c.reg = 0;
+    refrescarCelda(S.sel, false); pintarLadoExp();
+  }
+  function pintarPanelEd() {
+    const p = $("panel-ed"), M = S.mapa;
+    const c = M && S.sel != null ? M.celdas[S.sel] : null;
+    if (!c || c.estado === "oculta") { p.innerHTML = `<p class="nota">Toca una ficha de edificio en el mapa para revelarla. Se usa la columna de ${FASES[FASE].toLowerCase()}.</p>`; return; }
+    const nom = TIPOS[c.tipo].n;
+    if (!c.res.length && c.estado === "saqueado" && !c.reg) {
+      p.innerHTML = `<div class="tit"><span></span><div><b>${esc(nom)}</b><span>Saqueado. No queda nada para registrar.</span></div></div>`;
+      return;
+    }
+    const fila = TABLAS[c.tipo].z[c.num - 1];
+    const tiradas = c.res.slice(0, 4).map(r => `<div><span class="d" title="${r.dados.length > 1 ? "Dados: " + r.dados.join(" y ") : ""}">${r.t}</span><span class="${r.fila[4] === "aah" ? "aah" : ""}">${esc(r.fila[2])}</span></div>`).join("");
+    p.innerHTML = `<div class="tit">${fichaFrente(c.num)}<div><b>${esc(nom)}</b><span>Ficha ${c.num} · ${FASES[FASE].toLowerCase()}</span></div></div>
+      <div>${zChips(fila[FASE])}</div>
+      ${fila[5] ? `<p class="${c.num === 6 ? "aviso-6" : "nota"}">${esc(fila[5])}</p>` : ""}
+      <div class="reg"><span class="nota">${c.estado === "saqueado" ? "Saqueado" : `Quedan ${c.reg} de ${fila[3]} registros`}${modTxt(fila[4]) && c.estado !== "saqueado" ? " · " + modTxt(fila[4]) : ""}</span>
+        ${c.estado === "revelada" ? `<button class="btn chico" type="button" id="btn-registrar">Registrar · d20</button>` : ""}</div>
+      ${tiradas ? `<div class="tiradas">${tiradas}</div>` : ""}
+      ${c.estado === "revelada" ? `<button class="btn hueco chico" type="button" id="btn-saqueado" style="align-self:flex-start">Dejarlo y marcar saqueado</button>` : ""}`;
+    const br = $("btn-registrar"); if (br) br.addEventListener("click", registrar);
+    const bs = $("btn-saqueado"); if (bs) bs.addEventListener("click", marcarSaqueado);
+  }
+  function pintarLadoExp() {
+    const M = S.mapa, l = locPorId[M.loc];
+    const salen = S.sups.filter(x => x.rol === "sale");
+    const con3d = !!window.Figuras3D;
+    $("equipo").innerHTML = salen.map((x, j) => `<div class="m">${con3d ? `<button type="button" class="tok" data-jug="${j}" aria-pressed="${j === jugSel}" aria-label="Mover a ${esc(x.n)}" style="background:${COLOR_JUG[j]}">${x.n[0]}</button>` : `<span class="tok" style="background:${COLOR_JUG[j]}">${x.n[0]}</span>`}<div><b>${esc(x.n)}</b><span>Jugador ${j + 1} · ${esc(x.of)}${x.herida ? " · herido" : ""}</span></div></div>`).join("");
+    $("reloj-exp").innerHTML = relojHTML(l);
+    $("reloj-exp").style.marginTop = "16px";
+    $("edifs").innerHTML = M.celdas.map((c, i) => {
+      if (c.k !== "edif" || c.estado === "nada") return "";
+      const t = c.estado === "oculta" ? ["", "boca abajo"] : c.estado === "revelada" ? ["rev", `ficha ${c.num} · ${c.reg} registros`] : ["saq", c.num && c.res.length ? `ficha ${c.num} · saqueado` : "saqueado"];
+      return `<button type="button" class="fila-l${S.sel === i ? " sel" : ""}" data-ficha="${i}"><span class="nom">${esc(TIPOS[c.tipo].n)}</span><span class="est ${t[0]}">${t[1]}</span></button>`;
+    }).join("");
+    pintarPanelEd();
+  }
+
+  // =================================================================
+  //  Catálogo de losetas
+  // =================================================================
+  function pintarCatalogo() {
+    $("cat-calles").innerHTML = CALLES.map((c, i) => `<figure class="tes-card"><div class="cart">${teselaCalle(c.m, 101 + i * 13)}</div><figcaption><b>${c.n}</b><span>${c.z}</span></figcaption></figure>`).join("");
+    $("cat-edificios").innerHTML = ORDEN_TIPOS.map((t, i) => `<figure class="tes-card"><div class="cart">${teselaEdificio(t, 501 + i * 17, 0)}</div><figcaption><b>${TIPOS[t].n}</b><span>${TIPOS[t].z}${TIPOS[t].sinFicha ? " · sin ficha" : ""}</span></figcaption></figure>`).join("");
+    $("cat-fichas").innerHTML = `<figure>${fichaDorso()}<figcaption>Dorso</figcaption></figure>` + [1, 2, 3, 4, 5, 6].map(n => `<figure>${fichaFrente(n)}<figcaption>${n === 6 ? "6 · posible trampa" : n === 5 ? "5 · mucho botín" : "Ficha " + n}</figcaption></figure>`).join("");
+  }
+
+  // =================================================================
+  //  Tablas de zombies y botín
+  // =================================================================
+  let tipoTabla = "farmacia";
+  function pintarTablas() {
+    $("bestiario").innerHTML = Object.entries(ZOMBIES).map(([k, z]) => `<figure class="bicho"><img src="${z.img}" alt="${esc(z.n)}"><figcaption>
+      <span class="bn"><span class="z ${k}"><i>${k === "H" ? "Ch" : k === "A" ? "Ác" : k}</i></span>${esc(z.n)}</span>
+      <span class="st">${esc(z.st)}${z.prop ? ` <span class="prop">propuesta</span>` : ""}</span><span class="fx">${esc(z.fx)}</span></figcaption></figure>`).join("");
+    $("chips-ed").innerHTML = ORDEN_TIPOS.filter(t => TABLAS[t]).map(t => `<button class="chip-ed" type="button" data-tabla="${t}" aria-pressed="${t === tipoTabla}">${esc(TIPOS[t].n)}</button>`).join("");
+    const T_ = TABLAS[tipoTabla];
+    const cols = FASES.map((f, i) => `<th class="${i === FASE ? "ahora" : ""}">${f}${i === FASE ? " · hoy" : ""}</th>`).join("");
+    const filas = T_.z.map((f, i) => {
+      const n = i + 1;
+      return `<tr class="${f[5] ? "con-nota" : ""}"><td class="n${n === 6 ? " seis" : ""}">${n}</td>${[0, 1, 2].map(k => `<td class="${k === FASE ? "ahora" : ""}">${zChips(f[k])}</td>`).join("")}<td class="rg">${f[3]}${f[4] ? `<small>${modTxt(f[4])}</small>` : ""}</td></tr>` + (f[5] ? `<tr class="nota-fila"><td></td><td colspan="4">${esc(f[5])}</td></tr>` : "");
+    }).join("");
+    const botin = T_.b.map(b => `<tr class="${b[4] || ""}${b[5] ? " mat" : ""}"><td class="d20">${b[0] === b[1] ? b[0] : b[0] + "–" + b[1]}</td><td>${esc(b[2])}</td><td class="esp">${b[3] == null ? "" : b[3] === 0 ? "—" : "[" + b[3] + "]"}</td></tr>`).join("");
+    $("ficha-tabla").innerHTML = `<div style="min-width:0">
+        <span class="eyebrow">${esc(TIPOS[tipoTabla].n)} · ${esc(TIPOS[tipoTabla].z.toLowerCase())}</span>
+        <h3 class="h-sub" style="margin:4px 0 8px">Zombies al revelar la ficha</h3>
+        <div class="tabla-scroll"><table class="t"><thead><tr><th>Ficha</th>${cols}<th>Registros</th></tr></thead><tbody>${filas}</tbody></table></div>
+      </div>
+      <div style="min-width:0">
+        <span class="eyebrow">1 tirada por cada Registrar</span>
+        <h3 class="h-sub" style="margin:4px 0 8px">Botín · d20</h3>
+        <div class="tabla-scroll"><table class="t"><thead><tr><th>d20</th><th>Encuentras</th><th style="text-align:right">Espacios</th></tr></thead><tbody>${botin}</tbody></table></div>
+        <p class="nota" style="margin-top:8px">[n] = espacios que ocupa en la mochila. En rojo, los resultados que hacen ruido o despiertan algo. Marcados «para la base», los materiales de construcción.</p>
+      </div>`;
+    $("tabla-errantes").innerHTML = `<thead><tr><th>d6</th>${cols}</tr></thead><tbody>${ERRANTES.map(e => `<tr><td class="d20">${e[0]}</td>${[1, 2, 3].map(k => `<td class="${k - 1 === FASE ? "ahora" : ""}">${zChips(e[k])}</td>`).join("")}</tr>`).join("")}</tbody>`;
+  }
+
+  // =================================================================
+  //  Pestañas, fases y eventos
+  // =================================================================
+  function irA(tab) {
+    S.tab = tab; guardar("dia30.base.tab", tab);
+    document.querySelectorAll(".pest").forEach(b => b.setAttribute("aria-selected", String(b.dataset.tab === tab)));
+    $("vista-base").hidden = tab !== "base"; $("vista-exp").hidden = tab !== "exp"; $("vista-losetas").hidden = tab !== "losetas"; $("vista-tablas").hidden = tab !== "tablas";
+  }
+  function pintarFases() {
+    const orden = ["base", "plan", "exp", "noche"], i = orden.indexOf(S.fase);
+    document.querySelectorAll("#fases li").forEach((li, k) => { li.className = k < i ? "hecha" : k === i ? "ahora" : ""; if (k === i) li.setAttribute("aria-current", "step"); else li.removeAttribute("aria-current"); });
+  }
+  function pintarTodo() {
+    pintarRecursos(); pintarBase(); pintarPlan(); dibujarCiudad(); pintarLocs();
+    $("reloj").innerHTML = relojHTML(locPorId[S.destino]);
+    pintarFases();
+  }
+
+  document.addEventListener("click", ev => {
+    const t = ev.target.closest("[data-ref],[data-mej],[data-trampa],[data-sup],[data-loc],[data-ficha],[data-tab],[data-tabla],[data-jug],[data-j],.entrada,.mejora,.barrio");
+    if (!t) return;
+    if (t.dataset.tab) irA(t.dataset.tab);
+    else if (t.dataset.tabla) { tipoTabla = t.dataset.tabla; pintarTablas(); }
+    else if (t.dataset.ref) tocarEntrada(t.dataset.ref);
+    else if (t.dataset.mej) construir(t.dataset.mej);
+    else if (t.dataset.trampa) elegirTrampa(t.dataset.trampa);
+    else if (t.dataset.sup) setRol(t.dataset.sup, t.dataset.rol);
+    else if (t.dataset.loc) { S.destino = t.dataset.loc; pintarTodo(); }
+    else if (t.dataset.ficha) tocarFicha(+t.dataset.ficha);
+    else if (t.dataset.jug) { jugSel = +t.dataset.jug; if (window.Figuras3D) window.Figuras3D.seleccionar(jugSel); pintarLadoExp(); }
+    else if (t.dataset.j) { S.jugadores = +t.dataset.j; pintarPlan(); }
+    else if (t.classList.contains("entrada")) tocarEntrada(t.dataset.id);
+    else if (t.classList.contains("mejora")) construir(t.dataset.id);
+    else if (t.classList.contains("barrio")) { S.destino = t.dataset.id; pintarTodo(); }
+  });
+  document.addEventListener("keydown", ev => {
+    if (ev.key !== "Enter" && ev.key !== " ") return;
+    const t = ev.target.closest && ev.target.closest(".entrada,.mejora,.barrio");
+    if (!t) return;
+    ev.preventDefault(); t.dispatchEvent(new MouseEvent("click", { bubbles: true }));
+  });
+  $("btn-deshacer").addEventListener("click", () => { const j = S.deshacer.pop(); if (j) { restaurar(j); S.colocando = null; avisoBase = ""; pintarTodo(); } });
+  document.addEventListener("keydown", ev => { if (ev.key === "Escape" && S.colocando) { S.colocando = null; pintarBase(); } });
+  $("btn-salir").addEventListener("click", () => {
+    const c = chequeo(); if (!c.ok) return;
+    const l = locPorId[S.destino];
+    S.mapa = armarMapa(S.destino, Math.floor(Math.random() * 1e9));
+    S.sel = null;
+    S.fase = "exp";
+    S.diario.push(`08:00. Salen ${c.salen.map(x => x.n.split(" ")[0]).join(" y ")} hacia ${l.n}.`);
+    pintarTodo(); irA("exp"); pintarMapa(true);
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  });
+  $("btn-rearmar").addEventListener("click", () => { if (!S.mapa) return; S.mapa = armarMapa(S.mapa.loc, Math.floor(Math.random() * 1e9)); S.sel = null; pintarMapa(true); });
+  $("btn-activar").addEventListener("click", () => {
+    const F = window.Figuras3D; if (!F) return;
+    const n = F.activarZombies();
+    pintarNota3D(n ? `Se movieron ${n}.` : "Nadie se movió: los que están en tu zona atacan.");
+  });
+  $("btn-errantes").addEventListener("click", () => {
+    const F = window.Figuras3D; if (!F) return;
+    const d = 1 + Math.floor(Math.random() * 6);
+    const fila = ERRANTES.find(e => { const [a, b] = e[0].split("–").map(Number); return d >= a && d <= (b || a); });
+    const n = F.errantes(fila[1 + FASE]);
+    pintarNota3D(`d6 = ${d}: ${n ? `aparecen ${n} en una calle.` : "no aparece nadie."}`);
+  });
+  $("btn-volver").addEventListener("click", () => { S.fase = S.mapa ? "noche" : "plan"; pintarFases(); irA("base"); });
+
+  // arranque
+  pintarTodo();
+  pintarMapa(false);
+  pintarCatalogo();
+  pintarTablas();
+  const tabGuardada = leer("dia30.base.tab");
+  irA(["losetas", "exp", "tablas"].includes(tabGuardada) ? tabGuardada : "base");
+})();
+</script>
+<script type="module" src="figuras3d.js"></script>
+
+</body></html>

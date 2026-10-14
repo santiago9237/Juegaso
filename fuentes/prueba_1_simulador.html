@@ -1,0 +1,616 @@
+<!doctype html><html><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#fff;color:#000}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style></head><body>
+<title>Día 30 · Prueba 1</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@500;600;700&family=Barlow:wght@400;500;600&family=JetBrains+Mono:wght@400;600&display=swap">
+<style>
+/* Layout: tablero nocturno a la izquierda (mapa + acciones), ficha del superviviente y bitácora a la derecha; se apila en móvil. Look único oscuro a propósito. */
+:root{
+  --night:#0e181a; --panel:#152224; --panel2:#1b2b2d; --line:#2a3d3f; --wall:#9aa9a4;
+  --fg:#e3e8e4; --muted:#8ea29d; --teal:#4fa59d; --teal-dim:#2c5d59;
+  --rust:#c25a33; --blood:#c23a2e; --amber:#e0a63f; --glass:#8cc4d6; --ok:#6fb47a;
+  --street:#18292b; --bld:#263634; --farm:#24353a; --base:#1d3b38;
+  --display:"Barlow Condensed","Arial Narrow",sans-serif;
+  --body:"Barlow",system-ui,sans-serif;
+  --mono:"JetBrains Mono",ui-monospace,monospace;
+  color-scheme:dark;
+}
+*{box-sizing:border-box}
+body{background:var(--night);color:var(--fg);font-family:var(--body);font-size:15px;line-height:1.45;padding-inline:16px;padding-block:16px 40px}
+.wrap{max-width:1180px;margin:0 auto;display:grid;gap:16px}
+header{display:flex;flex-wrap:wrap;align-items:baseline;justify-content:space-between;gap:8px 20px}
+h1{font-family:var(--display);font-weight:700;font-size:clamp(28px,4vw,40px);letter-spacing:.02em;margin:0;line-height:1;text-wrap:balance}
+h1 span{color:var(--rust)}
+h2{font-family:var(--display);font-weight:600;font-size:15px;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);margin:0 0 8px}
+.sub{color:var(--muted);margin:0;max-width:60ch}
+.main{display:grid;gap:16px;grid-template-columns:minmax(0,1fr)}
+@media(min-width:960px){.main{grid-template-columns:minmax(0,1fr) 340px}}
+.col{display:grid;gap:16px;align-content:start;min-width:0}
+.panel{background:var(--panel);border:1px solid var(--line);border-radius:6px;padding:14px}
+
+/* Reloj */
+.clock{display:flex;align-items:center;gap:12px;flex-wrap:wrap}
+.ticks{display:grid;grid-template-columns:repeat(12,1fr);gap:3px;flex:1;min-width:200px}
+.tick{height:22px;border-radius:2px;background:var(--panel2);border:1px solid var(--line);font:600 11px/20px var(--mono);text-align:center;color:var(--muted)}
+.tick.night{background:#101a24;border-color:#2b3a52}
+.tick.past{opacity:.35}
+.tick.now{background:var(--teal);border-color:var(--teal);color:var(--night)}
+.tick.night.now{background:var(--glass);border-color:var(--glass)}
+.pa{font-family:var(--display);font-size:22px;font-weight:700;white-space:nowrap}
+.pa b{color:var(--teal)}
+
+/* Mapa */
+.mapbox{overflow-x:auto}
+.map{position:relative;aspect-ratio:2/1;min-width:520px;border:2px solid var(--wall);border-radius:4px;overflow:hidden;background:var(--street)}
+.map.isnight{box-shadow:inset 0 0 80px 20px rgba(0,0,0,.65)}
+.grid{position:absolute;inset:0;display:grid;grid-template-columns:repeat(6,1fr);grid-template-rows:repeat(3,1fr)}
+.cell{position:relative;border:1px dashed rgba(255,255,255,.06);padding:5px 6px;display:flex;flex-direction:column;justify-content:space-between;cursor:default;min-width:0}
+.cell.calle,.cell.patio,.cell.estac{background:var(--street)}
+.cell.casa{background:var(--bld)}
+.cell.farm{background:var(--farm)}
+.cell.base{background:var(--base)}
+.cell .lbl{font:600 10px/1.1 var(--mono);color:var(--muted);letter-spacing:.02em}
+.cell .lbl b{color:var(--fg);font-weight:600}
+.cell.target{cursor:pointer;outline:2px solid var(--teal);outline-offset:-4px;background-image:linear-gradient(rgba(79,165,157,.14),rgba(79,165,157,.14))}
+.cell.target:hover{background-image:linear-gradient(rgba(79,165,157,.3),rgba(79,165,157,.3))}
+.cell.loot::after{content:attr(data-loot);position:absolute;right:5px;top:5px;font:600 9px var(--mono);color:var(--amber)}
+.toks{display:flex;flex-wrap:wrap;gap:3px;align-items:flex-end}
+.noise{display:flex;flex-wrap:wrap;gap:2px;max-width:60%}
+.noise i{width:7px;height:7px;border-radius:50%;background:var(--amber);display:block}
+.noise.hot i{background:var(--blood)}
+.z{width:22px;height:22px;border-radius:50%;border:2px solid var(--rust);background:transparent;display:grid;place-items:center;font:700 10px var(--mono);color:var(--rust)}
+.z.alert{background:var(--rust);color:var(--night)}
+.me{width:24px;height:24px;border-radius:4px;background:var(--glass);color:var(--night);display:grid;place-items:center;font:700 12px var(--mono)}
+.me.hid{background:transparent;border:2px dashed var(--glass);color:var(--glass)}
+.edge{position:absolute;pointer-events:none}
+.edge.v{width:6px;transform:translateX(-50%);height:calc(100%/3)}
+.edge.h{height:6px;transform:translateY(-50%);width:calc(100%/6)}
+.edge.wall{background:var(--wall)}
+.edge.door{background:#8a5a2b;border:1px solid #c88a4a}
+.edge.locked{background:#8a5a2b;border:2px solid var(--blood)}
+.edge.opened{background:transparent;border:1px dashed #c88a4a}
+.edge.window{background:var(--glass)}
+.edge.broken{background:transparent;border:1px dashed var(--glass)}
+.edge.v.door,.edge.v.locked,.edge.v.opened,.edge.v.window,.edge.v.broken{height:calc(100%/6);margin-top:calc(100%/48)}
+.edge.h.door,.edge.h.locked,.edge.h.opened,.edge.h.window,.edge.h.broken{width:calc(100%/12);margin-left:calc(100%/48)}
+.legend{display:flex;flex-wrap:wrap;gap:6px 14px;font-size:12px;color:var(--muted);margin-top:8px}
+.legend span{display:inline-flex;align-items:center;gap:5px}
+.sw{width:14px;height:8px;display:inline-block;border-radius:1px}
+
+/* Acciones */
+.hint{font-size:13px;color:var(--muted);margin:0 0 10px;min-height:1.4em}
+.hint.on{color:var(--teal)}
+.groups{display:grid;gap:12px;grid-template-columns:repeat(auto-fit,minmax(200px,1fr))}
+.group h3{font:600 12px var(--display);letter-spacing:.12em;text-transform:uppercase;color:var(--muted);margin:0 0 6px}
+.btns{display:grid;gap:5px}
+button{font:inherit;color:inherit}
+.act{display:grid;grid-template-columns:1fr auto auto;gap:8px;align-items:center;text-align:left;background:var(--panel2);border:1px solid var(--line);border-radius:4px;padding:6px 9px;cursor:pointer;font-size:14px}
+.act:hover:not(:disabled){border-color:var(--teal)}
+.act:focus-visible,.btn:focus-visible,.cell:focus-visible{outline:2px solid var(--glass);outline-offset:2px}
+.act.sel{border-color:var(--teal);background:var(--teal-dim)}
+.act:disabled{opacity:.38;cursor:not-allowed}
+.act .c{font:600 11px var(--mono);color:var(--muted)}
+.ru{font:600 10px var(--mono);padding:1px 5px;border-radius:2px;white-space:nowrap}
+.ru0{background:#22363a;color:var(--glass)}.ru1{background:#3a3624;color:#d8c27a}.ru2{background:#4a3a1e;color:var(--amber)}.ru3{background:#5a2e1c;color:#f0a070}.ru4{background:var(--blood);color:#fff}
+.btn{background:var(--rust);color:#fff;border:0;border-radius:4px;padding:10px 16px;font:700 16px var(--display);letter-spacing:.06em;text-transform:uppercase;cursor:pointer}
+.btn:hover{filter:brightness(1.1)}
+.btn.ghost{background:transparent;border:1px solid var(--line);color:var(--fg)}
+.btn:disabled{opacity:.4;cursor:not-allowed}
+.endrow{display:flex;gap:10px;flex-wrap:wrap;align-items:center;margin-top:14px}
+
+/* Personaje */
+.stat{display:flex;justify-content:space-between;align-items:center;gap:8px;margin-bottom:8px}
+.pips{display:flex;gap:4px}
+.pip{width:16px;height:16px;border-radius:3px;border:1px solid var(--line);background:var(--panel2)}
+.pip.blood{background:var(--blood);border-color:var(--blood)}
+.body{display:grid;grid-template-columns:repeat(5,1fr);gap:4px;margin:8px 0}
+.part{border:1px solid var(--line);border-radius:3px;padding:4px 2px;text-align:center;font-size:11px;color:var(--muted);min-height:44px}
+.part.hurt{border-color:var(--blood);color:var(--fg)}
+.part small{display:block;font:600 9px var(--mono);color:#f0a59c}
+.bag{display:grid;grid-template-columns:repeat(6,1fr);gap:4px}
+.slot{min-height:46px;border:1px solid var(--line);border-radius:3px;background:var(--panel2);font-size:11px;padding:3px;display:flex;flex-direction:column;justify-content:space-between;min-width:0;overflow-wrap:anywhere}
+.slot.lost{background:repeating-linear-gradient(45deg,var(--panel2),var(--panel2) 4px,#241a1a 4px,#241a1a 8px)}
+.slot.found{border-color:var(--amber)}
+.slot button{background:none;border:0;color:var(--muted);font-size:10px;padding:0;cursor:pointer;text-align:left;text-decoration:underline}
+.meta{font:12px var(--mono);color:var(--muted);margin-top:8px}
+
+/* Bitácora */
+.log{font:12px/1.5 var(--mono);max-height:300px;overflow-y:auto;display:grid;gap:3px}
+.log div{padding:3px 6px;border-left:2px solid var(--line)}
+.log .t{color:var(--muted)}
+.log .bad{border-color:var(--blood);color:#f2b0a8}
+.log .good{border-color:var(--ok);color:#b6e0bd}
+.log .warn{border-color:var(--amber);color:#ecd09a}
+.log .sys{border-color:var(--teal)}
+
+/* Alertas */
+.alertbox{border:1px solid var(--amber);background:#2a2416;border-radius:6px;padding:12px}
+.alertbox p{margin:0 0 8px}
+.alertbox .row{display:flex;flex-wrap:wrap;gap:6px}
+
+/* Registro */
+.tbl{overflow-x:auto}
+table{border-collapse:collapse;width:100%;font-size:13px;font-variant-numeric:tabular-nums}
+th,td{border-bottom:1px solid var(--line);padding:6px 8px;text-align:left;white-space:nowrap}
+th{font:600 11px var(--display);letter-spacing:.1em;text-transform:uppercase;color:var(--muted)}
+textarea{width:100%;min-height:120px;background:var(--panel2);color:var(--fg);border:1px solid var(--line);border-radius:4px;padding:8px;font:13px/1.5 var(--body)}
+.qs{margin:0 0 10px;padding-left:20px;color:var(--muted);font-size:14px}
+details summary{cursor:pointer;font-family:var(--display);font-weight:600;letter-spacing:.06em;text-transform:uppercase}
+.rules{display:grid;gap:6px;font-size:14px;color:var(--muted);margin-top:10px;max-width:75ch}
+.rules b{color:var(--fg)}
+
+/* Modal */
+.modal{position:fixed;inset:0;background:rgba(5,10,11,.82);display:grid;place-items:center;padding:16px;z-index:10;overflow-y:auto}
+.card{background:var(--panel);border:1px solid var(--line);border-radius:8px;padding:20px;max-width:520px;width:100%;display:grid;gap:14px}
+.card h2{font-size:26px;color:var(--fg);letter-spacing:.02em;text-transform:none;margin:0}
+.opts{display:grid;gap:6px}
+.opt{display:flex;gap:10px;align-items:flex-start;border:1px solid var(--line);border-radius:4px;padding:8px 10px;cursor:pointer}
+.opt:has(input:checked){border-color:var(--teal);background:var(--teal-dim)}
+.opt small{display:block;color:var(--muted)}
+.big{font-family:var(--display);font-size:40px;font-weight:700;line-height:1}
+.big.win{color:var(--ok)}.big.lose{color:var(--blood)}
+@media(prefers-reduced-motion:no-preference){.z,.me{transition:transform .15s}}
+</style>
+
+<div class="wrap">
+  <header>
+    <div>
+      <h1>Día <span>30</span> · Prueba 1</h1>
+      <p class="sub">Expedición mínima: sal de la base, consigue un kit médico en la farmacia y vuelve antes de que termine el turno 12. Los dados se tiran solos.</p>
+    </div>
+    <button class="btn ghost" id="nueva" type="button">Nueva partida</button>
+  </header>
+
+  <div class="main">
+    <div class="col">
+      <section class="panel">
+        <div class="clock">
+          <div class="pa" id="paBox"></div>
+          <div class="ticks" id="ticks" aria-label="Reloj de turnos"></div>
+        </div>
+      </section>
+
+      <section class="panel">
+        <div class="mapbox"><div class="map" id="map"><div class="grid" id="grid"></div></div></div>
+        <div class="legend">
+          <span><i class="me" style="width:14px;height:14px;font-size:8px">S</i>Tú</span>
+          <span><i class="z" style="width:14px;height:14px;font-size:7px"></i>Zombie tranquilo</span>
+          <span><i class="z alert" style="width:14px;height:14px;font-size:7px"></i>Zombie alerta</span>
+          <span><i class="sw" style="background:var(--amber);width:8px;height:8px;border-radius:50%"></i>Ficha de ruido (5 = horda)</span>
+          <span><i class="sw" style="background:#8a5a2b"></i>Puerta</span>
+          <span><i class="sw" style="background:#8a5a2b;outline:2px solid var(--blood)"></i>Con llave</span>
+          <span><i class="sw" style="background:var(--glass)"></i>Vidriera</span>
+        </div>
+      </section>
+
+      <div id="alertSlot"></div>
+
+      <section class="panel">
+        <h2>Acciones</h2>
+        <p class="hint" id="hint"></p>
+        <div class="groups" id="groups"></div>
+        <div class="endrow">
+          <button class="btn" id="endTurn" type="button">Terminar turno</button>
+          <span class="meta" id="endInfo"></span>
+        </div>
+      </section>
+    </div>
+
+    <div class="col">
+      <section class="panel">
+        <h2>Superviviente</h2>
+        <div class="stat"><span>Sangre</span><div class="pips" id="blood"></div></div>
+        <div class="stat"><span>Defensa</span><b style="font-family:var(--mono)">11</b></div>
+        <div class="body" id="body"></div>
+        <h2 style="margin-top:12px">Mochila <span id="bagCount" style="font-family:var(--mono);letter-spacing:0"></span></h2>
+        <div class="bag" id="bag"></div>
+        <div class="meta" id="gear"></div>
+      </section>
+      <section class="panel">
+        <h2>Bitácora</h2>
+        <div class="log" id="log" aria-live="polite"></div>
+      </section>
+    </div>
+  </div>
+
+  <section class="panel">
+    <details>
+      <summary>Reglas rápidas</summary>
+      <div class="rules">
+        <p><b>Turno:</b> gastas hasta 3 PA, luego actúan los zombies, se revisa la horda, se quita 1 ficha de ruido por zona, avanza el reloj y puede aparecer un zombie (con 1 en d6; de noche, con 1 o 2). La noche empieza en el turno 9.</p>
+        <p><b>Ruido:</b> bajo llega a 1 zona, medio a 2, alto a 3, máximo a todo el mapa. Cada pared o puerta cerrada que atraviesa lo baja 1 nivel. Deja 1, 1, 2 y 3 fichas. Si una zona de calle, la casa o la farmacia junta 5 fichas, llegan 3 caminantes por el borde más cercano.</p>
+        <p><b>Zombies:</b> atacan si están en tu zona; si no, van hacia el ruido más fuerte que oyeron; si no, hacia ti si te ven (zona adyacente sin pared, de día y sin esconderte). Ataque d20+2 contra tu Defensa 11.</p>
+        <p><b>Combate:</b> d20+1 contra Defensa 8. Ventaja contra zombies tranquilos. Un 20 hace daño máximo, un 1 deja una ficha de ruido extra (y encasquilla la pistola). Un caminante cae con 5 de daño.</p>
+        <p><b>Heridas:</b> cada una resta 1 de sangre. Cabeza aturde, torso resta 1 más, brazo izquierdo quita un espacio de mochila, brazo derecho da desventaja, piernas impiden correr. La laceración sangra 1 por turno hasta vendarla. Mueres con sangre 0 o con una segunda herida en la cabeza.</p>
+      </div>
+    </details>
+  </section>
+
+  <section class="panel">
+    <h2>Registro de partidas</h2>
+    <div class="tbl"><table id="hist"></table></div>
+    <h2 style="margin-top:16px">Preguntas para después de jugar</h2>
+    <ul class="qs">
+      <li>¿En cuántos turnos dudaste de verdad entre una acción rápida y una silenciosa?</li>
+      <li>¿Alguna acción no la usaste nunca? ¿Por qué?</li>
+      <li>¿Alguna arma gana siempre?</li>
+      <li>¿La horda llegó por decisiones tuyas o por mala suerte?</li>
+      <li>¿Qué cambiarías primero?</li>
+    </ul>
+    <label for="notas" class="meta" style="display:block;margin-bottom:4px">Tus notas (se guardan en este navegador)</label>
+    <textarea id="notas" placeholder="Escribe aquí lo que vayas notando…"></textarea>
+    <div class="endrow">
+      <button class="btn" id="copiar" type="button">Copiar resultados</button>
+      <button class="btn ghost" id="borrar" type="button">Borrar registro</button>
+      <span class="meta" id="copyMsg"></span>
+    </div>
+    <textarea id="copyFallback" hidden readonly></textarea>
+  </section>
+</div>
+
+<div class="modal" id="modal" hidden><div class="card" id="modalCard"></div></div>
+
+<script>
+(function(){
+const C=6,N=18,LET='ABCDEF';
+const nm=i=>LET[i%C]+(Math.floor(i/C)+1);
+const TYPE=['calle','calle','calle','calle','calle','calle','patio','casa','casa','calle','farm','farm','base','calle','calle','calle','calle','estac'];
+const LABEL=['Calle','Calle','Calle','Calle','Calle','Calle','Patio','Casa','Casa','Calle','Farmacia: salón','Farmacia: depósito','BASE','Calle','Calle','Calle','Calle','Estacionam.'];
+const BLD=i=>TYPE[i]==='casa'?'casa':TYPE[i]==='farm'?'farm':null;
+const ek=(a,b)=>Math.min(a,b)+'-'+Math.max(a,b);
+const OPEN={'7-13':{t:'door',n:'Puerta de la casa'},'9-10':{t:'door',n:'Puerta principal'},'4-10':{t:'window',n:'Vidriera'},'11-17':{t:'locked',n:'Puerta trasera'}};
+const PASS=new Set(['open','opened','broken']);
+const SOUND=new Set(['wall','door','locked','window']);
+const SIGHT=new Set(['wall','door','locked']);
+const FICHAS=[0,1,1,2,3], RANGE=[0,1,2,3,99], LV=['Silencio','Bajo','Medio','Alto','Máximo'];
+const BORDER=[0,1,2,3,4,5,6,13,14,15,16,17];
+const ITEMS={cuchillo:{n:'Cuchillo',s:1},bate:{n:'Bate',s:2},pistola:{n:'Pistola',s:1},venda:{n:'Venda',s:1},kit:{n:'Kit médico',s:1,p:3},analgesico:{n:'Analgésico',s:1,p:2},comida:{n:'Comida',s:1,p:1}};
+const W={cuchillo:{die:4,mod:1,ru:0,melee:true},bate:{die:6,mod:1,ru:2,melee:true},pistola:{die:10,mod:0,ru:4,melee:false}};
+const ZONES={1:'Cabeza',2:'Torso',3:'Torso',4:'Brazo izq.',5:'Brazo der.',6:'Piernas'};
+const PARTS=['Cabeza','Torso','Brazo izq.','Brazo der.','Piernas'];
+const KEY='dia30-prueba1';
+
+function nb(i){const c=i%C,r=Math.floor(i/C),o=[];if(c>0)o.push(i-1);if(c<C-1)o.push(i+1);if(r>0)o.push(i-C);if(r<2)o.push(i+C);return o;}
+const d=n=>1+Math.floor(Math.random()*n);
+const $=id=>document.getElementById(id);
+
+let S=null, zid=0;
+let store={hist:[],notas:''};
+try{const raw=localStorage.getItem(KEY);if(raw)store=Object.assign(store,JSON.parse(raw));}catch(e){}
+function save(){try{localStorage.setItem(KEY,JSON.stringify(store));}catch(e){}}
+
+function newState(estilo,armas){
+  const edges={};
+  for(let i=0;i<N;i++)for(const j of nb(i))if(j>i){const k=ek(i,j);edges[k]=OPEN[k]?OPEN[k].t:(BLD(i)!==BLD(j)?'wall':'open');}
+  const inv=armas.map(k=>({k})).concat([{k:'venda'},{k:'venda'}]);
+  return {phase:'play',estilo,armas,turno:1,pa:3,sangre:6,pos:12,hidden:false,stunned:false,ran:false,
+    inv,ammo:6,jam:false,wounds:[],head:0,bites:0,
+    zombies:[mkZ(2),mkZ(5),mkZ(15)],tokens:Array(N).fill(0),events:[],edges,
+    farm:false,farmMod:0,casa:false,searches:Array(N).fill(0),entrada:'No entró',hordas:0,
+    mode:null,pending:null,log:[],usage:{},start:Date.now(),result:null};
+}
+function mkZ(c){return {id:++zid,c,dmg:0,alert:false};}
+const night=()=>S.turno>=9;
+const effect=z=>S.wounds.some(w=>w.zone===z&&w.type!=='Rasguño');
+const cap=()=>6-(effect('Brazo izq.')?1:0);
+const load=()=>S.inv.reduce((a,x)=>a+ITEMS[x.k].s,0);
+const has=k=>S.inv.some(x=>x.k===k);
+const zHere=c=>S.zombies.filter(z=>z.c===c);
+function log(t,cls){S.log.unshift({t:S.turno,txt:t,cls:cls||''});if(S.log.length>80)S.log.pop();}
+
+/* --- Ruido --- */
+function noise(cell,lv){if(lv<=0)return;S.tokens[cell]+=FICHAS[lv];S.events.push({cell,lv});}
+function hear(src,lv,tgt){
+  const best=Array(N).fill(null);best[src]={l:lv,d:0};const q=[src];
+  while(q.length){const a=q.shift(),b=best[a];
+    for(const j of nb(a)){const nl=b.l-(SOUND.has(S.edges[ek(a,j)])?1:0),nd=b.d+1;
+      if(nl<=0||nd>RANGE[nl])continue;const o=best[j];
+      if(!o||nl>o.l||(nl===o.l&&nd<o.d)){best[j]={l:nl,d:nd};q.push(j);}}}
+  return best[tgt];
+}
+function reach(from,steps){const dist=Array(N).fill(-1);dist[from]=0;const q=[from];
+  while(q.length){const a=q.shift();if(dist[a]>=steps)continue;for(const j of nb(a))if(dist[j]<0&&PASS.has(S.edges[ek(a,j)])){dist[j]=dist[a]+1;q.push(j);}}
+  return dist;}
+function stepToward(a,t){
+  if(a===t)return -1;const dist=Array(N).fill(Infinity),prev=Array(N).fill(-1),done=Array(N).fill(false);dist[a]=0;
+  for(;;){let u=-1;for(let i=0;i<N;i++)if(!done[i]&&dist[i]<Infinity&&(u<0||dist[i]<dist[u]))u=i;if(u<0||u===t)break;done[u]=true;
+    for(const j of nb(u)){const e=S.edges[ek(u,j)];const w=PASS.has(e)?1:e==='wall'?Infinity:4;if(dist[u]+w<dist[j]){dist[j]=dist[u]+w;prev[j]=u;}}}
+  if(dist[t]===Infinity)return -1;let s=t;while(prev[s]!==a)s=prev[s];return s;
+}
+function sees(z){
+  if(z.c===S.pos)return true;if(S.hidden||night())return false;
+  return nb(z.c).includes(S.pos)&&!SIGHT.has(S.edges[ek(z.c,S.pos)]);
+}
+
+/* --- Heridas --- */
+function wound(){
+  const zr=d(6),tr=d(6);const zone=ZONES[zr];
+  const type=tr<=2?'Rasguño':tr<=4?'Laceración':tr===5?'Fractura':'Mordedura';
+  S.wounds.push({zone,type,band:false});S.sangre-=1;
+  let extra='';
+  if(zone==='Torso'&&type!=='Rasguño'){S.sangre-=1;extra=' (−1 sangre extra)';}
+  if(zone==='Cabeza'){S.head++;if(type!=='Rasguño'){S.stunned=true;extra=' (aturdido: 2 PA el próximo turno)';}}
+  if(type==='Mordedura')S.bites++;
+  log(`Herida: ${type} en ${zone.toLowerCase()} [d6 ${zr}, d6 ${tr}]${extra}`,'bad');
+  if(S.head>=2)return die('Segunda herida en la cabeza');
+  checkDeath();checkBag();
+}
+function checkDeath(){if(S.sangre<=0)die('Te desangraste');}
+function die(r){if(S.phase!=='play')return;S.sangre=Math.max(0,S.sangre);finish(false,r);}
+function checkBag(){if(S.phase==='play'&&load()>cap()&&!S.pending)S.pending={over:true};}
+
+/* --- Botín y edificios --- */
+function revealFarm(via){
+  if(S.farm)return;S.farm=true;S.entrada=via;const r=d(6);
+  const put={1:[],2:[10],3:[11],4:[10,11],5:[11],6:[10,10,11]}[r];S.farmMod=r===1?-1:r>=5?1:0;
+  put.forEach(c=>S.zombies.push(mkZ(c)));
+  log(`Ficha de la farmacia: ${r}. ${put.length?put.length+' zombie(s) dentro':'Sin zombies'}, botín ${S.farmMod<0?'pobre':S.farmMod>0?'rico':'normal'}.`,'warn');
+}
+function revealCasa(){if(S.casa)return;S.casa=true;const r=d(6);if(r<=2){S.zombies.push(mkZ(7));log(`Ficha de la casa: ${r}. Hay un caminante en B2.`,'warn');}else log(`Ficha de la casa: ${r}. Está vacía.`);}
+function lootRoll(cell){
+  const r=d(6);
+  if(TYPE[cell]==='casa'){return {r,mod:0,item:r<=3?null:r<=5?'venda':'comida'};}
+  const t=r+S.farmMod;
+  if(cell===10)return {r,mod:S.farmMod,item:t<=1?null:t<=3?'venda':t<=5?'analgesico':'kit'};
+  return {r,mod:S.farmMod,item:t<=1?null:t===2?'venda':t<=4?'comida':'kit',drop:t<=1};
+}
+function addItem(k){
+  if(load()+ITEMS[k].s<=cap()){S.inv.push({k,found:true});log(`Encuentras: ${ITEMS[k].n}.`,'good');}
+  else{S.pending={item:k};log(`Encuentras: ${ITEMS[k].n}, pero la mochila está llena.`,'warn');}
+}
+
+/* --- Acciones --- */
+function adjEdges(types){return nb(S.pos).filter(j=>types.includes(S.edges[ek(S.pos,j)]));}
+function atkTargets(w){
+  if(W[w].melee)return zHere(S.pos).length?[S.pos]:[];
+  const dist=reach(S.pos,2);return [...Array(N).keys()].filter(i=>dist[i]>=0&&zHere(i).length);
+}
+const ACTS=[
+ {g:'Moverse',k:'sigilo',n:'Sigilo',pa:2,ru:0,tg:()=>nb(S.pos).filter(j=>PASS.has(S.edges[ek(S.pos,j)])),ok:()=>zHere(S.pos).length?'Hay un zombie en tu zona':true,hint:'Elige la zona a la que te mueves en silencio.'},
+ {g:'Moverse',k:'caminar',n:'Caminar',pa:1,ru:1,tg:()=>nb(S.pos).filter(j=>PASS.has(S.edges[ek(S.pos,j)])),hint:'Elige la zona adyacente.'},
+ {g:'Moverse',k:'correr',n:'Correr (2 zonas)',pa:1,ru:2,tg:()=>{const dd=reach(S.pos,2);return [...Array(N).keys()].filter(i=>dd[i]>0);},ok:()=>S.ran?'Ya corriste este turno':effect('Piernas')?'Herida en las piernas':true,hint:'Elige una zona a 1 o 2 de distancia.'},
+ {g:'Moverse',k:'esconderse',n:'Esconderse (termina turno)',pa:1,ru:0},
+ {g:'Puertas',k:'abrir',n:'Abrir puerta',pa:1,ru:1,tg:()=>adjEdges(['door']),hint:'Elige la zona del otro lado de la puerta.'},
+ {g:'Puertas',k:'cerrar',n:'Cerrar puerta',pa:1,ru:1,tg:()=>adjEdges(['opened']),hint:'Elige la zona del otro lado de la puerta.'},
+ {g:'Puertas',k:'forzar',n:'Forzar puerta con llave',pa:2,ru:2,tg:()=>adjEdges(['locked']),hint:'Elige la zona del otro lado de la puerta.'},
+ {g:'Puertas',k:'romper',n:'Romper vidriera',pa:1,ru:3,tg:()=>adjEdges(['window']),hint:'Elige la zona del otro lado de la vidriera.'},
+ {g:'Combate',k:'atk-cuchillo',w:'cuchillo',n:'Atacar con cuchillo',pa:1,ru:0},
+ {g:'Combate',k:'atk-bate',w:'bate',n:'Atacar con bate',pa:1,ru:2},
+ {g:'Combate',k:'atk-pistola',w:'pistola',n:'Disparar pistola',pa:1,ru:4},
+ {g:'Combate',k:'destrabar',n:'Destrabar pistola',pa:1,ru:0,ok:()=>S.jam&&has('pistola')?true:'No está encasquillada'},
+ {g:'Objetos',k:'registrar',n:'Registrar',pa:2,ru:1,ok:()=>{const t=TYPE[S.pos];if(t!=='casa'&&t!=='farm')return 'Solo en la casa o la farmacia';return S.searches[S.pos]>=3?'Zona saqueada':true;}},
+ {g:'Objetos',k:'vendar',n:'Vendar laceración',pa:2,ru:1,ok:()=>!has('venda')?'No tienes vendas':S.wounds.some(w=>w.type==='Laceración'&&!w.band)?true:'No tienes laceraciones abiertas'},
+ {g:'Objetos',k:'analgesico',n:'Tomar analgésico (+1 sangre)',pa:1,ru:0,ok:()=>!has('analgesico')?'No tienes analgésicos':S.sangre>=6?'Sangre al máximo':true},
+];
+ACTS.forEach(a=>{if(a.w){a.tg=()=>atkTargets(a.w);a.hint='Elige la zona del zombie al que atacas.';a.ok=()=>{if(!has(a.w))return 'No llevas esta arma';if(a.w==='pistola'){if(S.jam)return 'Encasquillada';if(S.ammo<=0)return 'Sin balas';}return true;};}});
+function avail(a){
+  if(S.phase!=='play'||S.pending)return 'Resuelve la mochila primero';
+  if(S.pa<a.pa)return 'No te alcanzan los PA';
+  const o=a.ok?a.ok():true;if(o!==true)return o;
+  if(a.tg&&!a.tg().length)return 'Sin objetivo a tu alcance';
+  return true;
+}
+function use(a){S.pa-=a.pa;S.usage[a.n]=(S.usage[a.n]||0)+1;}
+
+function doAct(a,cell){
+  if(avail(a)!==true)return;
+  const here=S.pos;
+  switch(a.k){
+    case 'sigilo':case 'caminar':case 'correr':
+      use(a);if(a.k==='correr')S.ran=true;S.pos=cell;noise(cell,a.ru);
+      log(`${a.n.split(' (')[0]} a ${nm(cell)}.${a.ru?' Ruido '+LV[a.ru].toLowerCase()+'.':''}`);
+      if(S.pos===12&&has('kit'))return finish(true,'Volviste a la base con el kit médico');
+      break;
+    case 'esconderse':use(a);S.hidden=true;log('Te escondes.');S.mode=null;return endTurn();
+    case 'abrir':case 'cerrar':case 'forzar':case 'romper':{
+      const k=ek(here,cell),o=OPEN[k];use(a);
+      S.edges[k]={abrir:'opened',cerrar:'door',forzar:'opened',romper:'broken'}[a.k];
+      noise(here,a.ru);log(`${a.n.split(' con')[0]}: ${o?o.n.toLowerCase():nm(cell)}. Ruido ${LV[a.ru].toLowerCase()}.`);
+      if(k==='7-13'&&a.k==='abrir')revealCasa();
+      if(BLD(cell)==='farm'||BLD(here)==='farm')if(a.k!=='cerrar')revealFarm(o?o.n:'—');
+      break;}
+    case 'registrar':{
+      use(a);S.searches[here]++;noise(here,1);const r=lootRoll(here);
+      log(`Registras ${nm(here)} (${S.searches[here]}/3): d6 ${r.r}${r.mod?(r.mod>0?' +1':' −1'):''}.`);
+      if(r.drop){S.tokens[here]+=1;log('Algo se cae al suelo: +1 ficha de ruido.','warn');}
+      if(r.item)addItem(r.item);else log('No encuentras nada.');
+      break;}
+    case 'vendar':{use(a);const w=S.wounds.find(w=>w.type==='Laceración'&&!w.band);w.band=true;S.inv.splice(S.inv.findIndex(x=>x.k==='venda'),1);noise(here,1);log(`Vendas la laceración del ${w.zone.toLowerCase()}.`,'good');break;}
+    case 'analgesico':use(a);S.inv.splice(S.inv.findIndex(x=>x.k==='analgesico'),1);S.sangre=Math.min(6,S.sangre+1);log('Tomas un analgésico: +1 sangre.','good');break;
+    case 'destrabar':use(a);S.jam=false;log('Destrabas la pistola.');break;
+    default: if(a.w)attack(a,cell);
+  }
+  S.mode=null;render();
+}
+function attack(a,cell){
+  const w=W[a.w];const zs=zHere(cell).sort((x,y)=>y.dmg-x.dmg);const z=zs[0];
+  use(a);if(a.w==='pistola')S.ammo--;
+  const adv=!z.alert, dis=effect('Brazo der.')||(a.w==='pistola'&&night());
+  const r1=d(20),r2=d(20);let nat=r1,how='';
+  if(adv&&!dis){nat=Math.max(r1,r2);how=` (ventaja: ${r1} y ${r2})`;}
+  else if(dis&&!adv){nat=Math.min(r1,r2);how=` (desventaja: ${r1} y ${r2})`;}
+  const tot=nat+1;noise(S.pos,w.ru);
+  if(nat===1){S.tokens[S.pos]+=1;let t='¡Pifia! 1 natural: +1 ficha de ruido.';if(a.w==='pistola'){S.jam=true;t+=' La pistola se encasquilla.';}z.alert=true;log(`${a.n}: d20 ${nat}${how}. ${t}`,'bad');return;}
+  if(nat===20||tot>=8){
+    const dmg=nat===20?w.die+w.mod:d(w.die)+w.mod;z.dmg+=dmg;
+    if(z.dmg>=5){S.zombies=S.zombies.filter(x=>x!==z);log(`${a.n}: d20 ${nat}+1=${tot}${how}${nat===20?' ¡crítico!':''}. Daño ${dmg}. El caminante cae.`,'good');}
+    else{z.alert=true;log(`${a.n}: d20 ${nat}+1=${tot}${how}. Daño ${dmg} (lleva ${z.dmg}/5).`);}
+  }else{z.alert=true;log(`${a.n}: d20 ${nat}+1=${tot}${how}. Fallas.`);}
+}
+
+/* --- Fin de turno --- */
+function endTurn(){
+  if(S.phase!=='play'||S.pending)return;
+  S.mode=null;
+  log('— Fase de zombies —','sys');
+  for(const z of [...S.zombies]){
+    if(S.phase!=='play')break;
+    if(z.c===S.pos){z.alert=true;const r=d(20);
+      if(r+2>=11){log(`Un caminante te ataca en ${nm(z.c)}: d20 ${r}+2=${r+2}. Te alcanza.`,'bad');wound();}
+      else log(`Un caminante te ataca en ${nm(z.c)}: d20 ${r}+2=${r+2}. Falla.`);
+      continue;}
+    let tgt=-1,why='';
+    let best=null;for(const ev of S.events){const h=hear(ev.cell,ev.lv,z.c);if(h&&(!best||h.l>best.h.l||(h.l===best.h.l&&h.d<best.h.d)))best={ev,h};}
+    if(best){tgt=best.ev.cell;why='oye ruido';}
+    else if(sees(z)){tgt=S.pos;why='te ve';}
+    if(tgt<0||tgt===z.c){z.alert=tgt>=0;continue;}
+    z.alert=true;const s=stepToward(z.c,tgt);if(s<0)continue;
+    const k=ek(z.c,s),e=S.edges[k];
+    if(PASS.has(e)){log(`Caminante ${nm(z.c)} → ${nm(s)} (${why}).`);z.c=s;}
+    else{const r=d(6);if(r===6){S.edges[k]='broken';log(`Un caminante derriba ${(OPEN[k]?OPEN[k].n:'la barrera').toLowerCase()} [d6 6].`,'warn');}
+      else log(`Un caminante golpea ${(OPEN[k]?OPEN[k].n:'la barrera').toLowerCase()} [d6 ${r}].`);}
+  }
+  if(S.phase!=='play')return render();
+  // Horda
+  const groups=[[7,8],[10,11]];for(let i=0;i<N;i++)if(!BLD(i))groups.push([i]);
+  for(const g of groups){const sum=g.reduce((a,i)=>a+S.tokens[i],0);if(sum>=5){
+    const src=g[0],sc=src%C,sr=Math.floor(src/C);
+    const b=BORDER.slice().sort((x,y)=>(Math.abs(x%C-sc)+Math.abs(Math.floor(x/C)-sr))-(Math.abs(y%C-sc)+Math.abs(Math.floor(y/C)-sr)))[0];
+    for(let k=0;k<3;k++)S.zombies.push(mkZ(b));g.forEach(i=>S.tokens[i]=0);S.hordas++;
+    log(`¡HORDA! ${sum} fichas de ruido en ${g.map(nm).join('+')}. Llegan 3 caminantes a ${nm(b)}.`,'bad');}}
+  // Disipación
+  S.tokens=S.tokens.map(t=>Math.max(0,t-1));
+  // Reloj: sangrado
+  const lac=S.wounds.filter(w=>w.type==='Laceración'&&!w.band).length;
+  if(lac){S.sangre-=lac;log(`Sangras: −${lac} de sangre.`,'bad');checkDeath();if(S.phase!=='play')return render();}
+  if(S.turno>=12)return finish(false,'Terminó el turno 12 y sigues afuera');
+  S.turno++;
+  const sp=d(6),lim=night()?2:1;
+  if(sp<=lim){const r=d(6);let c;
+    if(r<=2)c=d(6)-1;else if(r<=4)c=d(2)===1?5:17;else c=12+d(5);
+    S.zombies.push(mkZ(c));log(`Aparición [d6 ${sp}]: un caminante entra por ${nm(c)}.`,'warn');}
+  if(S.turno===9)log('Anochece. Los zombies solo te ven en tu misma zona y disparar tiene desventaja.','warn');
+  S.pa=S.stunned?2:3;S.stunned=false;S.hidden=false;S.ran=false;S.events=[];
+  log(`— Turno ${S.turno} —`,'sys');render();
+}
+
+function finish(win,reason){
+  S.phase='over';S.mode=null;S.pending=null;
+  const score=S.inv.filter(x=>x.found).reduce((a,x)=>a+(ITEMS[x.k].p||0)+(x.k==='venda'?1:0),0);
+  let res=win?(S.bites?'Victoria con mordedura':'Victoria'):'Derrota';
+  log(win?`${res}. ${reason}.`:`Derrota: ${reason}.`,win?'good':'bad');
+  S.result={win,res,reason,score};
+  store.hist.push({n:store.hist.length+1,estilo:S.estilo,armas:S.armas.map(k=>ITEMS[k].n).join(' + '),entrada:S.entrada,hordas:S.hordas,res,reason,sangre:Math.max(0,S.sangre),score,min:Math.max(1,Math.round((Date.now()-S.start)/60000)),turnos:S.turno,usage:S.usage});
+  save();render();showOver();
+}
+
+/* --- Render --- */
+function render(){
+  $('paBox').innerHTML=S.phase==='play'?`<b>${S.pa}</b> PA`:'—';
+  $('ticks').innerHTML=Array.from({length:12},(_,i)=>{const t=i+1;return `<div class="tick${t>=9?' night':''}${t<S.turno?' past':''}${t===S.turno?' now':''}">${t}</div>`;}).join('');
+  const act=S.mode?ACTS.find(a=>a.k===S.mode):null;const tg=act?act.tg():[];
+  const map=$('map');map.classList.toggle('isnight',night());
+  $('grid').innerHTML=[...Array(N).keys()].map(i=>{
+    const zs=zHere(i),t=S.tokens[i],isT=tg.includes(i);
+    const lootable=(TYPE[i]==='casa'||TYPE[i]==='farm');
+    return `<div class="cell ${TYPE[i]}${isT?' target':''}${lootable&&S.searches[i]?' loot':''}" data-i="${i}" data-loot="${S.searches[i]}/3"${isT?' tabindex="0" role="button" aria-label="'+nm(i)+'"':''}>
+      <div class="lbl"><b>${nm(i)}</b> ${LABEL[i]}</div>
+      <div class="toks">${S.pos===i?`<span class="me${S.hidden?' hid':''}" title="Tú">S</span>`:''}${zs.map(z=>`<span class="z${z.alert?' alert':''}" title="Caminante ${z.alert?'alerta':'tranquilo'}, daño ${z.dmg}/5">${z.dmg||''}</span>`).join('')}
+      ${t?`<span class="noise${t>=4?' hot':''}" title="${t} fichas de ruido">${'<i></i>'.repeat(Math.min(t,10))}</span>`:''}</div></div>`;}).join('');
+  map.querySelectorAll('.edge').forEach(e=>e.remove());
+  for(const k in S.edges){const e=S.edges[k];if(e==='open')continue;const [a,b]=k.split('-').map(Number);
+    const el=document.createElement('div');const ac=a%C,ar=Math.floor(a/C);
+    if(b===a+1){el.className='edge v '+e;el.style.left=`${(ac+1)/6*100}%`;el.style.top=`${ar/3*100}%`;}
+    else{el.className='edge h '+e;el.style.top=`${(ar+1)/3*100}%`;el.style.left=`${ac/6*100}%`;}
+    if(OPEN[k])el.title=OPEN[k].n;map.appendChild(el);}
+  // Acciones
+  const groups={};ACTS.forEach(a=>{if(a.w&&!S.armas.includes(a.w))return;(groups[a.g]=groups[a.g]||[]).push(a);});
+  $('groups').innerHTML=Object.entries(groups).map(([g,as])=>`<div class="group"><h3>${g}</h3><div class="btns">${as.map(a=>{const ok=avail(a);
+    return `<button type="button" class="act${S.mode===a.k?' sel':''}" data-k="${a.k}" ${ok===true?'':'disabled'} title="${ok===true?'':ok}"><span>${a.n}</span><span class="c">${a.pa} PA</span><span class="ru ru${a.ru}">${a.k.startsWith('atk')&&a.ru===0?'Silencio':LV[a.ru]}</span></button>`;}).join('')}</div></div>`).join('');
+  const h=$('hint');
+  if(S.phase!=='play'){h.textContent='La partida terminó. Empieza una nueva para seguir probando.';h.className='hint';}
+  else if(act){h.textContent=act.hint+' Vuelve a pulsar la acción para cancelar.';h.className='hint on';}
+  else{h.textContent=`Estás en ${nm(S.pos)}. Elige una acción; las zonas válidas se marcan en el mapa.`;h.className='hint';}
+  $('endTurn').disabled=S.phase!=='play'||!!S.pending;
+  $('endInfo').textContent=S.phase==='play'?(night()?'Es de noche':`Anochece en el turno 9`)+` · ${S.zombies.length} zombies en el mapa · ${S.hordas} hordas`:'';
+  // Mochila pendiente
+  const slot=$('alertSlot');
+  if(S.pending){const p=S.pending;
+    slot.innerHTML=`<div class="alertbox"><p><b>${p.over?'Tu mochila tiene más peso del que puedes cargar.':`Encontraste ${ITEMS[p.item].n} y no te entra.`}</b> ${p.over?'Suelta algo para seguir.':'Suelta algo de la mochila para hacerle lugar, o déjalo aquí.'}</p>
+      <div class="row">${p.item?`<button class="btn" type="button" data-pend="take" ${load()+ITEMS[p.item].s<=cap()?'':'disabled'}>Guardar ${ITEMS[p.item].n}</button><button class="btn ghost" type="button" data-pend="leave">Dejarlo</button>`:''}</div></div>`;
+  }else slot.innerHTML='';
+  // Personaje
+  $('blood').innerHTML=Array.from({length:6},(_,i)=>`<span class="pip${i<S.sangre?' blood':''}"></span>`).join('');
+  $('body').innerHTML=PARTS.map(p=>{const ws=S.wounds.filter(w=>w.zone===p);return `<div class="part${ws.length?' hurt':''}">${p}${ws.map(w=>`<small>${w.type}${w.type==='Laceración'?(w.band?' ✓':' ●'):''}</small>`).join('')}</div>`;}).join('');
+  const c=cap(),l=load();$('bagCount').textContent=`${l}/${c}`;
+  let cells=[];S.inv.forEach((x,i)=>{for(let s=0;s<ITEMS[x.k].s;s++)cells.push(s===0?`<div class="slot${x.found?' found':''}"><span>${ITEMS[x.k].n}</span>${S.phase==='play'?`<button type="button" data-drop="${i}">Soltar</button>`:''}</div>`:`<div class="slot${x.found?' found':''}" style="opacity:.6">↑</div>`);});
+  while(cells.length<c)cells.push('<div class="slot"></div>');
+  for(let i=c;i<6;i++)cells.push('<div class="slot lost" title="Brazo izquierdo herido"></div>');
+  $('bag').innerHTML=cells.slice(0,Math.max(6,cells.length)).join('');
+  $('gear').innerHTML=(has('pistola')?`Pistola: ${S.ammo} balas${S.jam?' · <b style="color:var(--blood)">encasquillada</b>':''}<br>`:'')+(S.hidden?'Escondido hasta tu próximo turno<br>':'')+(S.stunned?'Aturdido: 2 PA el próximo turno<br>':'')+(S.bites?`<b style="color:var(--blood)">Mordido (${S.bites})</b>`:'');
+  $('log').innerHTML=S.log.map(e=>`<div class="${e.cls}"><span class="t">T${e.t}</span> ${e.txt}</div>`).join('');
+  renderHist();
+}
+function renderHist(){
+  const h=store.hist;
+  $('hist').innerHTML=`<tr><th>#</th><th>Estilo</th><th>Armas</th><th>Entrada</th><th>Hordas</th><th>Resultado</th><th>Sangre</th><th>Puntaje</th><th>Turnos</th><th>Min</th></tr>`+
+   (h.length?h.slice().reverse().map(r=>`<tr><td>${r.n}</td><td>${r.estilo}</td><td>${r.armas}</td><td>${r.entrada}</td><td>${r.hordas}</td><td title="${r.reason}">${r.res}</td><td>${r.sangre}</td><td>${r.score}</td><td>${r.turnos}</td><td>${r.min}</td></tr>`).join(''):`<tr><td colspan="10" style="color:var(--muted);white-space:normal">Todavía no hay partidas. Cada partida terminada se anota aquí sola.</td></tr>`);
+}
+
+/* --- Modales --- */
+function showModal(html){$('modalCard').innerHTML=html;$('modal').hidden=false;}
+function hideModal(){$('modal').hidden=true;}
+function showSetup(){
+  showModal(`<h2>Prepara la expedición</h2>
+    <div><div class="meta" style="margin-bottom:6px">Estilo que vas a probar</div><div class="opts">
+    ${['Sigiloso','Ruidoso','Mixto'].map((e,i)=>`<label class="opt"><input type="radio" name="estilo" value="${e}" ${i===(store.hist.length%3)?'checked':''}><span>${e}</span></label>`).join('')}</div></div>
+    <div><div class="meta" style="margin-bottom:6px">Elige 2 armas (también llevas 2 vendas)</div><div class="opts">
+    <label class="opt"><input type="checkbox" name="arma" value="cuchillo" checked><span>Cuchillo<small>1 espacio · d4+1 · silencioso · solo en tu zona</small></span></label>
+    <label class="opt"><input type="checkbox" name="arma" value="bate" checked><span>Bate<small>2 espacios · d6+1 · ruido medio · solo en tu zona</small></span></label>
+    <label class="opt"><input type="checkbox" name="arma" value="pistola"><span>Pistola<small>1 espacio · d10 · ruido máximo · alcance 2 zonas · 6 balas</small></span></label></div></div>
+    <div class="meta" id="setupInfo"></div>
+    <button class="btn" type="button" id="go">Salir de la base</button>`);
+  const upd=()=>{const ch=[...document.querySelectorAll('input[name=arma]:checked')].map(x=>x.value);const sp=ch.reduce((a,k)=>a+ITEMS[k].s,0)+2;
+    $('go').disabled=ch.length!==2;$('setupInfo').textContent=ch.length!==2?'Marca exactamente 2 armas.':`Mochila: ${sp} de 6 espacios ocupados. Te quedan ${6-sp} para el botín.`;};
+  document.querySelectorAll('input[name=arma]').forEach(x=>x.addEventListener('change',upd));upd();
+  $('go').addEventListener('click',()=>{const ch=[...document.querySelectorAll('input[name=arma]:checked')].map(x=>x.value);if(ch.length!==2)return;
+    S=newState(document.querySelector('input[name=estilo]:checked').value,ch);
+    log('Sales de la base (A3). Objetivo: el kit médico de la farmacia.','sys');log('— Turno 1 —','sys');hideModal();render();});
+}
+function showOver(){
+  const r=S.result;
+  showModal(`<div class="big ${r.win?'win':'lose'}">${r.res}</div><p style="margin:0">${r.reason}.</p>
+    <p class="meta" style="margin:0">Turno ${S.turno} · sangre ${Math.max(0,S.sangre)} · puntaje ${r.score} · ${S.hordas} hordas · entrada: ${S.entrada}</p>
+    <p class="meta" style="margin:0">La partida quedó anotada en el registro, abajo de todo.</p>
+    <div class="endrow" style="margin:0"><button class="btn" type="button" id="again">Otra partida</button><button class="btn ghost" type="button" id="look">Ver el tablero</button></div>`);
+  $('again').addEventListener('click',showSetup);$('look').addEventListener('click',hideModal);
+}
+
+/* --- Eventos --- */
+document.addEventListener('click',e=>{
+  const b=e.target.closest('[data-k]');
+  if(b&&S&&S.phase==='play'){const a=ACTS.find(x=>x.k===b.dataset.k);if(!a)return;
+    if(a.tg){S.mode=S.mode===a.k?null:a.k;const t=a.tg();if(S.mode&&t.length===1&&!['sigilo','caminar','correr'].includes(a.k)){doAct(a,t[0]);return;}render();}
+    else doAct(a);return;}
+  const c=e.target.closest('.cell.target');
+  if(c&&S&&S.mode){doAct(ACTS.find(x=>x.k===S.mode),+c.dataset.i);return;}
+  const dr=e.target.closest('[data-drop]');
+  if(dr&&S&&S.phase==='play'){const it=S.inv[+dr.dataset.drop];S.inv.splice(+dr.dataset.drop,1);log(`Sueltas: ${ITEMS[it.k].n}.`);
+    if(S.pending&&S.pending.over&&load()<=cap())S.pending=null;render();return;}
+  const p=e.target.closest('[data-pend]');
+  if(p&&S&&S.pending){const k=S.pending.item;if(p.dataset.pend==='take'){S.inv.push({k,found:true});log(`Guardas: ${ITEMS[k].n}.`,'good');}else log(`Dejas ${ITEMS[k].n} en el lugar.`);S.pending=null;render();}
+});
+document.addEventListener('keydown',e=>{if((e.key==='Enter'||e.key===' ')&&e.target.classList&&e.target.classList.contains('target')){e.preventDefault();e.target.click();}if(e.key==='Escape'&&S&&S.mode){S.mode=null;render();}});
+$('endTurn').addEventListener('click',()=>endTurn());
+$('nueva').addEventListener('click',showSetup);
+const notas=$('notas');notas.value=store.notas||'';notas.addEventListener('input',()=>{store.notas=notas.value;save();});
+let armed=false;
+$('borrar').addEventListener('click',e=>{if(!armed){armed=true;e.target.textContent='Pulsa otra vez para borrar';setTimeout(()=>{armed=false;e.target.textContent='Borrar registro';},3000);return;}
+  store.hist=[];save();armed=false;e.target.textContent='Borrar registro';renderHist();$('copyMsg').textContent='Registro borrado.';});
+$('copiar').addEventListener('click',()=>{
+  const lines=['Día 30 · Prueba 1 · resultados',''];
+  store.hist.forEach(r=>{lines.push(`Partida ${r.n} · ${r.estilo} · ${r.armas} · entrada: ${r.entrada} · hordas: ${r.hordas} · ${r.res} (${r.reason}) · sangre ${r.sangre} · puntaje ${r.score} · ${r.turnos} turnos · ${r.min} min`);
+    lines.push('   Acciones: '+(Object.entries(r.usage).map(([k,v])=>`${k} ${v}`).join(', ')||'ninguna'));});
+  if(store.notas)lines.push('','Notas:',store.notas);
+  const txt=lines.join('\n');const fb=$('copyFallback');
+  const done=()=>{$('copyMsg').textContent='Copiado. Pégamelo en el chat para ajustar las reglas.';};
+  const fail=()=>{fb.hidden=false;fb.value=txt;fb.select();$('copyMsg').textContent='Selecciona el texto de abajo y cópialo.';};
+  try{navigator.clipboard.writeText(txt).then(done,fail);}catch(err){fail();}
+});
+
+// Estado de ejemplo para el primer vistazo, y luego el armado de la expedición
+S=newState('Mixto',['cuchillo','bate']);log('Elige estilo y armas para empezar.','sys');render();showSetup();
+})();
+</script>
+
+</body></html>

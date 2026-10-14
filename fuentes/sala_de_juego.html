@@ -1,0 +1,708 @@
+<!doctype html><html><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#fff;color:#000}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style></head><body>
+<title>Día 30 · Sala de juego</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Big+Shoulders+Stencil+Display:wght@700;900&family=Barlow+Condensed:wght@500;600;700&family=Barlow:wght@400;500;600&family=Special+Elite&display=swap">
+<style>
+/* Layout: mesa oscura manchada de tinta; cada bloque de la interfaz es una hoja de papel envejecido apoyada encima, con bordes rotos y trazos temblorosos. */
+:root {
+  color-scheme: dark;
+  --mesa: #1c1915;
+  --mesa-2: #2a251f;
+  --papel: #dfcfae;
+  --papel-2: #d2bf98;
+  --papel-osc: #a8936d;
+  --tinta: #221e18;
+  --tinta-2: #4b4136;
+  --sepia: #6c5a42;
+  --oxido: #8e3f22;
+  --rojo: #8a2424;
+  --verde: #3d5f4a;
+  --azul: #33495f;
+  --ocre: #b88a2e;
+  --f-display: "Big Shoulders Stencil Display", "Impact", "Arial Narrow", sans-serif;
+  --f-cond: "Barlow Condensed", "Arial Narrow", sans-serif;
+  --f-body: "Barlow", "Segoe UI", system-ui, sans-serif;
+  --f-maquina: "Special Elite", "Courier New", monospace;
+  --ruido: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='260' height='260'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 .33 0 0 0 0 .25 0 0 0 0 .15 0 0 0 .24 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  --borde-roto: polygon(0.6% 0.8%, 14% 0, 31% 0.9%, 47% 0.1%, 63% 1%, 79% 0.2%, 93% 0.9%, 99.5% 0, 100% 16%, 99.3% 34%, 100% 52%, 99.4% 70%, 100% 86%, 99.4% 99.6%, 84% 100%, 67% 99.1%, 50% 100%, 33% 99.2%, 17% 100%, 0.4% 99.4%, 0 84%, 0.7% 66%, 0 49%, 0.6% 31%, 0 15%);
+}
+* { box-sizing: border-box; }
+body {
+  background:
+    radial-gradient(60% 50% at 15% 10%, rgba(120,90,50,.18), transparent 70%),
+    radial-gradient(50% 40% at 90% 80%, rgba(90,40,25,.18), transparent 70%),
+    var(--ruido), var(--mesa);
+  color: var(--papel);
+  font-family: var(--f-body);
+  font-size: 16px;
+  line-height: 1.5;
+  padding-inline: 18px;
+  padding-block: 28px 64px;
+  min-height: 100%;
+}
+h1, h2, h3 { margin: 0; text-wrap: balance; }
+p { margin: 0; }
+button, input { font: inherit; color: inherit; }
+:focus-visible { outline: 2px dashed var(--ocre); outline-offset: 3px; }
+.wrap { max-width: 1080px; margin-inline: auto; display: flex; flex-direction: column; gap: 36px; }
+
+/* ---------- hoja de papel ---------- */
+.hoja {
+  position: relative; color: var(--tinta); isolation: isolate;
+  padding: 26px 26px 28px;
+  filter: drop-shadow(0 14px 22px rgba(0,0,0,.5));
+}
+.hoja::before {
+  content: ""; position: absolute; inset: 0; z-index: -1;
+  background: radial-gradient(140% 110% at 50% 40%, transparent 55%, rgba(95,62,30,.42) 100%), var(--ruido), var(--papel);
+  clip-path: var(--borde-roto);
+}
+.hoja.gira-i { rotate: -.6deg; } .hoja.gira-d { rotate: .5deg; }
+
+/* trazo tembloroso: un borde dibujado con filtro de desplazamiento */
+.trazo { position: relative; }
+.trazo::after {
+  content: ""; position: absolute; inset: 0; pointer-events: none;
+  border: 2px solid var(--tinta); border-radius: 3px; filter: url(#temblor);
+}
+
+.eyebrow { font-family: var(--f-maquina); font-size: 14px; color: var(--sepia); }
+.h-sec { font-family: var(--f-display); font-weight: 900; text-transform: uppercase; font-size: clamp(30px, 4.4vw, 42px); line-height: .95; letter-spacing: .01em; }
+.nota { font-family: var(--f-maquina); font-size: 14px; color: var(--sepia); }
+
+/* ---------- botones de tinta ---------- */
+.btn {
+  appearance: none; cursor: pointer; border: 0; background: var(--tinta); color: var(--papel);
+  font-family: var(--f-cond); font-weight: 700; text-transform: uppercase; letter-spacing: .08em; font-size: 18px;
+  padding: 12px 22px; position: relative;
+  clip-path: polygon(1% 4%, 30% 0, 62% 6%, 99% 0, 100% 52%, 98% 100%, 66% 95%, 34% 100%, 0 96%, 2% 48%);
+  transition: transform .15s ease, background .15s ease;
+}
+.btn:hover:not(:disabled) { transform: translateY(-1px) rotate(-.5deg); background: var(--oxido); }
+.btn:disabled { opacity: .45; cursor: not-allowed; }
+.btn.rojo { background: var(--rojo); }
+.btn.hueco { background: transparent; color: var(--tinta); }
+.btn.hueco::after { content: ""; position: absolute; inset: 0; border: 2px solid var(--tinta); filter: url(#temblor); }
+.btn.hueco:hover:not(:disabled) { background: rgba(34,30,24,.08); }
+.btn.chico { font-size: 15px; padding: 8px 14px; }
+
+.campo {
+  width: 100%; background: transparent; border: 0; border-bottom: 2px dashed var(--tinta);
+  font-family: var(--f-maquina); font-size: 28px; letter-spacing: .2em; text-transform: uppercase; padding: 6px 2px; color: var(--tinta);
+}
+.campo::placeholder { color: var(--papel-osc); }
+.campo:focus-visible { outline: none; border-bottom-style: solid; }
+
+/* ---------- cabecera ---------- */
+.cab { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 18px; align-items: end; }
+.logo { font-family: var(--f-display); font-weight: 900; text-transform: uppercase; line-height: .8; display: flex; align-items: baseline; gap: 14px; }
+.logo .d { font-size: clamp(40px, 7vw, 64px); color: var(--papel); letter-spacing: .06em; }
+.logo .n { font-size: clamp(76px, 13vw, 128px); color: var(--rojo); text-shadow: 0 0 1px rgba(0,0,0,.6); filter: url(#temblor-suave); }
+.cab .sub { font-family: var(--f-maquina); color: var(--papel-osc); font-size: 15px; margin-top: 10px; }
+.conexion { font-family: var(--f-maquina); font-size: 13px; color: var(--papel-osc); display: flex; align-items: center; gap: 8px; justify-self: end; text-align: right; }
+.conexion i { width: 9px; height: 9px; border-radius: 50%; background: var(--papel-osc); display: inline-block; flex: none; }
+.conexion.ok i { background: #7d9a5a; }
+.conexion.mal i { background: var(--rojo); }
+
+/* ---------- inicio ---------- */
+.inicio { display: grid; grid-template-columns: minmax(0, 1.25fr) minmax(0, 1fr); gap: 32px; align-items: start; }
+.acciones-inicio { display: flex; flex-direction: column; gap: 30px; min-width: 0; }
+.bloque { display: flex; flex-direction: column; gap: 14px; }
+.bloque p.txt { font-size: 16px; color: var(--tinta-2); max-width: 46ch; }
+.fila { display: flex; gap: 14px; align-items: end; flex-wrap: wrap; }
+.fila .campo { flex: 1 1 160px; min-width: 0; }
+.aviso {
+  font-family: var(--f-maquina); font-size: 14px; color: var(--rojo); min-height: 1.4em;
+}
+.foto { background: var(--papel); padding: 10px 10px 36px; position: relative; box-shadow: 0 16px 34px rgba(0,0,0,.55); rotate: 2.2deg; max-width: 400px; justify-self: center; width: 100%; margin: 0; }
+.foto img { display: block; width: 100%; aspect-ratio: 2/3; object-fit: cover; }
+.foto figcaption { position: absolute; left: 12px; right: 12px; bottom: 9px; font-family: var(--f-maquina); font-size: 13px; color: var(--tinta); }
+.foto::before { content: ""; position: absolute; top: -12px; left: 50%; width: 92px; height: 26px; translate: -50% 0; rotate: -4deg; background: rgba(214,196,160,.6); box-shadow: 0 1px 2px rgba(0,0,0,.3); }
+
+.pasos { margin: 0; padding: 0; list-style: none; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 18px; }
+.pasos li { display: grid; grid-template-columns: 44px minmax(0, 1fr); gap: 12px; align-items: start; font-size: 15px; color: var(--tinta-2); }
+.pasos b { display: block; font-family: var(--f-cond); font-size: 18px; color: var(--tinta); text-transform: uppercase; letter-spacing: .04em; }
+
+/* ---------- fichas de tinta (svg) ---------- */
+.ficha { width: 44px; height: 44px; display: block; flex: none; }
+.ficha.grande { width: 72px; height: 72px; }
+
+/* ---------- sala ---------- */
+.sala { display: grid; grid-template-columns: minmax(0, .85fr) minmax(0, 1.15fr); gap: 32px; align-items: start; }
+.col { display: flex; flex-direction: column; gap: 32px; min-width: 0; }
+.codigo-sala { display: flex; flex-direction: column; gap: 6px; }
+.codigo-sala .cod {
+  font-family: var(--f-display); font-weight: 900; font-size: clamp(64px, 10vw, 92px); line-height: .9; letter-spacing: .08em; color: var(--rojo);
+  filter: url(#temblor-suave); align-self: flex-start; padding: 4px 14px; border: 4px solid var(--rojo); rotate: -2deg; margin-block: 8px 6px;
+}
+.invitar { display: flex; flex-direction: column; gap: 10px; }
+.link-inv { width: 100%; font-family: var(--f-maquina); font-size: 13px; background: rgba(34,30,24,.06); border: 0; border-bottom: 1px dashed var(--tinta-2); padding: 8px; color: var(--tinta); }
+
+.jugadores { display: flex; flex-direction: column; gap: 4px; }
+.jug { display: grid; grid-template-columns: 44px minmax(0, 1fr) auto; gap: 14px; align-items: center; padding-block: 12px; border-bottom: 1px dashed rgba(34,30,24,.4); }
+.jug:last-child { border-bottom: 0; }
+.jug .quien { display: flex; flex-direction: column; min-width: 0; }
+.jug .nom { font-family: var(--f-cond); font-weight: 700; font-size: 21px; text-transform: uppercase; letter-spacing: .03em; line-height: 1.1; overflow-wrap: anywhere; }
+.jug .rol { font-family: var(--f-maquina); font-size: 13px; color: var(--sepia); }
+.jug.vacio .nom { color: var(--papel-osc); }
+.sello {
+  font-family: var(--f-cond); font-weight: 700; text-transform: uppercase; letter-spacing: .08em; font-size: 14px;
+  padding: 3px 10px; border: 2px solid currentColor; rotate: -4deg; white-space: nowrap;
+}
+.sello.listo { color: var(--verde); }
+.sello.espera { color: var(--sepia); border-style: dashed; }
+.punto { display: inline-block; width: 8px; height: 8px; border-radius: 50%; background: var(--papel-osc); margin-right: 6px; vertical-align: middle; }
+.punto.on { background: var(--verde); }
+
+.supervivientes { display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 14px; }
+.sup {
+  appearance: none; border: 0; cursor: pointer; text-align: left; color: var(--tinta);
+  background: rgba(255,250,235,.28); padding: 14px 14px 16px; display: flex; flex-direction: column; gap: 8px; position: relative;
+  transition: transform .15s ease, background .15s ease;
+}
+.sup::after { content: ""; position: absolute; inset: 0; border: 2px solid var(--tinta); filter: url(#temblor); pointer-events: none; }
+.sup:hover:not(:disabled) { transform: translateY(-2px) rotate(-.6deg); background: rgba(255,250,235,.5); }
+.sup:disabled { cursor: not-allowed; opacity: .5; }
+.sup .ini {
+  width: 52px; height: 52px; display: grid; place-items: center; border-radius: 50%;
+  font-family: var(--f-display); font-weight: 900; font-size: 26px; color: var(--papel); background: var(--tinta-2); filter: url(#temblor-suave);
+}
+.sup .n { font-family: var(--f-cond); font-weight: 700; font-size: 20px; text-transform: uppercase; line-height: 1; }
+.sup .d { font-size: 13px; color: var(--tinta-2); line-height: 1.35; }
+.sup .tomado { font-family: var(--f-maquina); font-size: 12px; color: var(--rojo); }
+.sup.mio { background: rgba(142,63,34,.14); }
+.sup.mio .ini { background: var(--oxido); }
+.sup.mio::before { content: "ELEGIDO"; position: absolute; top: 10px; right: 8px; font-family: var(--f-cond); font-weight: 700; font-size: 12px; letter-spacing: .1em; color: var(--oxido); border: 2px solid var(--oxido); padding: 1px 6px; rotate: 6deg; }
+
+.barra-sala { display: flex; flex-wrap: wrap; gap: 14px; align-items: center; justify-content: space-between; }
+.barra-sala .btns { display: flex; gap: 12px; flex-wrap: wrap; }
+
+/* ---------- partida ---------- */
+.partida { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 32px; align-items: center; }
+.contador { font-family: var(--f-display); font-weight: 900; text-transform: uppercase; line-height: .85; }
+.contador .x { font-size: clamp(90px, 16vw, 150px); color: var(--rojo); filter: url(#temblor-suave); }
+.contador .de { font-size: 32px; color: var(--tinta-2); }
+
+/* ---------- acecho ---------- */
+.acecho { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 14px; }
+.acecho figure { margin: 0; background: var(--papel); padding: 6px 6px 26px; position: relative; box-shadow: 0 10px 20px rgba(0,0,0,.5); }
+.acecho figure:nth-child(odd) { rotate: -1.6deg; } .acecho figure:nth-child(even) { rotate: 1.4deg; }
+.acecho img { display: block; width: 100%; aspect-ratio: 2/3; object-fit: cover; }
+.acecho figcaption { position: absolute; left: 8px; right: 8px; bottom: 5px; font-family: var(--f-maquina); font-size: 12px; color: var(--tinta); }
+.acecho-tit { font-family: var(--f-maquina); color: var(--papel-osc); font-size: 14px; }
+
+footer { font-family: var(--f-maquina); font-size: 13px; color: var(--papel-osc); }
+
+@media (max-width: 860px) {
+  .inicio, .sala, .partida { grid-template-columns: minmax(0, 1fr); }
+  .foto { max-width: 280px; }
+  .pasos { grid-template-columns: minmax(0, 1fr); }
+  .acecho { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+  .acecho figure:nth-child(n+4) { display: none; }
+}
+@media (max-width: 520px) {
+  .cab { grid-template-columns: minmax(0, 1fr); }
+  .conexion { justify-self: start; text-align: left; }
+  .hoja { padding: 22px 18px 24px; }
+}
+@media (prefers-reduced-motion: reduce) { * { transition: none !important; } }
+</style>
+
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <filter id="temblor"><feTurbulence type="fractalNoise" baseFrequency=".045" numOctaves="2" seed="3"/><feDisplacementMap in="SourceGraphic" scale="3.2"/></filter>
+  <filter id="temblor-suave"><feTurbulence type="fractalNoise" baseFrequency=".06" numOctaves="2" seed="8"/><feDisplacementMap in="SourceGraphic" scale="2.2"/></filter>
+</svg>
+
+<div class="wrap">
+
+  <header class="cab">
+    <div>
+      <h1 class="logo"><span class="d">Día</span><span class="n">30</span></h1>
+      <p class="sub">Partida de prueba online · 1 a 3 supervivientes</p>
+    </div>
+    <div class="conexion" id="conexion" role="status"><i></i><span>Conectando…</span></div>
+  </header>
+
+  <!-- ============ INICIO ============ -->
+  <main id="vista-inicio" class="inicio">
+    <div class="acciones-inicio">
+      <section class="hoja gira-i bloque" aria-labelledby="t-crear">
+        <span class="eyebrow">Nueva partida</span>
+        <h2 class="h-sec" id="t-crear">Crear una sala</h2>
+        <p class="txt">Abres una sala con un código de 4 letras. Después le mandas el link a tu amigo y elegís supervivientes juntos.</p>
+        <div class="fila"><button class="btn" id="btn-crear" type="button">Crear sala</button></div>
+        <p class="aviso" id="aviso-crear" aria-live="polite"></p>
+      </section>
+
+      <section class="hoja gira-d bloque" aria-labelledby="t-unirse">
+        <span class="eyebrow">Te invitaron</span>
+        <h2 class="h-sec" id="t-unirse">Unirse con código</h2>
+        <form class="fila" id="form-unirse" autocomplete="off">
+          <label class="nota" for="in-codigo" style="flex-basis:100%">Código de la sala</label>
+          <input class="campo" id="in-codigo" name="codigo" maxlength="9" placeholder="K7RQ" inputmode="text">
+          <button class="btn" id="btn-unirse" type="submit">Entrar</button>
+        </form>
+        <p class="aviso" id="aviso-unirse" aria-live="polite"></p>
+      </section>
+    </div>
+
+    <figure class="foto">
+      <img src="img/mano_del_suelo.jpg" alt="Ilustración a tinta: una mano sale de la tierra frente a una ciudad en ruinas bajo la luna">
+      <figcaption>La ciudad, día 1.</figcaption>
+    </figure>
+
+    <section class="hoja gira-i bloque" style="grid-column: 1 / -1" aria-labelledby="t-como">
+      <h2 class="h-sec" id="t-como" style="font-size:28px">Cómo invitar a un amigo</h2>
+      <ol class="pasos">
+        <li><svg class="ficha" viewBox="0 0 44 44" aria-hidden="true"><use href="#f1"/></svg><div><b>Crea la sala</b>Te toca el lugar 1 y quedas como anfitrión.</div></li>
+        <li><svg class="ficha" viewBox="0 0 44 44" aria-hidden="true"><use href="#f2"/></svg><div><b>Manda el link</b>Copia la invitación. Lleva el código adentro y abre la sala directo.</div></li>
+        <li><svg class="ficha" viewBox="0 0 44 44" aria-hidden="true"><use href="#f3"/></svg><div><b>Elijan y empiecen</b>Cada uno elige superviviente, marca "Listo", y el anfitrión empieza.</div></li>
+      </ol>
+      <p class="nota">Tu amigo necesita una cuenta de claude.ai y acceso de edición a esta página: compártela con su email desde el menú Compartir.</p>
+    </section>
+  </main>
+
+  <!-- ============ SALA ============ -->
+  <main id="vista-sala" class="sala" hidden>
+    <div class="col">
+      <section class="hoja gira-i codigo-sala" aria-labelledby="t-sala">
+        <span class="eyebrow" id="t-sala">Sala de espera · código</span>
+        <div class="cod" id="sala-codigo">----</div>
+        <div class="invitar">
+          <label class="nota" for="link-inv">Invitación para tu amigo</label>
+          <input class="link-inv" id="link-inv" readonly>
+          <div class="fila">
+            <button class="btn chico" id="btn-copiar" type="button">Copiar invitación</button>
+            <span class="nota" id="copiado" aria-live="polite"></span>
+          </div>
+        </div>
+      </section>
+
+      <section class="hoja gira-d" aria-labelledby="t-jug">
+        <span class="eyebrow">Mesa</span>
+        <h2 class="h-sec" id="t-jug" style="margin-bottom:8px">Supervivientes</h2>
+        <div class="jugadores" id="lista-jugadores"></div>
+      </section>
+    </div>
+
+    <div class="col">
+      <section class="hoja gira-d" aria-labelledby="t-elige">
+        <span class="eyebrow">Elige uno · cada superviviente solo puede estar una vez</span>
+        <h2 class="h-sec" id="t-elige" style="margin-bottom:16px">¿Quién eres?</h2>
+        <div class="supervivientes" id="supervivientes"></div>
+        <p class="nota" style="margin-top:14px">Personajes provisorios, sacados de las sugerencias de ilustración. Todavía no tienen atributos ni habilidad.</p>
+      </section>
+
+      <section class="hoja gira-i barra-sala">
+        <p class="nota" id="estado-sala" aria-live="polite">Esperando jugadores…</p>
+        <div class="btns">
+          <button class="btn hueco chico" id="btn-salir" type="button">Salir de la sala</button>
+          <button class="btn chico" id="btn-listo" type="button">Estoy listo</button>
+          <button class="btn rojo" id="btn-empezar" type="button" hidden>Empezar partida</button>
+        </div>
+      </section>
+    </div>
+  </main>
+
+  <!-- ============ PARTIDA ============ -->
+  <main id="vista-partida" class="partida" hidden>
+    <section class="hoja gira-i bloque">
+      <span class="eyebrow">La partida empezó</span>
+      <div class="contador"><span class="x" id="dia-actual">1</span> <span class="de">de 30</span></div>
+      <p class="txt" style="color:var(--tinta-2)">El helicóptero llega el día 30. Hasta entonces, la señal de socorro tiene que estar lista.</p>
+      <div class="jugadores" id="lista-partida"></div>
+    </section>
+    <section class="hoja gira-d bloque">
+      <h2 class="h-sec" style="font-size:30px">El tablero todavía no está hecho</h2>
+      <p class="txt" style="color:var(--tinta-2)">La sala y los supervivientes ya quedaron guardados. El próximo paso es construir el mapa, las cartas de acción y los turnos.</p>
+      <div class="fila">
+        <button class="btn hueco chico" id="btn-volver" type="button">Volver a la sala</button>
+      </div>
+    </section>
+  </main>
+
+  <section aria-label="Zombies del juego">
+    <p class="acecho-tit">Lo que acecha en la ciudad</p>
+    <div class="acecho" style="margin-top:14px">
+      <figure><img src="img/caminante.jpg" alt="Caminante"><figcaption>Caminante</figcaption></figure>
+      <figure><img src="img/corredor.jpg" alt="Corredor"><figcaption>Corredor</figcaption></figure>
+      <figure><img src="img/bruto.jpg" alt="Bruto"><figcaption>Bruto</figcaption></figure>
+      <figure><img src="img/infectado_acido.jpg" alt="Infectado ácido"><figcaption>Infectado ácido</figcaption></figure>
+      <figure><img src="img/chillon.jpg" alt="Chillón"><figcaption>Chillón</figcaption></figure>
+    </div>
+  </section>
+
+  <footer>Día 30 · juego cooperativo de Santiago · borrador v0.1</footer>
+</div>
+
+<!-- fichas de tinta reutilizables -->
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <defs>
+    <g id="ficha-base"><circle cx="22" cy="22" r="19.5" fill="none" stroke="#221e18" stroke-width="2.2" filter="url(#temblor)"/><circle cx="22" cy="22" r="15.5" fill="none" stroke="#221e18" stroke-width=".9" stroke-dasharray="2 2.4" opacity=".7"/></g>
+    <g id="f1"><circle cx="22" cy="22" r="19" fill="#8e3f22"/><use href="#ficha-base"/><text x="22" y="29.5" text-anchor="middle" font-family="Big Shoulders Stencil Display, Impact, sans-serif" font-weight="900" font-size="22" fill="#dfcfae">1</text></g>
+    <g id="f2"><circle cx="22" cy="22" r="19" fill="#3d5f4a"/><use href="#ficha-base"/><text x="22" y="29.5" text-anchor="middle" font-family="Big Shoulders Stencil Display, Impact, sans-serif" font-weight="900" font-size="22" fill="#dfcfae">2</text></g>
+    <g id="f3"><circle cx="22" cy="22" r="19" fill="#33495f"/><use href="#ficha-base"/><text x="22" y="29.5" text-anchor="middle" font-family="Big Shoulders Stencil Display, Impact, sans-serif" font-weight="900" font-size="22" fill="#dfcfae">3</text></g>
+    <g id="f0"><circle cx="22" cy="22" r="19" fill="#d2bf98"/><use href="#ficha-base"/><text x="22" y="29.5" text-anchor="middle" font-family="Special Elite, Courier New, monospace" font-size="20" fill="#a8936d">?</text></g>
+  </defs>
+</svg>
+
+<script>
+(() => {
+  "use strict";
+  const ARTIFACT_URL = "https://claude.ai/artifact/5euR9Ua1Sq24G6CB6qyRur";
+  const MAX_JUG = 3;
+  const ALFABETO = "ABCDEFGHJKMNPQRSTUVWXYZ23456789";
+  const SUPERV = [
+    { id: "enfermera", n: "Enfermera", d: "Cansada, con el bolso médico al hombro." },
+    { id: "policia", n: "Ex policía", d: "Chaleco táctico roto, ojos alerta." },
+    { id: "mecanica", n: "Mecánica", d: "Overol con grasa y una llave en la mano." },
+    { id: "cocinero", n: "Cocinero", d: "Hombros anchos, delantal bajo la campera." },
+    { id: "estudiante", n: "Estudiante", d: "Buzo y mochila. Nervioso pero rápido." },
+    { id: "cazador", n: "Cazador", d: "Gorro de lana, rifle a la espalda." },
+    { id: "maestra", n: "Maestra", d: "Pelo gris, botas firmes, voz de mando." },
+  ];
+  const supPorId = Object.fromEntries(SUPERV.map(s => [s.id, s]));
+
+  const $ = id => document.getElementById(id);
+  const vistas = { inicio: $("vista-inicio"), sala: $("vista-sala"), partida: $("vista-partida") };
+
+  let db = null, user = null, room = null, yo = null, puedeEscribir = null;
+  let codigo = null, sala = null, desuscribir = null, salaRoom = null, offPeers = null;
+  let enLinea = new Set();
+  let ocupado = false;
+  let nombres = {};
+
+  // ---------- utilidades ----------
+  const guardar = (k, v) => { try { v == null ? localStorage.removeItem(k) : localStorage.setItem(k, v); } catch (e) {} };
+  const leer = k => { try { return localStorage.getItem(k); } catch (e) { return null; } };
+  const normalizar = t => (t || "").toUpperCase().replace(/^#?SALA-?/, "").replace(/[^A-Z0-9]/g, "").slice(0, 4);
+  const nuevoCodigo = () => Array.from({ length: 4 }, () => ALFABETO[Math.floor(Math.random() * ALFABETO.length)]).join("");
+  const usar = n => (window.claude && typeof window.claude.use === "function") ? window.claude.use(n) : Promise.resolve(null);
+
+  function mostrar(v) { for (const k in vistas) vistas[k].hidden = k !== v; }
+
+  function conexion(estado, txt) {
+    const el = $("conexion");
+    el.className = "conexion " + estado;
+    el.querySelector("span").textContent = txt;
+  }
+
+  function aviso(id, txt) { $(id).textContent = txt || ""; }
+
+  function activos() {
+    if (!sala || !sala.jugadores) return [];
+    return Object.entries(sala.jugadores)
+      .filter(([, j]) => j && j.activo)
+      .map(([uid, j]) => ({ uid, ...j }))
+      .sort((a, b) => (a.pos || 9) - (b.pos || 9));
+  }
+
+  function anfitrion() {
+    const a = activos();
+    if (!a.length) return null;
+    return a.find(j => j.uid === sala.creadoPor) ? sala.creadoPor : a[0].uid;
+  }
+
+  async function escribir(fn) {
+    if (ocupado) return false;
+    ocupado = true; pintarBotones();
+    try { await fn(); return true; }
+    catch (e) {
+      const msg = e && e.code === "invalid_argument"
+        ? "No tienes permiso para guardar en esta página. Pide al dueño que te comparta la página como Editor."
+        : e && e.code === "quota_exceeded" ? "La página llegó a su límite de salas guardadas."
+        : "No se pudo guardar. Revisa la conexión y vuelve a intentar.";
+      aviso(sala ? "estado-sala" : "aviso-crear", msg);
+      if (!sala) aviso("aviso-unirse", msg);
+      return false;
+    } finally { ocupado = false; pintarBotones(); }
+  }
+
+  // ---------- crear y unirse ----------
+  async function crearSala() {
+    aviso("aviso-crear", "");
+    if (!listoParaJugar("aviso-crear")) return;
+    let cod = null;
+    for (let i = 0; i < 6 && !cod; i++) {
+      const c = nuevoCodigo();
+      const s = await db.doc("salas/" + c).get().catch(() => null);
+      if (s && !s.exists) cod = c;
+    }
+    if (!cod) { aviso("aviso-crear", "No se pudo crear la sala. Vuelve a intentar."); return; }
+    const ok = await escribir(() => db.doc("salas/" + cod).set({
+      codigo: cod, creadoPor: yo, creadoEn: Date.now(), estado: "esperando", dia: 0,
+      jugadores: { [yo]: { pos: 1, activo: true, superviviente: null, listo: false } },
+    }));
+    if (ok) entrar(cod);
+  }
+
+  async function unirse(texto) {
+    aviso("aviso-unirse", "");
+    const cod = normalizar(texto);
+    if (cod.length !== 4) { aviso("aviso-unirse", "El código tiene 4 letras o números, por ejemplo K7RQ."); return; }
+    if (!listoParaJugar("aviso-unirse")) return;
+    const snap = await db.doc("salas/" + cod).get().catch(() => null);
+    if (!snap) { aviso("aviso-unirse", "No se pudo leer la sala. Revisa la conexión."); return; }
+    if (!snap.exists) { aviso("aviso-unirse", "No existe una sala con el código " + cod + "."); return; }
+    const d = snap.data();
+    const jug = d.jugadores || {};
+    const otros = Object.entries(jug).filter(([u, j]) => u !== yo && j && j.activo);
+    const mio = jug[yo];
+    if (!(mio && mio.activo)) {
+      if (otros.length >= MAX_JUG) { aviso("aviso-unirse", "La sala está llena: ya hay 3 supervivientes."); return; }
+      const usadas = new Set(otros.map(([, j]) => j.pos));
+      let pos = mio && mio.pos && !usadas.has(mio.pos) ? mio.pos : [1, 2, 3].find(p => !usadas.has(p));
+      const ok = await escribir(() => db.doc("salas/" + cod).update({
+        jugadores: { [yo]: { pos, activo: true, superviviente: mio && mio.superviviente && !otros.some(([, j]) => j.superviviente === mio.superviviente) ? mio.superviviente : null, listo: false } },
+      }));
+      if (!ok) return;
+    }
+    entrar(cod);
+  }
+
+  function listoParaJugar(idAviso) {
+    if (!db) { aviso(idAviso, "Esta vista no puede guardar salas. Ábrela desde claude.ai con tu sesión iniciada."); return false; }
+    if (!yo) { aviso(idAviso, "Inicia sesión en claude.ai para jugar."); return false; }
+    if (puedeEscribir === false) { aviso(idAviso, "Tu acceso a esta página es de solo lectura. Pide al dueño que te la comparta como Editor."); return false; }
+    return true;
+  }
+
+  // ---------- dentro de la sala ----------
+  function entrar(cod) {
+    salirSuscripciones();
+    codigo = cod; sala = null;
+    guardar("dia30.sala", cod);
+    $("sala-codigo").textContent = cod;
+    const link = ARTIFACT_URL + "#SALA-" + cod;
+    $("link-inv").value = "Te invito a sobrevivir 30 días. Entra acá: " + link + "  (código de sala: " + cod + ")";
+    $("copiado").textContent = "";
+    mostrar("sala");
+    desuscribir = db.doc("salas/" + cod).onSnapshot(snap => {
+      if (!snap.exists) {
+        if (snap.metadata.fromCache) return;
+        aviso("aviso-unirse", "La sala " + cod + " ya no existe.");
+        dejarSala(false); return;
+      }
+      sala = snap.data();
+      const mio = sala.jugadores && sala.jugadores[yo];
+      if (!(mio && mio.activo)) { dejarSala(false); return; }
+      pintar();
+    }, () => conexion("mal", "Se perdió la conexión con la sala"));
+    unirseRoom(cod);
+  }
+
+  async function unirseRoom(cod) {
+    if (!room) return;
+    try {
+      salaRoom = await room.join("sala-" + cod.toLowerCase());
+      if (codigo !== cod) { salaRoom.leave(); return; }
+      salaRoom.presence({ uid: yo });
+      offPeers = salaRoom.onPeers(ch => {
+        enLinea = new Set(ch.peers.map(p => p.by || (p.presence && p.presence.uid)).filter(Boolean));
+        pintar();
+      });
+    } catch (e) { salaRoom = null; }
+  }
+
+  function salirSuscripciones() {
+    if (desuscribir) { desuscribir(); desuscribir = null; }
+    if (offPeers) { offPeers(); offPeers = null; }
+    if (salaRoom) { salaRoom.leave().catch(() => {}); salaRoom = null; }
+    enLinea = new Set();
+  }
+
+  function dejarSala(escribirSalida) {
+    const cod = codigo;
+    const fin = () => { salirSuscripciones(); codigo = null; sala = null; guardar("dia30.sala", null); mostrar("inicio"); };
+    if (escribirSalida && cod) {
+      escribir(() => db.doc("salas/" + cod).update({ jugadores: { [yo]: { activo: false, listo: false } } })).then(fin);
+    } else fin();
+  }
+
+  // ---------- pintar ----------
+  async function pintar() {
+    if (!sala) return;
+    const lista = activos();
+    if (user) {
+      const ids = lista.map(j => j.uid);
+      if (ids.length) { try { nombres = await user.profiles(ids); } catch (e) {} }
+    }
+    if (sala.estado === "en_juego") { pintarPartida(lista); mostrar("partida"); return; }
+    mostrar("sala");
+    pintarJugadores($("lista-jugadores"), lista, true);
+    pintarSupervivientes(lista);
+    pintarEstado(lista);
+    pintarBotones();
+  }
+
+  function nombreDe(uid) {
+    const p = nombres[uid];
+    const n = p && p.name;
+    return uid === yo ? (n ? n + " (tú)" : "Tú") : (n || "Superviviente");
+  }
+
+  function pintarJugadores(cont, lista, conVacios) {
+    cont.replaceChildren();
+    const porPos = {};
+    lista.forEach(j => { porPos[j.pos] = j; });
+    const host = anfitrion();
+    const total = conVacios ? [1, 2, 3] : lista.map(j => j.pos);
+    total.forEach(p => {
+      const j = porPos[p];
+      const fila = document.createElement("div");
+      fila.className = "jug" + (j ? "" : " vacio");
+      const svg = document.createElementNS("http://www.w3.org/2000/svg", "svg");
+      svg.setAttribute("viewBox", "0 0 44 44"); svg.setAttribute("class", "ficha"); svg.setAttribute("aria-hidden", "true");
+      const u = document.createElementNS("http://www.w3.org/2000/svg", "use");
+      u.setAttribute("href", j ? "#f" + Math.min(p, 3) : "#f0"); svg.append(u);
+      const quien = document.createElement("div"); quien.className = "quien";
+      const nom = document.createElement("span"); nom.className = "nom";
+      const rol = document.createElement("span"); rol.className = "rol";
+      const sello = document.createElement("span");
+      if (j) {
+        if (salaRoom) { const pt = document.createElement("span"); pt.className = "punto" + (enLinea.has(j.uid) ? " on" : ""); pt.title = enLinea.has(j.uid) ? "En línea" : "Desconectado"; nom.append(pt); }
+        nom.append(document.createTextNode(nombreDe(j.uid)));
+        const s = j.superviviente && supPorId[j.superviviente];
+        rol.textContent = (s ? s.n : "Sin superviviente todavía") + (j.uid === host ? " · anfitrión" : "");
+        sello.className = "sello " + (j.listo ? "listo" : "espera");
+        sello.textContent = j.listo ? "Listo" : "Eligiendo";
+      } else {
+        nom.textContent = "Lugar libre";
+        rol.textContent = "Esperando a un amigo";
+      }
+      quien.append(nom, rol);
+      fila.append(svg, quien);
+      if (j && conVacios) fila.append(sello);
+      cont.append(fila);
+    });
+  }
+
+  function pintarSupervivientes(lista) {
+    const cont = $("supervivientes");
+    cont.replaceChildren();
+    const mio = lista.find(j => j.uid === yo);
+    const tomados = {};
+    lista.forEach(j => { if (j.superviviente && j.uid !== yo) tomados[j.superviviente] = j.uid; });
+    SUPERV.forEach(s => {
+      const b = document.createElement("button");
+      b.type = "button"; b.className = "sup" + (mio && mio.superviviente === s.id ? " mio" : "");
+      b.disabled = !!tomados[s.id] || ocupado;
+      b.setAttribute("aria-pressed", String(!!(mio && mio.superviviente === s.id)));
+      const ini = document.createElement("span"); ini.className = "ini"; ini.textContent = s.n[0];
+      const n = document.createElement("span"); n.className = "n"; n.textContent = s.n;
+      const d = document.createElement("span"); d.className = "d"; d.textContent = s.d;
+      b.append(ini, n, d);
+      if (tomados[s.id]) { const t = document.createElement("span"); t.className = "tomado"; t.textContent = "Lo eligió " + nombreDe(tomados[s.id]); b.append(t); }
+      b.addEventListener("click", () => elegir(s.id));
+      cont.append(b);
+    });
+  }
+
+  function pintarEstado(lista) {
+    const faltan = MAX_JUG - lista.length;
+    const noListos = lista.filter(j => !j.listo).length;
+    let t;
+    if (lista.length === 1) t = "Estás solo en la sala. Copia la invitación y mándasela a tu amigo, o empieza solo.";
+    else if (noListos) t = noListos === 1 ? "Falta que 1 superviviente marque Listo." : "Faltan " + noListos + " supervivientes por marcar Listo.";
+    else t = "Todos listos." + (faltan ? " Queda " + faltan + " lugar libre." : "");
+    if (anfitrion() !== yo && !noListos) t += " Esperando que el anfitrión empiece.";
+    $("estado-sala").textContent = t;
+  }
+
+  function pintarBotones() {
+    const lista = activos();
+    const mio = lista.find(j => j.uid === yo);
+    const bl = $("btn-listo");
+    bl.disabled = ocupado || !mio || !mio.superviviente;
+    bl.textContent = mio && mio.listo ? "Ya no estoy listo" : "Estoy listo";
+    bl.title = mio && !mio.superviviente ? "Primero elige un superviviente" : "";
+    const be = $("btn-empezar");
+    be.hidden = anfitrion() !== yo;
+    be.disabled = ocupado || !lista.length || lista.some(j => !j.listo);
+    $("btn-salir").disabled = ocupado;
+    $("btn-crear").disabled = ocupado;
+    $("btn-unirse").disabled = ocupado;
+    document.querySelectorAll(".sup").forEach(b => { if (ocupado) b.disabled = true; });
+  }
+
+  function pintarPartida(lista) {
+    $("dia-actual").textContent = sala.dia || 1;
+    pintarJugadores($("lista-partida"), lista, false);
+    const cont = $("lista-partida");
+    lista.forEach((j, i) => {
+      const s = j.superviviente && supPorId[j.superviviente];
+      const rol = cont.children[i] && cont.children[i].querySelector(".rol");
+      if (rol) rol.textContent = s ? s.n : "Sin superviviente";
+    });
+    $("btn-volver").hidden = anfitrion() !== yo;
+  }
+
+  // ---------- acciones ----------
+  function elegir(id) {
+    const mio = activos().find(j => j.uid === yo);
+    if (!mio || mio.superviviente === id) return;
+    if (activos().some(j => j.uid !== yo && j.superviviente === id)) return;
+    escribir(() => db.doc("salas/" + codigo).update({ jugadores: { [yo]: { superviviente: id, listo: false } } }));
+  }
+
+  $("btn-listo").addEventListener("click", () => {
+    const mio = activos().find(j => j.uid === yo);
+    if (!mio || !mio.superviviente) return;
+    escribir(() => db.doc("salas/" + codigo).update({ jugadores: { [yo]: { listo: !mio.listo } } }));
+  });
+
+  $("btn-empezar").addEventListener("click", () => {
+    if (anfitrion() !== yo || activos().some(j => !j.listo)) return;
+    escribir(() => db.doc("salas/" + codigo).update({ estado: "en_juego", dia: 1, empezadaEn: Date.now() }));
+  });
+
+  $("btn-volver").addEventListener("click", () => {
+    const reinicio = {};
+    activos().forEach(j => { reinicio[j.uid] = { listo: false }; });
+    escribir(() => db.doc("salas/" + codigo).update({ estado: "esperando", dia: 0, jugadores: reinicio }));
+  });
+
+  $("btn-salir").addEventListener("click", () => dejarSala(true));
+  $("btn-crear").addEventListener("click", crearSala);
+  $("form-unirse").addEventListener("submit", e => { e.preventDefault(); unirse($("in-codigo").value); });
+
+  $("btn-copiar").addEventListener("click", () => {
+    const txt = $("link-inv").value;
+    const ok = () => { $("copiado").textContent = "Copiada. Pégala en el chat con tu amigo."; };
+    const manual = () => { $("link-inv").focus(); $("link-inv").select(); $("copiado").textContent = "Texto seleccionado: cópialo con Ctrl+C."; };
+    try { navigator.clipboard.writeText(txt).then(ok, manual); } catch (e) { manual(); }
+  });
+
+  // ---------- arranque ----------
+  const hash = (location.hash || "").replace("#", "");
+  const codHash = /^SALA-[A-Z0-9]{4}$/i.test(hash) ? normalizar(hash) : null;
+  if (codHash) {
+    $("in-codigo").value = codHash;
+    aviso("aviso-unirse", "");
+    $("t-unirse").textContent = "Te invitaron a la sala " + codHash;
+  }
+  pintarBotones();
+
+  (async () => {
+    [db, user, room] = await Promise.all([usar("db"), usar("user"), usar("room")]);
+    if (!db) { conexion("mal", "Sin conexión a las salas"); return; }
+    if (user) {
+      yo = await user.id();
+      puedeEscribir = await user.can("data.write");
+    }
+    if (!yo) { conexion("mal", "Inicia sesión en claude.ai para jugar"); return; }
+    conexion("ok", puedeEscribir === false ? "Conectado · solo lectura" : "Conectado");
+    const previa = leer("dia30.sala");
+    const cod = codHash || previa;
+    if (cod) {
+      const snap = await db.doc("salas/" + cod).get().catch(() => null);
+      const mio = snap && snap.exists && snap.data().jugadores && snap.data().jugadores[yo];
+      if (mio && mio.activo) entrar(cod);
+      else if (!codHash) guardar("dia30.sala", null);
+    }
+  })();
+})();
+</script>
+
+</body></html>

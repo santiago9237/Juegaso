@@ -1,0 +1,371 @@
+<!doctype html><html><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#fff;color:#000}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style></head><body>
+<title>Día 30 · Cartas de objetos</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Big+Shoulders+Stencil+Display:wght@800;900&family=Barlow+Condensed:wght@500;600;700&family=Barlow:wght@400;500;600&family=Special+Elite&display=swap">
+<style>
+/* Layout: mesa de noche (dirección C). Las cartas son papel apoyado encima, en una grilla que se filtra por familia. */
+:root {
+  color-scheme: dark;
+  --noche: #16191d;
+  --noche-2: #1f242a;
+  --noche-3: #2a3038;
+  --papel: #dccba8;
+  --papel-osc: #b9a682;
+  --tinta: #24201a;
+  --sepia: #6b5a43;
+  --hueso: #ece5d6;
+  --gris: #9a9f9f;
+  --oxido: #b4583a;
+  --luna: #d9b45a;
+  --sangre: #922b2b;
+  --f-display: "Big Shoulders Stencil Display", "Impact", "Arial Narrow", sans-serif;
+  --f-cond: "Barlow Condensed", "Arial Narrow", sans-serif;
+  --f-body: "Barlow", "Segoe UI", system-ui, sans-serif;
+  --f-maquina: "Special Elite", "Courier New", monospace;
+}
+* { box-sizing: border-box; }
+body {
+  background: var(--noche); color: var(--hueso);
+  font-family: var(--f-body); font-size: 16px; line-height: 1.55;
+  padding-inline: 20px; padding-block: 0 64px;
+}
+.wrap { max-width: 1180px; margin-inline: auto; display: flex; flex-direction: column; gap: 56px; }
+h1, h2, h3 { margin: 0; text-wrap: balance; }
+p { margin: 0; }
+:focus-visible { outline: 2px solid var(--luna); outline-offset: 3px; }
+.eyebrow { font-family: var(--f-cond); font-weight: 600; text-transform: uppercase; letter-spacing: .14em; font-size: 13px; color: var(--oxido); }
+
+header { padding-top: 48px; display: flex; flex-direction: column; gap: 14px; max-width: 70ch; }
+h1 { font-family: var(--f-display); font-weight: 900; text-transform: uppercase; font-size: clamp(48px, 8vw, 92px); line-height: .9; }
+h1 span { color: var(--sangre); }
+header p { color: var(--gris); font-size: 17px; }
+header p b { color: var(--hueso); font-weight: 600; }
+
+/* filtros */
+.filtros { display: flex; flex-wrap: wrap; gap: 8px; position: sticky; top: env(safe-area-inset-top, 0px); z-index: 5; background: var(--noche); padding-block: 12px; }
+.filtros button {
+  font: 600 15px/1 var(--f-cond); text-transform: uppercase; letter-spacing: .06em;
+  background: transparent; color: var(--papel); border: 1.5px solid var(--noche-3);
+  padding: 8px 12px; cursor: pointer; display: inline-flex; gap: 8px; align-items: center;
+}
+.filtros button i { font-style: normal; font-family: var(--f-maquina); font-size: 13px; color: var(--gris); }
+.filtros button:hover { border-color: var(--papel-osc); }
+.filtros button[aria-pressed="true"] { background: var(--papel); color: var(--tinta); border-color: var(--papel); }
+.filtros button[aria-pressed="true"] i { color: var(--sepia); }
+
+/* familias */
+.familia { display: flex; flex-direction: column; gap: 22px; }
+.fam-head { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 6px 24px; align-items: end; border-bottom: 1px solid var(--noche-3); padding-bottom: 12px; }
+.fam-head h2 { font-family: var(--f-display); font-weight: 800; text-transform: uppercase; font-size: clamp(30px, 4vw, 42px); line-height: 1; }
+.fam-head p { grid-column: 1 / -1; color: var(--gris); max-width: 70ch; font-size: 15px; }
+.fam-head .cuenta { font-family: var(--f-maquina); color: var(--papel-osc); font-size: 14px; }
+.grilla { display: grid; grid-template-columns: repeat(auto-fill, minmax(230px, 1fr)); gap: 30px 24px; }
+
+/* carta */
+.carta {
+  --c-papel: var(--papel); --c-tinta: var(--tinta); --c-sepia: var(--sepia);
+  width: 100%; max-width: 100%; aspect-ratio: 750/1050; position: relative; container-type: inline-size;
+  color: var(--c-tinta); rotate: var(--rot, 0deg);
+  filter: drop-shadow(0 14px 22px rgba(0,0,0,.55));
+  transition: rotate .25s ease, translate .25s ease;
+}
+.carta:hover { rotate: 0deg; translate: 0 -4px; }
+.carta .fondo {
+  position: absolute; inset: 0;
+  background:
+    radial-gradient(130% 100% at 50% 45%, transparent 55%, rgba(90,60,30,.45) 100%),
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.8' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 .35 0 0 0 0 .27 0 0 0 0 .17 0 0 0 .22 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E"),
+    var(--c-papel);
+  clip-path: polygon(1% 0.6%, 12% 0, 27% 0.8%, 41% 0.2%, 58% 0.9%, 73% 0.1%, 88% 0.7%, 99.4% 0, 100% 9%, 99.2% 24%, 100% 41%, 99.3% 57%, 100% 73%, 99.4% 89%, 99.8% 99.5%, 86% 100%, 71% 99.2%, 55% 100%, 39% 99.3%, 23% 100%, 9% 99.4%, 0 100%, 0.7% 88%, 0 72%, 0.8% 55%, 0 39%, 0.6% 22%, 0 8%);
+}
+.carta .cont { position: absolute; inset: 5cqi 6cqi 4cqi; display: flex; flex-direction: column; gap: 2.4cqi; }
+.carta .top { display: flex; justify-content: space-between; align-items: center; }
+.sello {
+  font-family: var(--f-cond); font-weight: 700; text-transform: uppercase; letter-spacing: .12em; font-size: 3.6cqi;
+  color: var(--sello); border: .55cqi solid var(--sello); padding: .5cqi 2cqi .3cqi;
+  border-radius: 1.4cqi 2.2cqi 1.2cqi 2cqi; rotate: -3deg; opacity: .88; mix-blend-mode: multiply;
+}
+.esp { display: flex; align-items: center; gap: 1cqi; font-family: var(--f-maquina); font-size: 3cqi; color: var(--c-sepia); }
+.esp b { width: 4.4cqi; height: 4.4cqi; border: .45cqi solid var(--c-tinta); display: block; border-radius: .4cqi .9cqi .5cqi .8cqi; background: repeating-linear-gradient(-45deg, var(--c-tinta) 0 .45cqi, transparent .45cqi 1.1cqi); }
+.carta h3 { font-family: var(--f-display); font-weight: 900; text-transform: uppercase; font-size: 8.6cqi; line-height: .95; letter-spacing: .01em; }
+.ilus {
+  margin: 0; aspect-ratio: 200/140; border: .55cqi solid var(--c-tinta);
+  border-radius: 1cqi 2.5cqi 1.5cqi 2cqi / 2cqi 1cqi 2.5cqi 1cqi;
+  background: radial-gradient(90% 80% at 50% 40%, rgba(255,245,220,.35), rgba(120,90,50,.18));
+  position: relative; overflow: hidden;
+}
+.ilus svg { display: block; width: 100%; height: 100%; }
+.ilus svg * { fill: none; stroke: var(--c-tinta); stroke-width: 2.4; stroke-linecap: round; stroke-linejoin: round; }
+.ilus svg .p { fill: #e4d5b4; }
+.ilus svg .h { fill: url(#trama); }
+.ilus svg .x { fill: url(#cruzada); }
+.ilus svg .k { fill: var(--c-tinta); }
+.ilus svg .f { stroke-width: 1.3; }
+.ilus svg .n { stroke: none; }
+.ilus svg .g { stroke-width: 4; }
+.regla { flex: 1; font-size: 3.7cqi; line-height: 1.32; display: flex; flex-direction: column; gap: 1.2cqi; }
+.regla b { font-family: var(--f-cond); font-weight: 700; font-size: 1.08em; text-transform: uppercase; letter-spacing: .02em; }
+.stats { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); border-block: .3cqi solid var(--c-tinta); }
+.stats > div { display: flex; flex-direction: column; align-items: center; gap: .4cqi; padding-block: 1.2cqi; }
+.stats > div + div { border-left: .25cqi dashed rgba(36,32,26,.5); }
+.stats small { font-family: var(--f-maquina); font-size: 2.7cqi; color: var(--c-sepia); }
+.stats strong { font-family: var(--f-display); font-weight: 900; font-size: 6.4cqi; line-height: 1; }
+.barras { display: flex; align-items: flex-end; gap: .8cqi; height: 5cqi; }
+.barras i { width: 2.1cqi; border: .3cqi solid var(--c-tinta); display: block; }
+.barras i:nth-child(1) { height: 30%; } .barras i:nth-child(2) { height: 52%; } .barras i:nth-child(3) { height: 76%; } .barras i:nth-child(4) { height: 100%; }
+.barras i.on { background: repeating-linear-gradient(-45deg, var(--c-tinta) 0 .5cqi, transparent .5cqi 1cqi); }
+.stats .rn { font-family: var(--f-cond); font-weight: 700; font-size: 3.2cqi; text-transform: uppercase; }
+.sabor { font-family: var(--f-maquina); font-size: 3.2cqi; color: var(--c-sepia); line-height: 1.3; }
+.pie { display: flex; justify-content: space-between; font-family: var(--f-maquina); font-size: 2.7cqi; color: var(--c-sepia); border-top: .2cqi dashed rgba(36,32,26,.45); padding-top: 1.2cqi; }
+
+/* notas */
+.notas { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 20px; }
+.nota { background: var(--noche-2); border: 1px solid var(--noche-3); padding: 22px; display: flex; flex-direction: column; gap: 12px; min-width: 0; }
+.nota h3 { font-family: var(--f-cond); font-weight: 700; text-transform: uppercase; letter-spacing: .04em; font-size: 22px; }
+.nota ul, .nota ol { margin: 0; padding-left: 20px; display: flex; flex-direction: column; gap: 8px; font-size: 15px; }
+.nota li::marker { color: var(--luna); font-family: var(--f-cond); font-weight: 700; }
+.nota code { font-family: var(--f-maquina); font-size: 13px; color: var(--papel-osc); }
+footer { font-family: var(--f-maquina); font-size: 13px; color: var(--gris); }
+
+@media (max-width: 520px) {
+  .grilla { grid-template-columns: minmax(0, 1fr); max-width: 340px; margin-inline: auto; width: 100%; }
+}
+@media (prefers-reduced-motion: reduce) { .carta { transition: none; } }
+</style>
+
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <defs>
+    <pattern id="trama" width="5" height="5" patternUnits="userSpaceOnUse" patternTransform="rotate(-45)">
+      <rect width="5" height="5" fill="#e4d5b4"/>
+      <line x1="0" y1="0" x2="0" y2="5" stroke="#24201a" stroke-width="1.4"/>
+    </pattern>
+    <pattern id="cruzada" width="5" height="5" patternUnits="userSpaceOnUse" patternTransform="rotate(-45)">
+      <rect width="5" height="5" fill="#cdb98f"/>
+      <line x1="0" y1="0" x2="0" y2="5" stroke="#24201a" stroke-width="1.4"/>
+      <line x1="0" y1="0" x2="5" y2="0" stroke="#24201a" stroke-width="1"/>
+    </pattern>
+    <filter id="temblor" x="-5%" y="-5%" width="110%" height="110%">
+      <feTurbulence type="fractalNoise" baseFrequency=".045" numOctaves="2" seed="7"/>
+      <feDisplacementMap in="SourceGraphic" scale="3"/>
+    </filter>
+  </defs>
+</svg>
+
+<div class="wrap">
+  <header>
+    <span class="eyebrow">Día 30 · mazo de botín</span>
+    <h1>Objetos que <span>encuentras</span></h1>
+    <p>Lo que sale al usar <b>Registrar</b> en un mueble. Las cartas de una misma familia cambian de dibujo y de nombre, pero <b>cuentan igual</b>: una caja de vendas y un frasco de pastillas son las dos 1 Medicina. Armas, señal y equipo sí son cartas únicas, cada una con su regla.</p>
+  </header>
+
+  <nav class="filtros" id="filtros" aria-label="Filtrar por familia"></nav>
+  <div id="mazo" class="wrap" style="gap:64px"></div>
+
+  <section class="notas">
+    <div class="nota">
+      <h3>Cómo leer la carta</h3>
+      <ul>
+        <li><b>Sello:</b> la familia. Es lo único que importa para contar recursos.</li>
+        <li><b>Cuadros arriba a la derecha:</b> espacios que ocupa en la mochila (de 6).</li>
+        <li><b>Texto:</b> idéntico en toda la familia; el nombre, el dibujo y la frase a máquina son solo ambientación.</li>
+        <li><b>Pie:</b> variante dentro de la familia y copias propuestas en el mazo.</li>
+      </ul>
+    </div>
+    <div class="nota">
+      <h3>Para decidir</h3>
+      <ol>
+        <li>Las reglas hablan de vendas, desinfectante y antibióticos por separado. Aquí todo es Medicina. ¿Lo dejamos así o los antibióticos pasan a ser carta única?</li>
+        <li>Coste de curar en la base: propuesta de 2 Medicinas por herida y 1 por día de infección frenada.</li>
+        <li>El agua sigue sin consumo definido (sección 12).</li>
+        <li>Daños nuevos: cuchillo d4 y escopeta d12. Munición: 1 carta = 3 disparos.</li>
+        <li>Cantidad de copias: propuesta de 74 cartas en total (los materiales pasaron de 7 cartas genéricas a 13 repartidas en seis tipos).</li>
+      </ol>
+    </div>
+    <div class="nota">
+      <h3>Arte final</h3>
+      <p style="font-size:15px">Los dibujos de esta hoja están hechos con código para probar la carta. Para que queden como los zombies, cada variante tiene su prompt de tinta en <code>arte/prompts_ilustraciones.md</code>, sección Objetos. La carta mide 750 x 1050 px, igual que las de acción.</p>
+    </div>
+  </section>
+
+  <footer>Día 30 · cartas de objetos · borrador del 14 de octubre de 2026</footer>
+</div>
+
+<script>
+const FAM = [
+  { id: "medicina", nombre: "Medicina", sello: "#2c6656", esp: 1,
+    intro: "Cinco dibujos, una sola regla. Cualquier carta con este sello vale 1 Medicina.",
+    regla: `<span><b>Cuenta como 1 Medicina.</b></span><span><b>Expedición · 1 PA:</b> vendar, entablillar o limpiar un rasguño. Descártala.</span><span><b>Base:</b> 2 Medicinas quitan 1 carta de herida. 1 Medicina frena la infección 1 día.</span>` },
+  { id: "comida", nombre: "Comida", sello: "#9a4a2e", esp: 1,
+    intro: "Lo mismo con la comida: latas, galletas o arroz, todo es 1 Comida para el consumo del día.",
+    regla: `<span><b>Cuenta como 1 Comida.</b></span><span>Cada superviviente come 1 por día, o 2 si termina el día con fatiga.</span><span>Se guarda en la base al volver de la expedición.</span>` },
+  { id: "agua", nombre: "Agua", sello: "#3b5870", esp: 1,
+    intro: "Misma lógica. Su consumo todavía está pendiente en las reglas.",
+    regla: `<span><b>Cuenta como 1 Agua.</b></span><span>Consumo diario por definir (sección 12).</span><span>Se guarda en la base al volver de la expedición.</span>` },
+  { id: "armas", nombre: "Arma", plural: "Armas", sello: "#7e2626",
+    intro: "Cada arma es única y trae impreso su daño y su nivel de ruido, como se decidió en la propuesta C." },
+  { id: "recursos", nombre: "Recurso", plural: "Recursos", sello: "#5a4a35",
+    intro: "Munición, combustible y los materiales de la base: madera, clavos, chapa, alambre, cuerda y semillas. Cada uno tiene su sello; las variantes de un mismo recurso cuentan igual entre sí." },
+  { id: "senal", nombre: "Señal", sello: "#8f6a16",
+    intro: "Objetos raros que completan las etapas de la señal de socorro. Pocas copias, lejos de la base." },
+  { id: "equipo", nombre: "Equipo", sello: "#2f4f5e",
+    intro: "Herramientas con un efecto propio. No son recursos: se usan y se conservan, salvo la bengala." },
+];
+
+const SUELO = `<ellipse class="h n" cx="100" cy="121" rx="66" ry="7"/><path class="f" d="M8 121q46-4 92 1t92-2"/>`;
+
+const CARTAS = [
+  // MEDICINA
+  { fam: "medicina", nombre: "Frasco de pastillas", copias: 2, sabor: "Etiqueta medio borrada. Vencía en 2019.",
+    svg: `<rect class="p" x="74" y="48" width="52" height="68" rx="7"/><rect class="h" x="70" y="32" width="60" height="18" rx="3"/><path class="f" d="M78 36v10M86 36v10M94 36v10M102 36v10M110 36v10M118 36v10"/><rect class="p" x="80" y="64" width="40" height="34"/><path class="g" d="M100 72v18M91 81h18"/><path class="f" d="M119 54v56"/><ellipse class="p" cx="142" cy="116" rx="7" ry="4"/><ellipse class="k" cx="155" cy="112" rx="5" ry="3"/><ellipse class="p" cx="56" cy="117" rx="6" ry="3.5"/>` },
+  { fam: "medicina", nombre: "Caja de vendas", copias: 2, sabor: "Alguien ya usó la mitad. Alcanza.",
+    svg: `<path class="p" d="M42 64h80v50H42z"/><path class="p" d="M42 64l20-16h80l-20 16z"/><path class="h" d="M122 64l20-16v50l-20 16z"/><path class="g" d="M82 78v22M71 89h22"/><path class="p f" d="M150 113q-30 10-56 4t-30 4" /><circle class="p" cx="160" cy="106" r="14"/><circle cx="160" cy="106" r="4"/>` },
+  { fam: "medicina", nombre: "Botiquín de pared", copias: 2, sabor: "Arrancado del baño de una oficina.",
+    svg: `<rect class="p" x="50" y="26" width="96" height="84" rx="5"/><path class="h" d="M146 30l12-7v80l-12 7z"/><path class="h" d="M50 26l12-7h96l-12 7z"/><rect x="58" y="34" width="80" height="68" rx="3"/><path class="x" d="M90 46h16v16h16v16h-16v16H90V78H74V62h16z"/><rect class="k" x="132" y="62" width="4" height="14"/>` },
+  { fam: "medicina", nombre: "Alcohol desinfectante", copias: 2, sabor: "Quema. Quiere decir que funciona.",
+    svg: `<path class="p" d="M78 60q0-14 12-16h20q12 2 12 16v56H78z"/><path class="h" d="M78 84h44v32H78z"/><rect class="h" x="90" y="30" width="20" height="14"/><path d="M100 30v-12l16-5"/><rect class="p" x="85" y="62" width="30" height="34"/><path class="f" d="M90 70h20M90 77h20M90 84h12"/>` },
+  { fam: "medicina", nombre: "Jeringa y ampolla", copias: 2, sabor: "Sin nombre en la caja. Solo un número de lote.",
+    svg: `<g transform="rotate(-22 104 74)"><rect class="p" x="62" y="64" width="70" height="20" rx="2"/><path class="h" d="M100 66h30v16h-30z"/><path class="f" d="M72 64v6M82 64v6M92 64v6M102 64v6M112 64v6M122 64v6"/><path class="f" d="M132 74h32"/><path d="M62 60v28M62 74H38M38 64v20"/></g><path class="p" d="M42 116V96q0-6 6-9v-7q0-5 4-5t4 5v7q6 3 6 9v20z"/><path class="f" d="M42 104h20"/>` },
+  // COMIDA
+  { fam: "comida", nombre: "Lata de conservas", copias: 3, sabor: "Sin etiqueta. Puede ser durazno o puede ser atún.",
+    svg: `<path class="p" d="M66 46v62q34 16 68 0V46"/><path class="h" d="M66 64q34 14 68 0v26q-34 14-68 0z"/><path class="f" d="M66 54q34 12 68 0M66 100q34 12 68 0"/><ellipse class="p" cx="100" cy="46" rx="34" ry="9"/><ellipse class="f" cx="100" cy="46" rx="27" ry="6"/><path class="p" d="M104 38q24-26 48-12q-18 0-30 14z"/>` },
+  { fam: "comida", nombre: "Paquete de galletas", copias: 3, sabor: "Rotas, pero son galletas.",
+    svg: `<g transform="rotate(-10 90 84)"><rect class="p" x="34" y="62" width="92" height="44" rx="4"/><path class="h" d="M34 62h24v44H34z"/><path d="M126 62l-6 6 6 6-6 6 6 6-6 6 6 6-6 6 6 6"/></g><circle class="p" cx="150" cy="98" r="14"/><circle class="k" cx="145" cy="94" r="1.8"/><circle class="k" cx="155" cy="101" r="1.8"/><circle class="k" cx="153" cy="91" r="1.5"/><ellipse class="p" cx="168" cy="115" rx="14" ry="5"/>` },
+  { fam: "comida", nombre: "Frasco de mermelada", copias: 3, sabor: "Casera. La tapa dice «Abuela, 2024».",
+    svg: `<path class="p" d="M70 54h60v54q0 8-8 8H78q-8 0-8-8z"/><path class="h" d="M70 70h60v38q0 8-8 8H78q-8 0-8-8z"/><rect class="p" x="82" y="80" width="36" height="22" rx="2"/><circle cx="100" cy="91" r="6"/><path class="p" d="M64 40q36-10 72 0l-6 16H70z"/><path class="g" d="M68 54q32 6 64 0"/><path d="M130 55l10 12M131 53l15 3"/>` },
+  { fam: "comida", nombre: "Bolsa de arroz", copias: 3, sabor: "Un kilo. Hay que hervirlo, y hervir hace humo.",
+    svg: `<path class="p" d="M62 116q-6-40 6-64l-4-12q36-8 72 0l-4 12q12 24 6 64z"/><path d="M68 52q32 8 64 0"/><path class="h" d="M78 72h44v24H78z"/><path class="f" d="M74 104q26 6 52 0"/><g class="k"><ellipse cx="150" cy="114" rx="2.4" ry="1.2"/><ellipse cx="158" cy="118" rx="2.4" ry="1.2"/><ellipse cx="143" cy="118" rx="2.4" ry="1.2"/><ellipse cx="165" cy="113" rx="2.4" ry="1.2"/></g>` },
+  { fam: "comida", nombre: "Barras de cereal", copias: 3, sabor: "Una caja entera en la guantera de un auto.",
+    svg: `<g transform="rotate(-14 96 80)"><path class="p" d="M40 70h96v26H40z"/><path d="M40 70l-8 4 8 3-8 4 8 3-8 4 8 4-8 4"/><path d="M136 70l8 4-8 3 8 4-8 3 8 4-8 4 8 4"/><path class="h" d="M66 70h44v26H66z"/></g><g transform="rotate(8 150 106)"><path class="p" d="M118 98h52v18h-52z"/><path class="h" d="M128 98h32v18h-32z"/></g>` },
+  // AGUA
+  { fam: "agua", nombre: "Botella de agua", copias: 4, sabor: "Cerrada de fábrica. Vale oro.",
+    svg: `<path class="p" d="M84 42h32v8q12 8 12 20v40q0 8-8 8H80q-8 0-8-8V70q0-12 12-20z"/><path class="h" d="M72 84h56v26q0 8-8 8H80q-8 0-8-8z"/><path class="f" d="M72 74h56M72 92h56M72 102h56"/><rect class="x" x="88" y="28" width="24" height="14" rx="2"/>` },
+  { fam: "agua", nombre: "Cantimplora", copias: 4, sabor: "Gastada, con iniciales rayadas: J. R.",
+    svg: `<path d="M70 62Q40 20 100 16q60 4 30 46"/><circle class="p" cx="100" cy="80" r="34"/><path class="h" d="M70 94a32 32 0 0 0 60 0z"/><circle class="f" cx="100" cy="80" r="26"/><rect class="x" x="92" y="36" width="16" height="12" rx="2"/>` },
+  // ARMAS
+  { fam: "armas", nombre: "Cuchillo de cocina", copias: 2, dano: "d4", ruido: 0, esp: 1, sabor: "Corto, pero no avisa a nadie.",
+    regla: `<span><b>Cuerpo a cuerpo.</b> Ataca con d20 + Fuerza contra la Defensa del zombie.</span><span>Atacar por la espalda da ventaja.</span>`,
+    svg: `<g transform="rotate(-16 100 78)"><path class="p" d="M44 70h80l44 8-44 10H44z"/><path class="f" d="M52 79h110"/><rect class="h" x="12" y="68" width="34" height="22" rx="6"/><path class="g" d="M46 62v34"/><circle class="k" cx="22" cy="79" r="2"/><circle class="k" cx="36" cy="79" r="2"/></g>` },
+  { fam: "armas", nombre: "Bate con clavos", copias: 2, dano: "d6", ruido: 1, esp: 2, sabor: "Alguien le dedicó una tarde.",
+    regla: `<span><b>Cuerpo a cuerpo.</b> Ataca con d20 + Fuerza contra la Defensa del zombie.</span><span>Un 1 natural suma 1 ficha de ruido.</span>`,
+    svg: `<g transform="rotate(-18 100 80)"><path class="p" d="M22 75h40l102-9q12 0 12 13t-12 13L62 84H22z"/><path class="h" d="M22 74h34v12H22z"/><ellipse class="p" cx="20" cy="80" rx="4" ry="8"/><path class="f" d="M92 72l3-13M118 70l5-15M144 68l2-15M132 90l4 12M106 86l-2 12"/></g>` },
+  { fam: "armas", nombre: "Hacha de bombero", copias: 1, dano: "d8", ruido: 2, esp: 2, sabor: "Sacada de una vitrina que decía «Romper en caso de emergencia».",
+    regla: `<span><b>Cuerpo a cuerpo.</b> Ataca con d20 + Fuerza contra la Defensa del zombie.</span><span>También sirve para Forzar: puertas y candados sin tirada.</span>`,
+    svg: `<g transform="rotate(-22 100 80)"><rect class="h" x="22" y="76" width="142" height="10" rx="4"/><path class="p" d="M128 48h28q12 33 0 66h-28z"/><path class="g" d="M156 48q12 33 0 66"/><path class="k" d="M118 76h12v10h-12z"/><path class="p" d="M128 70l-14-10v42l14-10z"/></g>` },
+  { fam: "armas", nombre: "Pistola", copias: 1, dano: "d10", ruido: 4, esp: 1, sabor: "Cargador vacío. Dentro, una nota: «perdón».",
+    regla: `<span><b>Arma de fuego.</b> Cada ataque gasta 1 disparo de Munición.</span><span>Un 1 natural la encasquilla: 1 PA para destrabarla.</span>`,
+    svg: `<path class="p" d="M44 54h112v22H88l-6 6H72l-6 32H44l8-36-8-4z"/><path class="h" d="M44 54h112v9H44z"/><path d="M80 76q2 14 14 10"/><path class="f" d="M106 58v12M114 58v12M122 58v12M130 58v12"/><rect class="k" x="152" y="50" width="4" height="4"/><path class="h" d="M50 84h14l-4 26H48z"/>` },
+  { fam: "armas", nombre: "Escopeta", copias: 1, dano: "d12", ruido: 4, esp: 2, sabor: "Del guardia de la comisaría. Ya no la necesita.",
+    regla: `<span><b>Arma de fuego.</b> Cada ataque gasta 1 disparo de Munición.</span><span>Un 1 natural la encasquilla: 1 PA para destrabarla.</span>`,
+    svg: `<path class="h" d="M10 86l48-16h36v14H62l-44 16z"/><rect class="p" x="92" y="64" width="98" height="8"/><rect class="p" x="92" y="72" width="88" height="7"/><rect class="x" x="118" y="79" width="44" height="10" rx="2"/><path class="p" d="M80 70h14v14H80z"/><path d="M76 84q2 12 12 10"/>` },
+  // RECURSOS
+  { fam: "recursos", sub: "Munición", nombre: "Caja de balas", copias: 4, esp: 1, sabor: "Calibre mezclado. Algunas sirven.",
+    regla: `<span><b>Cuenta como 1 Munición.</b></span><span>Alcanza para 3 disparos de pistola o escopeta. Márcalos con fichas.</span>`,
+    svg: `<path class="p" d="M70 66V46q4-10 8 0v20M88 66V44q4-10 8 0v22M106 66V46q4-10 8 0v20"/><path class="p" d="M48 74h80v40H48z"/><path class="p" d="M48 74l18-14h80l-18 14z"/><path class="h" d="M128 74l18-14v40l-18 14z"/><rect class="h" x="60" y="84" width="56" height="18"/><path class="p" d="M150 110h18q8-3 0-6h-18z"/><path class="p" d="M146 118h18q8-3 0-6h-18z"/>` },
+  { fam: "recursos", sub: "Madera", nombre: "Tablones", copias: 3, esp: 2, cuenta: 2, sabor: "De una cerca. Todavía tienen pintura blanca.",
+    regla: `<span><b>Cuenta como 2 Madera.</b></span><span>Barricadas, estacas, fosa, taller, huerta y cama. También para barricar en expedición.</span>`,
+    svg: `<g transform="rotate(-8 100 72)"><rect class="p" x="18" y="60" width="164" height="18"/><path class="f" d="M28 67q40-3 80 2t64-2"/><rect class="h" x="18" y="60" width="10" height="18"/><circle class="k" cx="38" cy="69" r="2"/><circle class="k" cx="166" cy="69" r="2"/></g><g transform="rotate(9 100 96)"><rect class="p" x="22" y="88" width="156" height="18"/><path class="f" d="M32 96q40 3 80-2t56 2"/><rect class="h" x="168" y="88" width="10" height="18"/></g>` },
+  { fam: "recursos", sub: "Clavos", nombre: "Clavos y tornillos", copias: 3, esp: 1, sabor: "Un balde de ferretería. Pesa más de lo que parece.",
+    regla: `<span><b>Cuenta como 1 Clavos.</b></span><span>Barricadas, estacas, taller y cama. En la base repara un objeto dañado.</span>`,
+    svg: `<path d="M46 114l34-44M76 66l10 7"/><path d="M68 118l40-30M104 84l7 9"/><circle class="h" cx="142" cy="92" r="20"/><circle class="p" cx="142" cy="92" r="8"/><path class="g" d="M142 66v-6M142 118v6M116 92h-6M168 92h6M124 74l-4-4M160 110l4 4M160 74l4-4M124 110l-4 4"/><path class="p" d="M52 40l12-7 12 7v14l-12 7-12-7z"/><circle cx="64" cy="47" r="4"/>` },
+  { fam: "recursos", sub: "Chapa", nombre: "Chapa acanalada", copias: 2, esp: 2, sabor: "Del techo de un galpón. Corta si la agarrás mal.",
+    regla: `<span><b>Cuenta como 1 Chapa.</b></span><span>Blindaje de barricada (nivel 3), taller y recolector de agua.</span>`,
+    svg: `<g transform="rotate(-6 100 84)"><path class="h" d="M18 112h138v6H18z"/><path class="p" d="M32 62h140l-16 50H18z"/><path class="f" d="M46 62l-14 50M62 62l-14 50M78 62l-14 50M94 62l-14 50M110 62l-14 50M126 62l-14 50M142 62l-14 50M158 62l-14 50"/><circle class="k" cx="40" cy="72" r="2.2"/><circle class="k" cx="160" cy="72" r="2.2"/></g><path d="M150 40l14-6 6 12"/>` },
+  { fam: "recursos", sub: "Alambre", nombre: "Rollo de alambre", copias: 2, esp: 1, sabor: "De púas. Se enreda en todo, incluso en vos.",
+    regla: `<span><b>Cuenta como 1 Alambre.</b></span><span>Alarma de latas, alambre de púas y recolector de agua.</span>`,
+    svg: `<ellipse class="h" cx="84" cy="86" rx="46" ry="30"/><ellipse class="p" cx="84" cy="86" rx="38" ry="24"/><ellipse class="f" cx="84" cy="86" rx="31" ry="19"/><ellipse class="f" cx="84" cy="86" rx="24" ry="14"/><ellipse class="h" cx="84" cy="86" rx="15" ry="8"/><path d="M126 98q22 2 46 16"/><path class="f" d="M140 96l-3 9M140 96l7 6M156 104l-2 9M156 104l8 4M104 60l-4-8M104 60l7-5M62 60l-3-8M62 60l-8-3"/>` },
+  { fam: "recursos", sub: "Cuerda", nombre: "Soga", copias: 2, esp: 1, sabor: "De un tendedero. Todavía tiene un broche.",
+    regla: `<span><b>Cuenta como 1 Cuerda.</b></span><span>Alarma de latas, fosa tapada, trampa incendiaria y cama extra.</span>`,
+    svg: `<ellipse class="p" cx="96" cy="88" rx="44" ry="26"/><path class="f" d="M56 80q40 14 80 0M54 90q42 14 84 0M58 100q38 12 76 0M62 74q34 10 68 0"/><ellipse class="h" cx="96" cy="86" rx="16" ry="8"/><path d="M138 92q18 6 22 16t18 8"/><path class="f" d="M146 96l3 4M154 102l2 5M164 112l3 4"/><rect class="x" x="58" y="56" width="8" height="18" rx="2" transform="rotate(-20 62 65)"/>` },
+  { fam: "recursos", sub: "Semillas", nombre: "Sobres de semillas", copias: 1, esp: 1, sabor: "Tomate, zapallo, acelga. Alguien pensaba quedarse.",
+    regla: `<span><b>Cuenta como 1 Semillas.</b></span><span>Hace falta 1 para construir la huerta en la base.</span>`,
+    svg: `<g transform="rotate(-10 78 80)"><rect class="p" x="46" y="44" width="56" height="72" rx="2"/><path class="h" d="M46 44h56v12H46z"/><circle cx="74" cy="80" r="12"/><path class="f" d="M74 68v24M64 74q10 6 20 0"/><path class="f" d="M54 100h40M54 106h28"/></g><g transform="rotate(12 132 86)"><rect class="p" x="108" y="54" width="50" height="64" rx="2"/><path class="h" d="M108 54h50v10h-50z"/><path class="f" d="M133 76q-10 8 0 22q10-14 0-22zM118 104h30"/></g><g class="k"><ellipse cx="54" cy="122" rx="2.4" ry="1.4"/><ellipse cx="64" cy="124" rx="2.4" ry="1.4"/><ellipse cx="170" cy="120" rx="2.4" ry="1.4"/></g>` },
+  { fam: "recursos", sub: "Combustible", nombre: "Bidón de combustible", copias: 3, esp: 2, sabor: "Medio lleno. Huele a lo que es.",
+    regla: `<span><b>Cuenta como 1 Combustible.</b></span><span>Mantiene el generador encendido 1 día, o arma una trampa incendiaria en la base.</span>`,
+    svg: `<path class="p" d="M56 44h72l14 14v58H56z"/><path class="h" d="M128 44l14 14v58h-14z"/><path class="f" d="M68 60l56 46M124 60l-56 46"/><rect x="62" y="56" width="62" height="54" rx="3"/><path d="M70 44V30h32v14"/><rect class="x" x="116" y="26" width="12" height="18" transform="rotate(30 122 35)"/>` },
+  // SEÑAL
+  { fam: "senal", nombre: "Radio portátil", copias: 1, esp: 2, sabor: "Entre la estática, a veces, una voz.",
+    regla: `<span><b>Etapa 1 · Radio o antena.</b></span><span>Llévala a la base para completar la etapa. Necesita Baterías para usarse.</span>`,
+    svg: `<path d="M58 54L44 14"/><circle class="k" cx="44" cy="14" r="3"/><path d="M62 54q40-26 80 0"/><rect class="p" x="38" y="54" width="124" height="62" rx="6"/><circle class="h" cx="74" cy="85" r="20"/><circle class="p" cx="74" cy="85" r="6"/><rect class="p" x="104" y="64" width="46" height="18"/><path class="f" d="M110 64v18M118 64v9M126 64v18M134 64v9M142 64v18"/><path class="g" d="M124 62v22"/><circle cx="114" cy="100" r="5"/><circle cx="140" cy="100" r="5"/>` },
+  { fam: "senal", nombre: "Generador", copias: 1, esp: 2, sabor: "Arranca al tercer tirón. Y se oye en toda la manzana.",
+    regla: `<span><b>Etapa 2 · Energía.</b> Junto con 1 Combustible.</span><span>Encenderlo hace ruido Máximo.</span>`,
+    svg: `<path d="M34 114V50q0-8 8-8h116q8 0 8 8v64"/><rect class="p" x="40" y="58" width="120" height="50" rx="4"/><rect class="h" x="48" y="66" width="44" height="34"/><circle class="p" cx="126" cy="83" r="17"/><path class="f" d="M113 83h26M126 70v26"/><rect class="x" x="62" y="44" width="40" height="12" rx="2"/><circle class="k" cx="34" cy="116" r="4"/><circle class="k" cx="166" cy="116" r="4"/>` },
+  { fam: "senal", nombre: "Manual técnico", copias: 1, esp: 1, sabor: "«Calibración de equipos de emergencia, cap. 4».",
+    regla: `<span><b>Etapa 4 · Mensaje.</b></span><span>Sirve este manual o el GPS: con uno de los dos alcanza.</span>`,
+    svg: `<path class="h" d="M28 108l72-12 72 12v6l-72-12-72 12z"/><path class="p" d="M28 56l72-12 72 12v52l-72-12-72 12z"/><path d="M100 44v52"/><path class="f" d="M40 66q28-6 50-7M40 74q28-6 50-7M40 82q28-6 50-7M40 90q28-6 34-6"/><rect class="p" x="112" y="58" width="48" height="30"/><path class="f" d="M118 66h12v12h18M136 66h18"/><circle class="k" cx="130" cy="78" r="2"/>` },
+  { fam: "senal", nombre: "GPS de mano", copias: 1, esp: 1, sabor: "Batería al 12 %. Marca un punto que nadie conoce.",
+    regla: `<span><b>Etapa 4 · Mensaje.</b></span><span>Sirve este GPS o el manual: con uno de los dos alcanza.</span>`,
+    svg: `<path class="g" d="M120 30V10"/><rect class="p" x="70" y="28" width="60" height="90" rx="10"/><rect class="p" x="78" y="38" width="44" height="40" rx="2"/><path class="f" d="M80 58q10-10 20 0t20-4M80 68q12-6 22 2t18-6"/><path class="k" d="M100 46l-5 9h10z"/><circle cx="88" cy="92" r="5"/><circle cx="112" cy="92" r="5"/><rect class="h" x="90" y="104" width="20" height="7" rx="2"/>` },
+  // EQUIPO
+  { fam: "equipo", nombre: "Walkie-talkie", copias: 2, esp: 1, sabor: "Canal 9. Siempre el canal 9.",
+    regla: `<span>Habla sin ruido con quien tenga el otro walkie, a cualquier distancia.</span><span>Gasta 1 Batería por día de uso.</span>`,
+    svg: `<path class="g" d="M114 40V8"/><rect class="k" x="86" y="32" width="10" height="8"/><rect class="p" x="74" y="40" width="52" height="80" rx="8"/><rect class="h" x="82" y="50" width="36" height="24"/><path class="f" d="M84 84h32M84 92h32M84 100h32M84 108h32"/><rect class="p" x="68" y="60" width="6" height="24"/>` },
+  { fam: "equipo", nombre: "Baterías", copias: 4, esp: 1, sabor: "Cuatro AA. Dos parecen hinchadas.",
+    regla: `<span><b>Cuenta como 1 Batería.</b></span><span>Hace funcionar el walkie-talkie o la radio durante 1 día.</span>`,
+    svg: `<rect class="p" x="48" y="54" width="26" height="62" rx="3"/><rect class="k" x="56" y="48" width="10" height="6"/><path class="h" d="M48 92h26v24H48z"/><path class="f" d="M61 64v8M57 68h8"/><rect class="p" x="84" y="48" width="26" height="68" rx="3"/><rect class="k" x="92" y="42" width="10" height="6"/><path class="h" d="M84 92h26v24H84z"/><path class="f" d="M97 58v8M93 62h8"/><rect class="p" x="118" y="96" width="58" height="20" rx="3"/><rect class="k" x="176" y="102" width="5" height="8"/><path class="h" d="M118 96h20v20h-20z"/>` },
+  { fam: "equipo", nombre: "Bengala", copias: 3, esp: 1, sabor: "Roja. Se ve desde el otro lado del río.",
+    regla: `<span>Úsala con la acción <b>Distraer</b>: ruido Alto en otra zona a tu alcance.</span><span>Un solo uso. Descártala.</span>`,
+    svg: `<g transform="rotate(-30 100 80)"><rect class="p" x="48" y="72" width="92" height="16" rx="3"/><path class="h" d="M48 72h26v16H48z"/><path class="f" d="M100 72v16"/></g><circle class="k" cx="144" cy="54" r="5"/><path class="f" d="M150 48l12-12M152 56l18-2M144 44l2-16M156 62l14 8M138 40l-6-12"/>` },
+  { fam: "equipo", nombre: "Mochila de montaña", copias: 1, esp: 0, sabor: "Tiene un llavero de un parque nacional.",
+    regla: `<span>Tu mochila pasa de <b>6 a 8 espacios</b>.</span><span>No ocupa espacio: se lleva puesta.</span>`,
+    svg: `<path d="M140 62q18 16 8 52M60 62q-18 16-8 52"/><path d="M88 32q12-18 24 0"/><path class="p" d="M60 48q0-16 40-16t40 16v64q0 6-6 6H66q-6 0-6-6z"/><path class="h" d="M60 58q40 14 80 0v20q-40 10-80 0z"/><rect class="p" x="74" y="88" width="52" height="24" rx="4"/><path class="g" d="M90 76v12M110 76v12"/>` },
+];
+
+const RUIDO = ["Silencio", "Bajo", "Medio", "Alto", "Máximo"];
+const famDe = id => FAM.find(f => f.id === id);
+const barras = n => `<span class="barras">${[1,2,3,4].map(i => `<i class="${i <= n ? "on" : ""}"></i>`).join("")}</span>`;
+const espacios = n => n === 0 ? `<span class="esp">puesta</span>` : `<span class="esp" title="${n} espacio${n > 1 ? "s" : ""} en la mochila">${"<b></b>".repeat(n)}</span>`;
+
+function carta(c, i, variante, total) {
+  const f = famDe(c.fam);
+  const esp = c.esp ?? f.esp;
+  const regla = c.regla ?? f.regla;
+  const sello = c.sub ?? f.nombre;
+  const rot = ((i * 37) % 7 - 3) * 0.4;
+  const stats = c.dano ? `<div class="stats"><div><small>Daño</small><strong>${c.dano}</strong></div><div><small>Ruido</small>${barras(c.ruido)}<span class="rn">${RUIDO[c.ruido]}</span></div><div><small>Espacios</small><strong>${esp}</strong></div></div>` : "";
+  const pieIzq = c.dano || f.id === "senal" || f.id === "equipo" ? f.nombre : `${sello} · ${variante}/${total}`;
+  return `<article class="carta" style="--rot:${rot}deg;--sello:${f.sello}" aria-label="${c.nombre}, ${sello}">
+    <div class="fondo"></div>
+    <div class="cont">
+      <div class="top"><span class="sello">${sello}</span>${espacios(esp)}</div>
+      <h3>${c.nombre}</h3>
+      <figure class="ilus"><svg viewBox="0 0 200 140" aria-hidden="true"><g filter="url(#temblor)">${SUELO}${c.svg}</g></svg></figure>
+      ${stats}
+      <div class="regla">${regla}</div>
+      <p class="sabor">${c.sabor}</p>
+      <div class="pie"><span>${pieIzq}</span><span>×${c.copias} en el mazo</span></div>
+    </div>
+  </article>`;
+}
+
+const mazo = document.getElementById("mazo");
+let idx = 0;
+mazo.innerHTML = FAM.map(f => {
+  const cs = CARTAS.filter(c => c.fam === f.id);
+  const copias = cs.reduce((s, c) => s + c.copias, 0);
+  const porSub = {};
+  const html = cs.map(c => {
+    const k = c.sub ?? f.id;
+    const grupo = cs.filter(x => (x.sub ?? f.id) === k);
+    porSub[k] = (porSub[k] ?? 0) + 1;
+    return carta(c, idx++, porSub[k], grupo.length);
+  }).join("");
+  return `<section class="familia" data-fam="${f.id}">
+    <div class="fam-head"><h2>${f.plural ?? f.nombre}</h2><span class="cuenta">${cs.length} diseños · ${copias} cartas</span><p>${f.intro}</p></div>
+    <div class="grilla">${html}</div>
+  </section>`;
+}).join("");
+
+const totalCopias = CARTAS.reduce((s, c) => s + c.copias, 0);
+const filtros = document.getElementById("filtros");
+const opciones = [{ id: "todas", txt: "Todas", n: totalCopias }, ...FAM.map(f => ({ id: f.id, txt: f.plural ?? f.nombre, n: CARTAS.filter(c => c.fam === f.id).reduce((s, c) => s + c.copias, 0) }))];
+filtros.innerHTML = opciones.map(o => `<button type="button" id="f-${o.id}" data-f="${o.id}" aria-pressed="${o.id === "todas"}">${o.txt}<i>${o.n}</i></button>`).join("");
+filtros.addEventListener("click", e => {
+  const b = e.target.closest("button"); if (!b) return;
+  const sel = b.dataset.f;
+  filtros.querySelectorAll("button").forEach(x => x.setAttribute("aria-pressed", x === b));
+  mazo.querySelectorAll(".familia").forEach(s => s.hidden = sel !== "todas" && s.dataset.fam !== sel);
+});
+</script>
+
+</body></html>

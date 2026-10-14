@@ -1,0 +1,624 @@
+<!doctype html><html><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#fff;color:#000}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style></head><body>
+<title>Día 30 · Mesa</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Special+Elite&family=Archivo+Narrow:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;600&display=swap">
+<style>
+/* Layout: una mesa de juego oscura; las cartas y hojas de personaje son papel impreso encima. Una columna, secciones apiladas. */
+:root {
+  color-scheme: dark;
+  --mesa: #0e1a1b;
+  --mesa-2: #152526;
+  --linea: #284042;
+  --texto: #dcd6c8;
+  --tenue: #8ea19e;
+  --papel: #e8e0cc;
+  --papel-2: #d9cfb6;
+  --tinta: #1e1a15;
+  --tinta-2: #5a5144;
+  --oxido: #b5532b;
+  --oxido-claro: #d9774b;
+  --verdin: #4f8a7e;
+  --ok: #7fae78;
+  --display: "Special Elite", "Courier New", Courier, monospace;
+  --cuerpo: "Archivo Narrow", "Arial Narrow", "Roboto Condensed", Arial, sans-serif;
+  --numeros: "IBM Plex Mono", ui-monospace, Consolas, monospace;
+}
+html { background: var(--mesa); }
+body {
+  background: var(--mesa);
+  color: var(--texto);
+  font-family: var(--cuerpo);
+  font-size: 16px;
+  line-height: 1.45;
+  padding-inline: 16px;
+  padding-block: 0 48px;
+}
+.envoltura { max-width: 1080px; margin: 0 auto; display: grid; gap: 28px; }
+h1, h2, h3 { font-family: var(--display); font-weight: 400; margin: 0; text-wrap: balance; }
+p { margin: 0; }
+button { font: inherit; cursor: pointer; }
+button:disabled { cursor: not-allowed; opacity: .45; }
+:focus-visible { outline: 2px solid var(--oxido-claro); outline-offset: 2px; }
+
+/* Cabecera */
+.cabecera {
+  display: flex; flex-wrap: wrap; align-items: flex-end; justify-content: space-between; gap: 12px 24px;
+  padding-block: 28px 18px; border-bottom: 1px solid var(--linea);
+}
+.marca { display: flex; align-items: baseline; gap: 14px; }
+.marca h1 { font-size: clamp(2.2rem, 7vw, 3.4rem); line-height: 1; color: var(--papel); letter-spacing: .02em; }
+.marca h1 span { color: var(--oxido-claro); }
+.marca small { color: var(--tenue); text-transform: uppercase; letter-spacing: .14em; font-size: .78rem; }
+.chip {
+  display: inline-flex; align-items: center; gap: 8px; padding: 5px 12px; border-radius: 999px;
+  border: 1px solid var(--linea); color: var(--tenue); font-size: .85rem; white-space: nowrap;
+}
+.chip::before { content: ""; width: 8px; height: 8px; border-radius: 50%; background: var(--tenue); }
+.chip.ok::before { background: var(--ok); }
+.chip.solo::before { background: var(--oxido-claro); }
+
+/* Secciones */
+.seccion { display: grid; gap: 14px; }
+.seccion-titulo { display: flex; flex-wrap: wrap; align-items: baseline; justify-content: space-between; gap: 8px 16px; }
+.seccion-titulo h2 { font-size: 1.45rem; color: var(--papel); }
+.etiqueta { text-transform: uppercase; letter-spacing: .14em; font-size: .74rem; color: var(--tenue); }
+.nota { color: var(--tenue); font-size: .95rem; max-width: 65ch; }
+.aviso-banda {
+  border: 1px dashed var(--oxido); color: var(--papel); padding: 12px 16px; border-radius: 6px; max-width: 75ch;
+}
+
+/* Botones */
+.btn {
+  border: 1px solid var(--linea); background: var(--mesa-2); color: var(--texto);
+  padding: 8px 14px; border-radius: 6px; font-weight: 600; letter-spacing: .02em;
+}
+.btn:hover:not(:disabled) { border-color: var(--verdin); }
+.btn.fuerte { background: var(--oxido); border-color: var(--oxido); color: #fff7ee; }
+.btn.fuerte:hover:not(:disabled) { background: var(--oxido-claro); border-color: var(--oxido-claro); }
+.btn.peligro { border-color: var(--oxido); color: var(--oxido-claro); }
+.btn.chico { padding: 4px 10px; font-size: .9rem; }
+
+/* Asientos */
+.asientos { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 12px; }
+.asiento {
+  border: 1px solid var(--linea); border-radius: 8px; padding: 14px 16px; background: var(--mesa-2);
+  display: grid; gap: 10px; align-content: start; min-width: 0;
+}
+.asiento.mio { border-color: var(--verdin); }
+.asiento .quien { font-family: var(--display); font-size: 1.2rem; color: var(--papel); overflow-wrap: anywhere; }
+.asiento .quien.libre { color: var(--tenue); }
+.asiento .elige { font-size: .92rem; color: var(--tenue); }
+
+/* Cartas de superviviente */
+.cartas { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 16px; }
+.cartas.mazo { grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); }
+.carta {
+  background: var(--papel); color: var(--tinta); border-radius: 10px; padding: 16px 16px 14px;
+  display: grid; gap: 12px; align-content: start; min-width: 0; position: relative;
+  box-shadow: 0 1px 0 var(--papel-2) inset, 0 10px 24px rgba(0,0,0,.35);
+}
+.carta.tomada { outline: 3px solid var(--verdin); outline-offset: -3px; }
+.carta.mia { outline: 3px solid var(--oxido); outline-offset: -3px; }
+.carta.muerta { filter: grayscale(1) contrast(.85); opacity: .75; }
+.carta .prof { text-transform: uppercase; letter-spacing: .16em; font-size: .72rem; color: var(--tinta-2); font-weight: 700; }
+.carta h3 { font-size: 1.45rem; line-height: 1.1; }
+.carta .hab { font-size: .95rem; border-top: 1px solid var(--papel-2); padding-top: 10px; }
+.carta .hab b { font-weight: 700; }
+.carta .pie { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 8px; }
+.carta .dueno { font-size: .9rem; font-weight: 600; color: var(--tinta-2); }
+.carta .btn { background: var(--tinta); border-color: var(--tinta); color: var(--papel); }
+.carta .btn:hover:not(:disabled) { background: var(--oxido); border-color: var(--oxido); }
+.sello {
+  position: absolute; top: 12px; right: 12px; font-family: var(--display); font-size: .78rem;
+  color: var(--oxido); border: 1.5px solid var(--oxido); padding: 2px 8px; border-radius: 4px; transform: rotate(4deg);
+  background: var(--papel);
+}
+
+.atributos { display: grid; gap: 4px; }
+.atributo { display: grid; grid-template-columns: 7.5em 1fr; align-items: center; gap: 8px; font-size: .9rem; }
+.puntos { display: flex; gap: 4px; }
+.punto { width: 12px; height: 12px; border-radius: 50%; border: 1.5px solid var(--tinta); }
+.punto.lleno { background: var(--tinta); }
+
+/* Hoja de personaje en la mesa */
+.medidor { display: grid; grid-template-columns: 5em 1fr auto; align-items: center; gap: 8px; font-size: .9rem; }
+.casillas { display: flex; flex-wrap: wrap; gap: 5px; }
+.casilla {
+  width: 24px; height: 24px; border-radius: 4px; border: 1.5px solid var(--tinta); background: transparent; padding: 0;
+}
+.casilla.sangre.on { background: var(--oxido); border-color: var(--oxido); }
+.casilla.fatiga.on { background: var(--tinta); }
+.cifra { font-family: var(--numeros); font-size: .85rem; color: var(--tinta-2); font-variant-numeric: tabular-nums; }
+.heridas { display: grid; gap: 6px; }
+.herida { display: grid; grid-template-columns: 7.5em 1fr; align-items: center; gap: 8px; font-size: .9rem; }
+.herida select {
+  font: inherit; font-size: .9rem; padding: 4px 6px; border-radius: 4px; border: 1px solid var(--tinta-2);
+  background: var(--papel); color: var(--tinta); min-width: 0; color-scheme: light;
+}
+.herida select.con { border-color: var(--oxido); color: var(--oxido); font-weight: 700; }
+
+/* Panel común */
+.tablero { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 16px; }
+.panel { border: 1px solid var(--linea); border-radius: 8px; padding: 16px; background: var(--mesa-2); display: grid; gap: 12px; align-content: start; min-width: 0; }
+.dia { display: flex; align-items: center; gap: 14px; flex-wrap: wrap; }
+.dia .numero { font-family: var(--display); font-size: 3.4rem; line-height: 1; color: var(--papel); font-variant-numeric: tabular-nums; min-width: 2ch; text-align: center; }
+.dia .de { color: var(--tenue); }
+.tramo { display: inline-block; padding: 3px 10px; border-radius: 4px; font-size: .82rem; font-weight: 700; letter-spacing: .06em; text-transform: uppercase; }
+.tramo.t1 { background: #22403b; color: #a9d2c6; }
+.tramo.t2 { background: #4a3a1c; color: #e8c27a; }
+.tramo.t3 { background: #4d2215; color: #f0a07c; }
+.barra-dias { display: grid; grid-template-columns: repeat(30, 1fr); gap: 2px; }
+.barra-dias i { height: 8px; border-radius: 1px; background: var(--linea); }
+.barra-dias i.pasado { background: var(--verdin); }
+.barra-dias i.hoy { background: var(--oxido-claro); }
+.recursos { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 8px; }
+.recurso { display: grid; grid-template-columns: 1fr auto auto auto; align-items: center; gap: 6px; border-bottom: 1px solid var(--linea); padding-block: 4px; }
+.recurso span { font-size: .95rem; }
+.recurso b { font-family: var(--numeros); font-variant-numeric: tabular-nums; min-width: 2.2ch; text-align: right; color: var(--papel); }
+.mas-menos { width: 28px; height: 28px; padding: 0; border-radius: 4px; border: 1px solid var(--linea); background: transparent; color: var(--texto); font-weight: 700; }
+.mas-menos:hover:not(:disabled) { border-color: var(--verdin); }
+.etapas { display: grid; gap: 6px; }
+.etapa {
+  display: grid; grid-template-columns: 28px 1fr; gap: 10px; align-items: center; text-align: left;
+  border: 1px solid var(--linea); border-radius: 6px; padding: 8px 10px; background: transparent; color: var(--texto);
+}
+.etapa .n { font-family: var(--numeros); width: 28px; height: 28px; border-radius: 50%; display: grid; place-items: center; border: 1.5px solid var(--tenue); color: var(--tenue); font-size: .85rem; }
+.etapa.hecha { border-color: var(--verdin); }
+.etapa.hecha .n { background: var(--verdin); border-color: var(--verdin); color: var(--mesa); }
+.etapa small { display: block; color: var(--tenue); font-size: .82rem; }
+
+.registro { display: grid; gap: 4px; font-size: .9rem; color: var(--tenue); max-height: 220px; overflow-y: auto; }
+.registro li { list-style: none; }
+.registro ul { margin: 0; padding: 0; display: grid; gap: 4px; }
+.registro b { color: var(--texto); font-weight: 600; }
+.registro time { font-family: var(--numeros); font-size: .78rem; margin-right: 8px; }
+
+.acciones-fin { display: flex; flex-wrap: wrap; gap: 10px; align-items: center; }
+
+.toast {
+  position: fixed; left: 50%; bottom: calc(18px + env(safe-area-inset-bottom, 0px)); transform: translateX(-50%);
+  background: var(--papel); color: var(--tinta); padding: 10px 16px; border-radius: 6px; font-weight: 600;
+  box-shadow: 0 8px 24px rgba(0,0,0,.4); max-width: calc(100vw - 32px); z-index: 10;
+}
+@media (prefers-reduced-motion: no-preference) {
+  .carta { transition: transform .15s ease; }
+  .carta:hover { transform: translateY(-2px); }
+}
+</style>
+
+<div class="envoltura">
+  <header class="cabecera">
+    <div class="marca">
+      <h1>Día <span>30</span></h1>
+      <small>Mesa en línea</small>
+    </div>
+    <span id="conexion" class="chip">Conectando…</span>
+  </header>
+  <main id="app" class="envoltura"></main>
+</div>
+<div id="toast" class="toast" hidden></div>
+
+<script>
+// Personajes provisorios: el mazo de supervivientes todavía no está diseñado (ver pendientes.md).
+const PERSONAJES = [
+  { id: "enfermera", nombre: "Marta Ríos", prof: "Enfermera", a: { F: 2, D: 3, C: 3, P: 4 }, hab: ["Manos firmes", "Los primeros auxilios le cuestan 1 PA en lugar de 2."] },
+  { id: "policia", nombre: "Raúl Ibarra", prof: "Ex policía", a: { F: 4, D: 3, C: 3, P: 2 }, hab: ["Entrenamiento", "Ventaja en el primer ataque con arma de fuego de cada expedición."] },
+  { id: "mecanica", nombre: "Sofía Lenz", prof: "Mecánica", a: { F: 3, D: 4, C: 3, P: 2 }, hab: ["Manos de taller", "Forzar o barricar le cuesta 1 PA y hace un nivel menos de ruido."] },
+  { id: "cocinero", nombre: "Tomás Ferro", prof: "Cocinero", a: { F: 4, D: 2, C: 4, P: 2 }, hab: ["Raciones", "Una vez por día, 1 de comida alimenta a 2 personajes."] },
+  { id: "estudiante", nombre: "Nico Vidal", prof: "Estudiante", a: { F: 1, D: 5, C: 2, P: 4 }, hab: ["Ágil", "Correr le cuesta 1 PA en lugar de 2."] },
+  { id: "cazador", nombre: "Aurelio Pando", prof: "Cazador", a: { F: 3, D: 3, C: 2, P: 4 }, hab: ["Rastreador", "Vigilar revela todos los zombies ocultos de una zona adyacente."] },
+  { id: "maestra", nombre: "Elena Quiroga", prof: "Maestra", a: { F: 2, D: 2, C: 3, P: 5 }, hab: ["Calma", "Cada personaje del grupo recibe 1 ficha de voz extra por expedición."] },
+];
+const ATRIBUTOS = { F: "Fuerza", D: "Destreza", C: "Constitución", P: "Percepción" };
+const ASIENTOS = ["j1", "j2", "j3"];
+const RECURSOS = [["comida", "Comida"], ["agua", "Agua"], ["materiales", "Materiales"], ["medicinas", "Medicinas"], ["municion", "Munición"], ["combustible", "Combustible"]];
+const ETAPAS = [
+  ["Radio o antena", "Encontrar una en la ciudad"],
+  ["Energía", "Generador y combustible"],
+  ["Baliza o fuego de señal", "En la base o en un punto alto"],
+  ["Mensaje", "Necesita un manual, un GPS u otro objeto raro"],
+  ["Activación", "Ruido máximo: atrae una horda"],
+];
+const ZONAS = [["cabeza", "Cabeza"], ["torso", "Torso"], ["brazo_izq", "Brazo izq."], ["brazo_der", "Brazo der."], ["piernas", "Piernas"]];
+const HERIDAS = ["Rasguño", "Laceración", "Fractura", "Mordedura"];
+const SANGRE_MAX = 6, FATIGA_MAX = 3;
+const SANGRE_POR_ZONA = { cabeza: 3, torso: 2 };
+
+const per = id => PERSONAJES.find(p => p.id === id);
+const nombreAsiento = a => "Jugador " + (ASIENTOS.indexOf(a) + 1);
+const clamp = (n, a, b) => Math.min(b, Math.max(a, n));
+const clon = o => JSON.parse(JSON.stringify(o));
+const sleep = ms => new Promise(r => setTimeout(r, ms));
+const esc = s => String(s).replace(/[&<>"']/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
+
+function nuevoEstado() {
+  return {
+    fase: "eleccion",
+    asientos: { j1: null, j2: null, j3: null },
+    mano: [],
+    eleccion: {},
+    grupo: {},
+    dia: 1,
+    recursos: Object.fromEntries(RECURSOS.map(([k]) => [k, 0])),
+    senal: [false, false, false, false, false],
+    registro: [],
+  };
+}
+function mezclar(lista) {
+  const a = lista.slice();
+  for (let i = a.length - 1; i > 0; i--) {
+    const r = new Uint32Array(1); crypto.getRandomValues(r);
+    const j = r[0] % (i + 1);
+    [a[i], a[j]] = [a[j], a[i]];
+  }
+  return a;
+}
+
+// Estado de la vista
+let db = null, user = null, uid = null;
+let conexion = "conectando"; // conectando | ok | solo | sin
+let estado = null;
+let ref = null, candado = null;
+let confirmarReinicio = false, timerReinicio = null;
+const holder = "t" + Math.random().toString(36).slice(2);
+let cola = Promise.resolve();
+
+const asientoDe = (c, id) => id ? ASIENTOS.find(a => c.asientos[a] === id) || null : null;
+const puedeEscribir = () => conexion === "ok" && !!uid;
+
+function aviso(msg) {
+  const t = document.getElementById("toast");
+  t.textContent = msg; t.hidden = false;
+  clearTimeout(aviso.timer);
+  aviso.timer = setTimeout(() => { t.hidden = true; }, 3200);
+}
+function no(msg) { aviso(msg); return false; }
+
+// Cambios: se toma un candado corto para que los dos jugadores no se pisen.
+function mutar(nombre, args) {
+  if (!puedeEscribir()) return;
+  cola = cola.then(() => mutarAhora(nombre, args)).catch(e => {
+    if (e && e.code === "invalid_argument") { conexion = "solo"; render(); aviso("No tenés permiso para cambiar esta partida."); }
+    else aviso("No se pudo guardar el cambio. Probá de nuevo.");
+  });
+}
+async function mutarAhora(nombre, args) {
+  for (let i = 0; i < 8; i++) {
+    const r = await candado.acquire({ holder, ttlMs: 1000 });
+    if (r.acquired) {
+      const s = await ref.get();
+      const c = s.exists ? clon(s.data()) : nuevoEstado();
+      const texto = ACCIONES[nombre](c, args || {});
+      if (!texto) return;
+      c.registro = [{ t: Date.now(), uid, txt: texto }, ...(c.registro || [])].slice(0, 20);
+      await ref.set(c);
+      return;
+    }
+    const espera = r.expiresAt ? Date.parse(r.expiresAt) - Date.now() : 400;
+    await sleep(clamp(espera, 150, 1200) + Math.random() * 150);
+  }
+  aviso("Tu compañero está guardando un cambio. Probá de nuevo.");
+}
+
+const ACCIONES = {
+  sentar(c, { asiento }) {
+    if (asientoDe(c, uid)) return no("Ya estás sentado.");
+    if (c.asientos[asiento]) return no("Ese asiento ya está ocupado.");
+    c.asientos[asiento] = uid;
+    return "se sentó como " + nombreAsiento(asiento);
+  },
+  levantar(c, { asiento }) {
+    if (c.asientos[asiento] !== uid || c.fase !== "eleccion") return false;
+    c.asientos[asiento] = null;
+    delete c.eleccion[asiento];
+    return "dejó el asiento de " + nombreAsiento(asiento);
+  },
+  robar(c) {
+    if (c.fase !== "eleccion") return false;
+    if (Object.keys(c.eleccion).length) return no("Ya hay supervivientes elegidos. Suéltenlos antes de volver a robar.");
+    c.mano = mezclar(PERSONAJES.map(p => p.id)).slice(0, 3);
+    return "robó 3 supervivientes del mazo";
+  },
+  elegir(c, { pid }) {
+    const a = asientoDe(c, uid);
+    if (!a) return no("Primero sentate en un asiento.");
+    if (c.fase !== "eleccion" || !c.mano.includes(pid)) return false;
+    const otro = Object.keys(c.eleccion).find(k => c.eleccion[k] === pid && k !== a);
+    if (otro) return no("Ese superviviente ya lo eligió otro jugador.");
+    c.eleccion[a] = pid;
+    return "eligió a " + per(pid).nombre;
+  },
+  soltar(c) {
+    const a = asientoDe(c, uid);
+    if (!a || !c.eleccion[a] || c.fase !== "eleccion") return false;
+    const nombre = per(c.eleccion[a]).nombre;
+    delete c.eleccion[a];
+    return "soltó a " + nombre;
+  },
+  empezar(c) {
+    const sentados = ASIENTOS.filter(a => c.asientos[a]);
+    if (!sentados.length) return no("Tiene que haber al menos un jugador sentado.");
+    if (sentados.some(a => !c.eleccion[a])) return no("Falta que todos los jugadores elijan su superviviente.");
+    c.grupo = {};
+    for (const pid of c.mano) {
+      const a = sentados.find(k => c.eleccion[k] === pid) || null;
+      c.grupo[pid] = { asiento: a, sangre: SANGRE_MAX, fatiga: 0, heridas: {}, muerto: false };
+    }
+    c.fase = "mesa"; c.dia = 1;
+    return "empezó la partida";
+  },
+  dia(c, { d }) {
+    const n = clamp(c.dia + Number(d), 1, 30);
+    if (n === c.dia) return false;
+    c.dia = n;
+    return "pasó al día " + n;
+  },
+  recurso(c, { r, d }) {
+    const antes = c.recursos[r] || 0, n = Math.max(0, antes + Number(d));
+    if (n === antes) return false;
+    c.recursos[r] = n;
+    return RECURSOS.find(x => x[0] === r)[1] + ": " + antes + " → " + n;
+  },
+  senal(c, { i }) {
+    i = Number(i);
+    c.senal[i] = !c.senal[i];
+    return (c.senal[i] ? "completó" : "desmarcó") + " la etapa " + (i + 1) + " de la señal (" + ETAPAS[i][0] + ")";
+  },
+  sangre(c, { pid, n }) {
+    const g = c.grupo[pid]; if (!g) return false;
+    n = Number(n);
+    if (g.sangre === n) n -= 1;
+    g.sangre = clamp(n, 0, SANGRE_MAX);
+    let txt = per(pid).nombre + ": sangre " + g.sangre;
+    if (g.sangre === 0 && !g.muerto) { g.muerto = true; txt += ". Murió."; }
+    return txt;
+  },
+  fatiga(c, { pid, n }) {
+    const g = c.grupo[pid]; if (!g) return false;
+    n = Number(n);
+    if (g.fatiga === n) n -= 1;
+    g.fatiga = clamp(n, 0, FATIGA_MAX);
+    return per(pid).nombre + ": fatiga " + g.fatiga;
+  },
+  herida(c, { pid, zona, v }) {
+    const g = c.grupo[pid]; if (!g) return false;
+    const antes = g.heridas[zona] || null, ahora = v || null;
+    if (antes === ahora) return false;
+    g.heridas[zona] = ahora;
+    const zonaTxt = ZONAS.find(z => z[0] === zona)[1].toLowerCase();
+    let txt = per(pid).nombre + ": " + (ahora ? ahora.toLowerCase() + " en " + zonaTxt : "sin herida en " + zonaTxt);
+    if (!antes && ahora && SANGRE_POR_ZONA[zona]) {
+      g.sangre = Math.max(0, g.sangre - SANGRE_POR_ZONA[zona]);
+      txt += " (−" + SANGRE_POR_ZONA[zona] + " de sangre)";
+      if (g.sangre === 0 && !g.muerto) { g.muerto = true; txt += ". Murió."; }
+    }
+    return txt;
+  },
+  muerto(c, { pid }) {
+    const g = c.grupo[pid]; if (!g) return false;
+    g.muerto = !g.muerto;
+    return per(pid).nombre + (g.muerto ? " murió" : " vuelve a estar vivo");
+  },
+  reiniciar(c) {
+    Object.assign(c, nuevoEstado());
+    return "reinició la partida";
+  },
+};
+
+// Dibujo
+function puntos(n) {
+  let h = '<span class="puntos" aria-hidden="true">';
+  for (let i = 1; i <= 5; i++) h += '<span class="punto' + (i <= n ? " lleno" : "") + '"></span>';
+  return h + "</span>";
+}
+function atributosHTML(p) {
+  return '<div class="atributos">' + Object.keys(ATRIBUTOS).map(k =>
+    '<div class="atributo"><span>' + ATRIBUTOS[k] + ' <span class="cifra">' + p.a[k] + '</span></span>' + puntos(p.a[k]) + "</div>"
+  ).join("") + "</div>";
+}
+function cartaBase(p, extraClase, pie, sello) {
+  return '<article class="carta ' + (extraClase || "") + '">' +
+    (sello ? '<span class="sello">' + esc(sello) + "</span>" : "") +
+    '<div><div class="prof">' + esc(p.prof) + "</div><h3>" + esc(p.nombre) + "</h3></div>" +
+    atributosHTML(p) +
+    '<p class="hab"><b>' + esc(p.hab[0]) + ".</b> " + esc(p.hab[1]) + "</p>" +
+    (pie ? '<div class="pie">' + pie + "</div>" : "") +
+    "</article>";
+}
+const quien = id => '<span data-uid="' + esc(id) + '">Jugador</span>';
+const dis = () => puedeEscribir() ? "" : " disabled";
+
+function vistaEleccion(c) {
+  const miAsiento = asientoDe(c, uid);
+  let h = '<section class="seccion"><div class="seccion-titulo"><h2>Asientos</h2><span class="etiqueta">1 a 3 jugadores</span></div>';
+  h += '<div class="asientos">' + ASIENTOS.map(a => {
+    const ocupante = c.asientos[a];
+    const mio = ocupante && ocupante === uid;
+    let cuerpo;
+    if (!ocupante) {
+      cuerpo = '<div class="quien libre">Libre</div>' +
+        '<div><button class="btn chico" data-act="sentar" data-asiento="' + a + '"' + (miAsiento ? " disabled" : dis()) + ">Sentarme acá</button></div>";
+    } else {
+      const eligio = c.eleccion[a] ? "Eligió a " + esc(per(c.eleccion[a]).nombre) : "Todavía no eligió";
+      cuerpo = '<div class="quien">' + quien(ocupante) + '</div><div class="elige">' + eligio + "</div>" +
+        (mio ? '<div><button class="btn chico" data-act="levantar" data-asiento="' + a + '"' + dis() + ">Levantarme</button></div>" : "");
+    }
+    return '<div class="asiento' + (mio ? " mio" : "") + '"><span class="etiqueta">' + nombreAsiento(a) + "</span>" + cuerpo + "</div>";
+  }).join("") + "</div></section>";
+
+  h += '<section class="seccion"><div class="seccion-titulo"><h2>Supervivientes</h2>';
+  if (!c.mano.length) {
+    h += '<span class="etiqueta">Mazo provisorio · 7 cartas</span></div>';
+    h += '<p class="nota">La partida empieza con 3 supervivientes robados al azar. Cada jugador elige uno; los que nadie elija se quedan en la base.</p>';
+    h += '<div><button class="btn fuerte" data-act="robar"' + dis() + ">Robar 3 supervivientes</button></div>";
+    h += '<div class="cartas mazo">' + PERSONAJES.map(p => cartaBase(p)).join("") + "</div>";
+  } else {
+    h += '<span class="etiqueta">Robados del mazo</span></div>';
+    h += '<p class="nota">' + (miAsiento ? "Elegí el superviviente que vas a controlar." : "Sentate en un asiento para poder elegir.") + "</p>";
+    h += '<div class="cartas">' + c.mano.map(pid => {
+      const p = per(pid);
+      const dueno = ASIENTOS.find(a => c.eleccion[a] === pid);
+      const esMia = dueno && dueno === miAsiento;
+      let pie;
+      if (esMia) pie = '<span class="dueno">Lo controlás vos</span><button class="btn chico" data-act="soltar"' + dis() + ">Soltar</button>";
+      else if (dueno) pie = '<span class="dueno">Lo eligió ' + quien(c.asientos[dueno]) + "</span>";
+      else pie = '<span class="dueno">Se queda en la base</span><button class="btn chico" data-act="elegir" data-pid="' + pid + '"' + (miAsiento ? dis() : " disabled") + ">Elegir</button>";
+      return cartaBase(p, esMia ? "mia" : dueno ? "tomada" : "", pie);
+    }).join("") + "</div>";
+    const sentados = ASIENTOS.filter(a => c.asientos[a]);
+    const listo = sentados.length && sentados.every(a => c.eleccion[a]);
+    h += '<div class="acciones-fin"><button class="btn fuerte" data-act="empezar"' + (listo ? dis() : " disabled") + ">Empezar partida</button>" +
+      '<button class="btn" data-act="robar"' + (Object.keys(c.eleccion).length ? " disabled" : dis()) + ">Volver a robar</button>" +
+      '<span class="nota">' + (listo ? "Todos eligieron." : "Falta que cada jugador sentado elija.") + "</span></div>";
+  }
+  return h + "</section>";
+}
+
+function tramo(d) {
+  if (d <= 10) return ['t1', "Aprendizaje"];
+  if (d <= 20) return ['t2', "Presión"];
+  return ['t3', "Cuenta regresiva"];
+}
+
+function hojaPersonaje(c, pid) {
+  const p = per(pid), g = c.grupo[pid];
+  const dueno = g.asiento ? '<span class="dueno">' + nombreAsiento(g.asiento) + " · " + quien(c.asientos[g.asiento] || "") + "</span>" : '<span class="dueno">En la base</span>';
+  let sangre = "", fatiga = "";
+  for (let i = 1; i <= SANGRE_MAX; i++) sangre += '<button class="casilla sangre' + (i <= g.sangre ? " on" : "") + '" data-act="sangre" data-pid="' + pid + '" data-n="' + i + '" aria-label="Sangre ' + i + '"' + dis() + "></button>";
+  for (let i = 1; i <= FATIGA_MAX; i++) fatiga += '<button class="casilla fatiga' + (i <= g.fatiga ? " on" : "") + '" data-act="fatiga" data-pid="' + pid + '" data-n="' + i + '" aria-label="Fatiga ' + i + '"' + dis() + "></button>";
+  const heridas = ZONAS.map(([z, nom]) => {
+    const v = g.heridas[z] || "";
+    const opts = ['<option value="">Sin herida</option>'].concat(HERIDAS.map(x => '<option' + (x === v ? " selected" : "") + ">" + x + "</option>")).join("");
+    const extra = SANGRE_POR_ZONA[z] ? ' <span class="cifra">−' + SANGRE_POR_ZONA[z] + "</span>" : "";
+    return '<label class="herida" for="h-' + pid + "-" + z + '"><span>' + nom + extra + '</span><select id="h-' + pid + "-" + z + '" class="' + (v ? "con" : "") + '" data-act="herida" data-pid="' + pid + '" data-zona="' + z + '"' + dis() + ">" + opts + "</select></label>";
+  }).join("");
+  return '<article class="carta' + (g.muerto ? " muerta" : g.asiento && c.asientos[g.asiento] === uid ? " mia" : "") + '">' +
+    (g.muerto ? '<span class="sello">Muerto</span>' : "") +
+    '<div><div class="prof">' + esc(p.prof) + "</div><h3>" + esc(p.nombre) + "</h3></div>" +
+    '<div class="pie">' + dueno + "</div>" +
+    atributosHTML(p) +
+    '<p class="hab"><b>' + esc(p.hab[0]) + ".</b> " + esc(p.hab[1]) + "</p>" +
+    '<div class="medidor"><span>Sangre</span><div class="casillas">' + sangre + '</div><span class="cifra">' + g.sangre + "/" + SANGRE_MAX + "</span></div>" +
+    '<div class="medidor"><span>Fatiga</span><div class="casillas">' + fatiga + '</div><span class="cifra">' + g.fatiga + "/" + FATIGA_MAX + "</span></div>" +
+    '<div class="heridas"><span class="prof">Heridas</span>' + heridas + "</div>" +
+    '<div class="pie"><span></span><button class="btn chico" data-act="muerto" data-pid="' + pid + '"' + dis() + ">" + (g.muerto ? "Revivir (corrección)" : "Marcar como muerto") + "</button></div>" +
+    "</article>";
+}
+
+function vistaMesa(c) {
+  const [tc, tn] = tramo(c.dia);
+  let barra = "";
+  for (let i = 1; i <= 30; i++) barra += '<i class="' + (i < c.dia ? "pasado" : i === c.dia ? "hoy" : "") + '"></i>';
+  let h = '<section class="tablero">';
+  h += '<div class="panel"><span class="etiqueta">Calendario</span><div class="dia">' +
+    '<button class="mas-menos" data-act="dia" data-d="-1" aria-label="Día anterior"' + dis() + ">−</button>" +
+    '<span class="numero">' + c.dia + '</span><button class="mas-menos" data-act="dia" data-d="1" aria-label="Día siguiente"' + dis() + ">+</button>" +
+    '<span class="de">de 30</span></div><div><span class="tramo ' + tc + '">' + tn + "</span></div>" +
+    '<div class="barra-dias" aria-hidden="true">' + barra + "</div>" +
+    '<p class="nota">El helicóptero llega el día 30.</p></div>';
+  h += '<div class="panel"><span class="etiqueta">Recursos de la base</span><div class="recursos">' + RECURSOS.map(([k, nom]) =>
+    '<div class="recurso"><span>' + nom + '</span><button class="mas-menos" data-act="recurso" data-r="' + k + '" data-d="-1" aria-label="Quitar ' + nom + '"' + dis() + ">−</button><b>" + (c.recursos[k] || 0) + '</b><button class="mas-menos" data-act="recurso" data-r="' + k + '" data-d="1" aria-label="Sumar ' + nom + '"' + dis() + ">+</button></div>"
+  ).join("") + "</div></div>";
+  const hechas = c.senal.filter(Boolean).length;
+  h += '<div class="panel"><span class="etiqueta">Señal de socorro · ' + hechas + " de 5</span><div class=\"etapas\">" + ETAPAS.map(([t, d], i) =>
+    '<button class="etapa' + (c.senal[i] ? " hecha" : "") + '" data-act="senal" data-i="' + i + '" aria-pressed="' + !!c.senal[i] + '"' + dis() + '><span class="n">' + (i + 1) + "</span><span>" + t + "<small>" + d + "</small></span></button>"
+  ).join("") + "</div></div>";
+  h += "</section>";
+
+  h += '<section class="seccion"><div class="seccion-titulo"><h2>Grupo</h2><span class="etiqueta">' +
+    Object.values(c.grupo).filter(g => !g.muerto).length + " vivos</span></div>";
+  h += '<div class="cartas">' + Object.keys(c.grupo).map(pid => hojaPersonaje(c, pid)).join("") + "</div></section>";
+  return h;
+}
+
+function registroHTML(c) {
+  if (!c.registro || !c.registro.length) return "";
+  return '<section class="seccion"><div class="seccion-titulo"><h2>Registro</h2><span class="etiqueta">Últimos cambios</span></div>' +
+    '<div class="registro"><ul>' + c.registro.map(r => {
+      const hora = new Date(r.t).toLocaleTimeString("es-AR", { hour: "2-digit", minute: "2-digit" });
+      return "<li><time>" + hora + "</time><b>" + quien(r.uid) + "</b> " + esc(r.txt) + "</li>";
+    }).join("") + "</ul></div></section>";
+}
+
+function render() {
+  const chip = document.getElementById("conexion");
+  const textos = { conectando: "Conectando…", ok: "En línea", solo: "Solo lectura", sin: "Sin conexión" };
+  chip.textContent = textos[conexion];
+  chip.className = "chip" + (conexion === "ok" ? " ok" : conexion === "solo" ? " solo" : "");
+
+  const c = estado || nuevoEstado();
+  let h = "";
+  if (conexion === "sin") {
+    h += '<p class="aviso-banda">Para jugar en línea, abrí esta página desde claude.ai con tu cuenta. Mientras tanto podés ver el mazo de supervivientes.</p>';
+  } else if (conexion === "solo") {
+    h += '<p class="aviso-banda">Podés mirar la partida pero no cambiarla. Para jugar, pedile al dueño de la página que te invite por email como Editor.</p>';
+  }
+  h += c.fase === "mesa" ? vistaMesa(c) : vistaEleccion(c);
+  h += registroHTML(c);
+  if (c.fase === "mesa" || c.mano.length) {
+    h += '<section class="acciones-fin"><button class="btn peligro" data-act="reiniciar"' + dis() + ">" +
+      (confirmarReinicio ? "¿Seguro? Tocá de nuevo para borrar la partida" : "Reiniciar partida") + "</button></section>";
+  }
+  document.getElementById("app").innerHTML = h;
+  pintarNombres();
+}
+
+async function pintarNombres() {
+  const els = Array.from(document.querySelectorAll("[data-uid]"));
+  if (!els.length || !user) return;
+  const ids = Array.from(new Set(els.map(e => e.dataset.uid).filter(Boolean)));
+  if (!ids.length) return;
+  const ps = await user.profiles(ids);
+  els.forEach(e => {
+    const p = ps[e.dataset.uid];
+    if (p) e.textContent = p.isMe ? "Vos" : (p.name || "Tu compañero");
+  });
+}
+
+// Eventos
+document.getElementById("app").addEventListener("click", ev => {
+  const b = ev.target.closest("button[data-act]");
+  if (!b || b.disabled) return;
+  const act = b.dataset.act;
+  if (act === "reiniciar") {
+    if (!confirmarReinicio) {
+      confirmarReinicio = true; render();
+      clearTimeout(timerReinicio);
+      timerReinicio = setTimeout(() => { confirmarReinicio = false; render(); }, 4000);
+      return;
+    }
+    confirmarReinicio = false; clearTimeout(timerReinicio);
+  }
+  mutar(act, Object.assign({}, b.dataset));
+});
+document.getElementById("app").addEventListener("change", ev => {
+  const s = ev.target.closest("select[data-act]");
+  if (!s) return;
+  mutar(s.dataset.act, { pid: s.dataset.pid, zona: s.dataset.zona, v: s.value });
+});
+
+async function iniciar() {
+  render();
+  if (!window.claude || !window.claude.use) { conexion = "sin"; render(); return; }
+  const [d, u] = await Promise.all([window.claude.use("db"), window.claude.use("user")]);
+  db = d; user = u;
+  if (!db) { conexion = "sin"; render(); return; }
+  uid = user ? await user.id() : null;
+  const puede = user ? await user.can("data.write") : null;
+  conexion = (puede === false || !uid) ? "solo" : "ok";
+  ref = db.doc("partida/actual");
+  candado = db.doc("partida/candado");
+  ref.onSnapshot(s => {
+    estado = s.exists ? s.data() : null;
+    render();
+  }, () => {
+    conexion = "sin"; render();
+    aviso("Se perdió la conexión con la partida. Recargá la página.");
+  });
+  render();
+}
+iniciar();
+</script>
+
+</body></html>
