@@ -57,6 +57,8 @@ REGLAS_BASE = {
     "cuchillo_dano": 4,
     "pistola_dano": 10,
     "pistola_mod_dano": 0,
+    "efectos_js": 0,         # 1 = efectos de zona permanentes, como el JS
+    "derribar_js": 0,        # 1 = los zombies también derriban vidriera y puerta con llave, como el JS
     "mod_fue": 1,            # modificador de Fuerza (ataque y daño cuerpo a cuerpo)
     "mod_des": 1,            # modificador de Destreza (ataque con pistola)
     "hab_vendar1": 0,        # Marta: primeros auxilios por 1 PA
@@ -179,7 +181,12 @@ class Juego:
     def night(self):
         return self.turno >= self.R['noche']
     def effect(self, z):
-        return any(w[0] == z and w[1] != 'Rasguño' for w in self.wounds)
+        # Kit: el efecto dura mientras haya ahí una herida que no sea rasguño.
+        # Una laceración vendada deja de contar; fractura y mordedura duran toda la expedición.
+        # (El JS los deja permanentes para cualquier tipo: R['efectos_js'] = 1 reproduce eso.)
+        if self.R['efectos_js']:
+            return any(w[0] == z and w[1] != 'Rasguño' for w in self.wounds)
+        return any(w[0] == z and w[1] != 'Rasguño' and not (w[1] == 'Laceración' and w[2]) for w in self.wounds)
     def cap(self):
         return 6 - (1 if self.effect('BrazoI') else 0)
     def load(self):
@@ -248,7 +255,12 @@ class Juego:
             done[u] = True
             for j in NB[u]:
                 e = self.edges[ek(u, j)]
-                w = 1 if e in PASS else (INF if e == 'wall' else 4)
+                if e in PASS:
+                    w = 1
+                elif e == 'door' or (self.R['derribar_js'] and e != 'wall'):
+                    w = 4
+                else:
+                    w = INF  # kit: solo derriban puertas cerradas sin llave; vidriera y puerta con llave son pared para ellos
                 if dist[u] + w < dist[j]:
                     dist[j] = dist[u] + w
                     prev[j] = u
@@ -480,6 +492,11 @@ class Juego:
                 z[0] = s
             elif self.d(6) == 6:
                 self.edges[k] = 'broken'
+                # corrección del error del JS: al caer la abertura se revela el edificio
+                if k == (7, 13):
+                    self.reveal_casa()
+                if BLD(k[0]) == 'farm' or BLD(k[1]) == 'farm':
+                    self.reveal_farm()
         # horda
         for g in GROUPS:
             tot = sum(self.tokens[i] for i in g)
