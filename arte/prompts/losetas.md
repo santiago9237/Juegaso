@@ -1,131 +1,62 @@
-# Prompts: losetas del mapa
+# Prompts: losetas del mapa (v2)
 
-Para generar con ChatGPT (imagen). Todas las losetas comparten los mismos parámetros, así encajan entre sí como en Carcassonne o Zombicide.
+Decisión de Santiago: todas las losetas tienen **la misma calle**, siempre en el mismo lugar, y **siempre los 9 puntos rojos** de la grilla de 3 × 3 (la grilla no se dibuja). Las losetas de casas tienen un espacio de calle y otro para las casas.
 
 ## Sistema
 
-- **Loseta simple:** cuadrada, 3 × 3 zonas. Se exporta a 1500 × 1500 px (500 px por zona).
-- **Loseta grande (hospital, supermercado):** 2 × 2 losetas = 6 × 6 zonas, cuadrada, 3000 × 3000 px.
-- **Bordes.** Cada borde de loseta es de uno de dos tipos:
-  - **C (calle):** la calzada llega al borde **en el tercio del medio**, con una vereda a cada lado. Calzada = el tercio central; las veredas ocupan el borde interno de los tercios laterales.
-  - **V (vereda / terreno):** no llega calle. Termina en vereda, pasto, cerca o fondo de terreno.
-  - Una loseta solo se pone al lado de otra si los bordes que se tocan son iguales (C con C, V con V).
-- **Familias:**
-  - **Calles:** la calzada ocupa el tercio central. Los tercios laterales son terrenos (baldíos, autos, escombros). No hay edificios a los que se entre.
-  - **Manzanas:** sin calle. Un edificio (casa, farmacia, comisaría) con su patio. Todos sus bordes son V. La puerta mira hacia un borde, que se pone junto a una loseta de calle.
-  - **Grandes:** hospital y supermercado, 2 × 2 losetas, todos los bordes V.
-- **Puntos rojos:** NO se piden a ChatGPT. Se ponen después con `herramientas/puntos_loseta.py`, siempre en el centro de las zonas, así quedan iguales en todas.
-  - Calle: los 9 centros (3 en la calzada, 6 en los terrenos).
-  - Casa: 1 por habitación y 1 por patio. Las paredes de las habitaciones siguen las líneas de la cuadrícula, para que cada habitación tenga una zona con su punto en el centro.
+- Loseta cuadrada, grilla invisible de 3 × 3 zonas. Exportación para TTS: 1500 × 1500 px.
+- **Calle (igual en todas):** columna del medio, vertical, de borde superior a borde inferior. Asfalto con línea amarilla y vereda a cada lado, dentro de esa columna. Toca los bordes de arriba y de abajo en el tercio del medio. Así cualquier loseta se conecta con cualquier otra (girándolas 90° se arman calles horizontales).
+- **Columnas laterales:** izquierda y derecha. Ahí va lo que cambia: baldíos, casas o edificios especiales. No tocan la calle de otras losetas: se tocan entre sí (un fondo con otro fondo).
+- **9 puntos rojos:** centro de cada zona, a 1/6, 1/2 y 5/6 del ancho y del alto. Calle: 3 puntos. Cada columna lateral: 3 puntos, uno por habitación o espacio.
+- **Casas y edificios:** ocupan una columna lateral entera (3 habitaciones, una por zona, cada una con su punto) y tienen la puerta hacia la vereda.
+- Si ChatGPT pone mal los puntos: pedir la loseta sin puntos y ponerlos con `herramientas/puntos_loseta.py ... --todos`.
 
-## Bloque fijo (pegarlo en TODOS los prompts, sin cambiarlo)
+## Mensaje 1 (reglas + primera loseta)
+
+Ver el texto en la respuesta del chat; es el mismo que figura abajo.
 
 ```
-Top-down orthographic map tile for a post-apocalyptic zombie survival board game, to be used in Tabletop Simulator. Perfectly square image, 1:1. Pure 90° overhead view, no perspective, no isometric angle, no shadows that change direction between tiles: light comes from the top-left.
+I'm making a set of square map tiles for a post-apocalyptic zombie board game for Tabletop Simulator. I'll ask for many tiles, one by one, in this chat. ALL of them must follow these fixed rules exactly, so every tile connects with every other one. Use the attached image only as a style reference.
 
-STYLE (identical on every tile of the set): hand-drawn ink linework with cross-hatching, painted in muted, desaturated colors, like an illustrated tabletop battle map; aged parchment frame color #D8C8A6 only in a thin worn border; cracked grey asphalt with faded yellow center lines; beige stone sidewalks with square slabs; overgrown dark-green grass and weeds; rusted cars, rubble, broken fences, trash. Gloomy, abandoned, after the apocalypse, but clean and readable: the floor of every area must stay visible for placing miniatures.
+FIXED RULES FOR EVERY TILE:
+1. FORMAT: perfectly square 1:1, pure top-down 90° view, no perspective, no isometric angle, light from the top-left. Buildings are shown with the roof removed so the rooms are visible.
+2. STYLE: hand-drawn ink linework with cross-hatching, muted desaturated colors, illustrated tabletop battle map. Cracked grey asphalt with a faded yellow dashed center line, beige stone sidewalks with square slabs, overgrown dark-green grass and weeds, rusted cars, rubble, broken fences. Thin worn parchment border (#D8C8A6). Gloomy and abandoned but clean and readable.
+3. INVISIBLE 3x3 GRID: the tile is divided into 3 equal columns and 3 equal rows (9 square zones). Do NOT draw the grid lines.
+4. THE STREET (identical on every tile): the MIDDLE COLUMN is always the same vertical street: a straight asphalt road with a sidewalk on each side, running from the top edge to the bottom edge. It touches the top and bottom edges exactly in the middle third. Same width, same position, same look on every tile. No other road anywhere.
+5. LEFT and RIGHT COLUMNS: this is what changes from tile to tile (lots, houses or buildings). Buildings fill their column and their front doors open onto the sidewalk of the street. The outer left and right edges end in yard, fence or wall, never in road.
+6. RED DOTS (always exactly 9): one solid dark-red circle with a soft glow in the CENTER of each of the 9 zones: at 1/6, 1/2 and 5/6 of the width, combined with 1/6, 1/2 and 5/6 of the height. Three dots on the street, three in the left column, three in the right column. All the same size (about 1/12 of the tile width). No other dots or markers.
+7. NEVER draw: grid lines, numbers, letters, text, signs with words, people, zombies, characters, blood pools, logos, watermarks, 3D render, photorealism.
 
-GRID (critical): the tile is divided into an invisible 3 × 3 grid of equal square zones. Walls of buildings and the edges of the road must follow these grid lines exactly. Do NOT draw the grid lines, do NOT draw any dots, circles, markers, numbers, letters, text, labels, compass, logo or watermark.
+Confirm you understood, then make the first tile:
 
-EDGES (critical, so tiles connect like Carcassonne): where a road reaches a tile edge, the asphalt occupies exactly the middle third of that edge, with a sidewalk on each side, and it runs straight and perpendicular into the edge. Edges without road end in sidewalk, grass, fence or yard, never in asphalt. Nothing important touches the outer border.
-
-AVOID: people, zombies, characters, blood pools, text, signs with letters, dots, grid lines, frames thicker than a few pixels, 3D render, photorealism, tilted camera.
-```
-
-## Bloque variable (uno por loseta, va debajo del bloque fijo)
-
-### Calles (todas con terrenos en los tercios laterales)
-
-**C1 · Recta** (bordes: arriba C, abajo C, izquierda V, derecha V)
-```
-THIS TILE: a straight road running from the top edge to the bottom edge through the middle column of the grid. Left column: an empty lot with tall weeds and a burned-out car. Right column: a small parking lot with two abandoned cars and a dumpster. A faded crosswalk across the road in the middle row.
+THIS TILE: LEFT COLUMN: an empty lot with tall weeds and a burned-out car. RIGHT COLUMN: a small parking lot with two abandoned cars and a dumpster. A faded crosswalk across the street in the middle row.
 ```
 
-**C2 · Recta, variante** (arriba C, abajo C)
-```
-THIS TILE: a straight road from the top edge to the bottom edge through the middle column. Left column: a collapsed bus stop with a toppled bench and broken glass. Right column: a fenced yard overgrown with bushes and a fallen tree branch across the sidewalk. A pothole full of rainwater in the top row.
-```
+## Mensajes siguientes (uno por loseta)
 
-**C3 · Esquina** (abajo C, derecha C; arriba V, izquierda V)
-```
-THIS TILE: an L-shaped road: it enters from the bottom edge (middle third) and turns 90° to exit through the right edge (middle third). The turn is in the center zone. Top-left area: a vacant lot with rubble and a rusted car. Top-right and bottom-left corners: sidewalk corners with a broken streetlight and overgrown planters.
-```
+Todos empiezan con `Next tile, same fixed rules.`
 
-**C4 · T** (izquierda C, derecha C, abajo C; arriba V)
-```
-THIS TILE: a T-junction: a road crosses the tile horizontally from the left edge to the right edge through the middle row, and a third branch leaves from the center down to the bottom edge. Top row: a long sidewalk with an overturned delivery van and scattered boxes. Bottom-left and bottom-right corners: small grassy lots with a broken fence.
-```
+Baldíos y calle:
+- B1 · `THIS TILE: LEFT COLUMN: a collapsed bus stop with a toppled bench and broken glass. RIGHT COLUMN: a fenced yard overgrown with bushes and a fallen tree. A pothole full of rainwater on the street.`
+- B2 · `THIS TILE: LEFT COLUMN: a burned kiosk and a pile of sandbags. RIGHT COLUMN: an overturned delivery van with scattered boxes on a grassy lot.`
 
-**C5 · Cruce** (los cuatro bordes C)
-```
-THIS TILE: a four-way crossroads: roads reach all four edges through their middle third and meet in the center zone, with faded crosswalks on each side of the intersection. The four corners are sidewalk corners: a crashed car against a traffic light, a burned kiosk, a pile of sandbags, an overgrown planter.
-```
+Casas (una casa por columna; 3 habitaciones, una por zona, puerta a la vereda):
+- H1 · `THIS TILE: LEFT COLUMN: an empty weedy lot with a rusted car. RIGHT COLUMN: a one-story house with three rooms stacked from top to bottom, one per zone: bedroom, living room, kitchen. Front door from the living room onto the sidewalk; doorways between rooms.`
+- H2 · `THIS TILE: LEFT COLUMN: a house with three rooms from top to bottom: garage with a car and tools, living room, bathroom. Front door from the living room onto the sidewalk. RIGHT COLUMN: a house with three rooms: kitchen, dining room, bedroom. Front door from the dining room onto the sidewalk.`
+- H3 · `THIS TILE: LEFT COLUMN: a ransacked house with three rooms from top to bottom: bedroom with a mattress against the door, living room with overturned furniture, pantry. Barricaded windows. Front door from the living room onto the sidewalk. RIGHT COLUMN: a backyard with a dog house, a clothesline and a broken fence.`
+- H4 · `THIS TILE: LEFT COLUMN: a small grocery corner store with three rooms from top to bottom: store room, shop with empty shelves and a counter, back office. Shop door onto the sidewalk. RIGHT COLUMN: a house with three rooms: kids' bedroom, living room, kitchen; front door from the living room.`
 
-**C6 · Calle cortada** (abajo C; resto V)
-```
-THIS TILE: a dead-end road that enters from the bottom edge (middle third) and ends in the center zone against a barricade of concrete blocks, sandbags and a crashed police car. Top row: an empty lot with weeds behind the barricade. Left and right columns: sidewalks and small yards.
-```
+Especiales (el edificio ocupa una columna entera y la otra columna es su anexo, así es más grande que una casa):
+- E1 Farmacia · `THIS TILE: RIGHT COLUMN: a pharmacy with three rooms from top to bottom: storage room with boxes, sales floor with knocked-over medicine shelves and a glass shop window, pharmacist counter with a locked cabinet. Entrance from the sales floor onto the sidewalk, green cross on the entrance mat (no letters). LEFT COLUMN: the pharmacy's parking lot with an abandoned ambulance and a delivery van.`
+- E2 Comisaría · `THIS TILE: RIGHT COLUMN: a police station with three rooms from top to bottom: holding cells with bars, office with desks and an armory with an empty gun rack and a steel door, entrance hall with a reception behind bulletproof glass and sandbags. Entrance onto the sidewalk. LEFT COLUMN: the station's fenced yard with two crashed police cars and a barricade of concrete blocks.`
+- E3 Supermercado · `THIS TILE: BOTH SIDE COLUMNS are one big supermarket split by the street: RIGHT COLUMN: the sales floor with long shelf aisles, checkouts and shopping carts, sliding entrance onto the sidewalk. LEFT COLUMN: the supermarket's warehouse with pallets, a cold room and a loading dock facing the sidewalk.`
+- E4 Hospital · `THIS TILE: RIGHT COLUMN: a hospital wing with three rooms from top to bottom: patient ward with beds, operating room, emergency reception with double doors onto the sidewalk. LEFT COLUMN: the ambulance bay with two ambulances, triage tents and stretchers, and a generator.`
 
-### Manzanas (casa: 2 × 3 zonas de casa + 1 columna de patio; puerta al borde que diga)
+Cruces opcionales (misma calle, mismo ancho, para unir calles paralelas):
+- X1 · `THIS TILE: exception to rule 4: the street ALSO runs horizontally through the middle row with the exact same width and look, making a four-way crossroads in the center zone, touching all four edges in their middle third. The four corner zones are sidewalk corners: a crashed car against a traffic light, a burned kiosk, sandbags, an overgrown planter. Keep the 9 red dots.`
+- X2 · `THIS TILE: exception to rule 4: T-junction. The vertical street as always, plus a branch with the exact same width going from the center zone to the RIGHT edge (middle third). LEFT COLUMN: an empty lot with rubble. Top-right and bottom-right zones: sidewalk corners with a broken streetlight. Keep the 9 red dots.`
 
-**M1 · Casa con living y cocina** (puerta hacia abajo)
-```
-THIS TILE: a city block with no road. A one-story house fills the left two columns of the grid (6 zones), seen from above with the roof removed. Its rooms follow the grid: a living room (top two zones of the house), a kitchen (middle-left zone), a bathroom (middle-right zone), a bedroom (bottom two zones). Interior walls along the grid lines, with doorways between rooms. The front door is in the middle of the bottom wall, opening to a short path that reaches the bottom edge. The right column is a back yard with grass, a clothesline and a shed. Furniture is drawn but leaves floor space in the center of every room.
-```
-
-**M2 · Casa en L** (puerta hacia la izquierda)
-```
-THIS TILE: a city block with no road. An L-shaped one-story house, roof removed: it fills the whole top row and the whole left column (5 zones). Rooms follow the grid: top-left zone is the entrance hall, the rest of the top row is a living room and a dining room, the left column below holds a kitchen and a bedroom. The front door opens to the left edge from the entrance hall. The other 4 zones are a walled courtyard with a dry fountain, weeds and garden chairs. Interior walls on grid lines with doorways.
-```
-
-**M3 · Casa de dos ambientes con garaje** (puerta hacia la derecha)
-```
-THIS TILE: a city block with no road. A house, roof removed, in the right two columns (6 zones): top row a garage with a car and tools, middle row a living room, bottom row two bedrooms (one per zone). The front door opens to the right edge from the living room; the garage door also opens to the right. The left column is a side yard with a dog house, a vegetable patch gone wild and a broken fence. Walls on grid lines, doorways between rooms.
-```
-
-**M4 · Casa saqueada** (puerta hacia arriba)
-```
-THIS TILE: a city block with no road. A ransacked house, roof removed, filling the bottom two rows (6 zones): living room, kitchen and pantry in the middle row; two bedrooms and a bathroom in the bottom row, each in its own zone. Barricaded windows, overturned furniture, a mattress against a door. The front door opens upward to the top row, which is a front garden with a gate in the middle of the top edge.
-```
-
-**M5 · Dúplex** (puerta hacia abajo)
-```
-THIS TILE: a city block with no road. Two small attached houses, roof removed, sharing a middle wall: each house takes one column of the grid, the left and middle columns, with three rooms each (one per zone: living, kitchen, bedroom). Each house has its own front door at the bottom edge. The right column is a shared parking strip with a rusty pickup truck.
-```
-
-### Edificios especiales de una loseta (ocupan las 9 zonas: más grandes que una casa)
-
-**E1 · Farmacia** (puerta hacia abajo)
-```
-THIS TILE: a city block with no road, completely filled by a pharmacy, roof removed, 9 zones. Bottom row: the store front with a glass shop window along the bottom edge and the entrance door in the middle, shelves of medicine boxes knocked over, a counter. Middle row: the back of the shop with the pharmacist's counter and a locked medicine cabinet. Top row: a storage room with boxes and a back door that opens to the top edge, plus a small office and a toilet, each in its own zone. Green cross painted on the floor mat at the entrance (no letters).
-```
-
-**E2 · Comisaría** (puerta hacia abajo)
-```
-THIS TILE: a city block with no road, completely filled by a small police station, roof removed, 9 zones. Bottom row: entrance hall with a reception desk behind bullet-proof glass, front door in the middle of the bottom edge, sandbags. Middle row: an office with desks and filing cabinets, a locker room, an armory with an empty gun rack and a heavy steel door. Top row: two holding cells with bars and an interview room. Overturned chairs, scattered papers, spent shell casings. No letters on signs.
-```
-
-### Edificios grandes (2 × 2 losetas: cuadrada, 6 × 6 zonas)
-
-Cambiar en el bloque fijo "3 × 3 grid" por "6 × 6 grid" y "middle third" por "never: this tile has no road".
-
-**G1 · Supermercado** (puerta hacia abajo)
-```
-THIS TILE: a large square map tile representing a whole supermarket, roof removed, on an invisible 6 × 6 grid. Bottom two rows: the sales floor entrance with checkout counters, abandoned shopping carts and an automatic sliding door in the middle of the bottom edge; outside it a thin strip of parking with two cars. Middle rows: long aisles of shelves running vertically, many knocked over, with clear walking space between them. Top two rows: the stock room with pallets and boxes, a cold room, a manager's office and a loading dock with a roll-up door on the top edge. Walls follow the grid lines.
-```
-
-**G2 · Hospital** (puerta hacia abajo)
-```
-THIS TILE: a large square map tile representing a small hospital, roof removed, on an invisible 6 × 6 grid. Bottom two rows: the emergency entrance with an ambulance bay outside, double doors in the middle of the bottom edge, a waiting room with rows of chairs and a reception desk. Middle rows: a long corridor running left to right with rooms on both sides: patient rooms with beds, an operating room, an X-ray room. Top two rows: a pharmacy store room, a staff room, a morgue with steel drawers and a generator room with a back door on the top edge. Gurneys and wheelchairs in the corridor, curtains, scattered medical supplies. Walls follow the grid lines.
-```
-
-## Después de generar cada loseta
-
-1. Revisá los bordes: la calzada tiene que tocar el borde en el tercio del medio, recta.
-2. Agregá los puntos:
-   ```
-   python3 herramientas/puntos_loseta.py c1.png tts/losetas/calle_recta_v01.jpg --todos
-   python3 herramientas/puntos_loseta.py m1.png tts/losetas/casa_m1_v01.jpg --zonas A1,A2,B2,A3,C1,C2,C3
-   python3 herramientas/puntos_loseta.py hospital.png tts/losetas/hospital_v01.jpg --losetas 2x2 --zonas C6,B5,E5,A3,C3,E3,B1,D1,F1
-   ```
-3. En Tabletop Simulator: Custom Tile, cuadrado. Loseta simple 6 × 6 unidades de mesa (zona de 2 × 2); grande 12 × 12.
+## Correcciones
+- Calle corrida: `Same tile, but the street must be exactly the middle third of the tile, straight from top edge to bottom edge, same as the first tile.`
+- Puntos mal: `Same tile, but exactly 9 red dots, one in the center of each zone of the invisible 3x3 grid.`
+- Estilo distinto: `Keep exactly the same style as the first tile of this chat.`
