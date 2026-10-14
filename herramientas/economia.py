@@ -269,5 +269,66 @@ def main():
     print(f'\nSuma de días buscando las 4 etapas una tras otra: 1 jugador {tot_dias[1]:.0f}, 2 jugadores {tot_dias[2]:.0f}, 3 jugadores {tot_dias[3]:.0f} (de 30, sin contar días de comida).')
 
 
+
+def mazo_aparicion():
+    """Zombies por expedición con el mazo de aparición (diseno/mazo_aparicion.md)."""
+    import sys
+    sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+    from simular_prueba1 import _MAZO
+    base = [(t, ns) for t, ns, c in _MAZO for _ in range(c)]
+    rng = random.Random(3)
+    print('\n## Mazo de aparición: zombies por expedición (12 turnos: 10 de día con 1 carta y 2 de noche con 2 = 14 cartas)\n')
+    print('| Nivel (días) | Zombies por carta | Zombies por expedición | Caminantes | Corredores | Brutos | Ácidos | Chillones | Activaciones extra | % expediciones con carta Horda | Errantes d6 equivalentes (tramo) |')
+    print('|---|---|---|---|---|---|---|---|---|---|---|')
+    d6 = {1: 0.67 * 10 + 2 * 0.67 * 2, 2: 1.0 * 10 + 2 * 1.0 * 2, 3: 1.83 * 10 + 2 * 1.83 * 2}
+    dias = {1: '1–7', 2: '8–14', 3: '15–20'}
+    for nv in (1, 2, 3):
+        reps = 40000
+        tot = {}
+        act = 0
+        hordas = 0
+        for _ in range(reps):
+            mazo = base[:]
+            rng.shuffle(mazo)
+            desc = []
+            vio_horda = False
+            for _c in range(14):
+                if not mazo:
+                    mazo = desc
+                    desc = []
+                    rng.shuffle(mazo)
+                t, ns = mazo.pop()
+                desc.append((t, ns))
+                if t == 'activacion':
+                    act += 1
+                elif t == 'horda':
+                    vio_horda = True
+                    tot['C'] = tot.get('C', 0) + [2, 3, 4][nv - 1]
+                    tot['R'] = tot.get('R', 0) + [0, 1, 1][nv - 1]
+                    mazo += desc
+                    desc = []
+                    rng.shuffle(mazo)
+                else:
+                    k = 'C' if t == 'atraidos' else t
+                    tot[k] = tot.get(k, 0) + ns[nv - 1]
+            hordas += vio_horda
+        tz = sum(tot.values()) / reps
+        print(f'| {nv} ({dias[nv]}) | {tz / 14:.2f} | {tz:.1f} | ' + ' | '.join(f"{tot.get(k, 0) / reps:.1f}" for k in 'CRBAH') + f' | {act / reps:.2f} | {100 * hordas / reps:.0f} | {d6[nv]:.1f} |')
+
+
+def alimento():
+    """Comida y agua fusionadas en Alimento: botín por registro y por día."""
+    tablas, errantes, locs = leer_tablas()
+    print('\n## Alimento (comida + agua en un solo recurso): entra por registro\n')
+    print('| Edificio | Alimento por registro | Alimento por edificio entero |')
+    print('|---|---|---|')
+    for tipo in tablas:
+        regs, botin, zs = edificio(tablas, tipo, 0)
+        a = botin.get('comida', 0) + botin.get('agua', 0)
+        print(f'| {tipo} | {a / regs:.2f} | {a:.2f} |')
+
+
 if __name__ == '__main__':
     main()
+    mazo_aparicion()
+    alimento()

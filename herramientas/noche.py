@@ -112,7 +112,7 @@ def main():
         celdas = []
         for tramo, extra in cols:
             p, ez = noche(barr, tramp, guard, tramo, extra)
-            celdas.append(f'{100 * p:.0f} % / {ez:.2f}')
+            celdas.append(f"{abs(100 * p):.0f} % / {ez:.2f}")
         print(f'| {nombre} | {defs} | ' + ' | '.join(celdas) + ' |')
 
     print('\n## Golpes recibidos en la base por irrupción (3 supervivientes con bate)\n')

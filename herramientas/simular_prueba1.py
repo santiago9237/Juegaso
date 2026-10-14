@@ -943,7 +943,9 @@ VARIANTES = [
     ('Botín farmacia +1', {'botin_mod': 1}),
     ('Expedición de 14 turnos', {'turnos': 14}),
     ('Sangre 7', {'sangre': 7}),
-    ('Paquete propuesto', {'zombi_ataque': 1, 'botin_mod': 1, 'balas': 4}),
+    ('Expedición de 13 turnos', {'turnos': 13}),
+    ('Kit 4+/5+ y 14 turnos', {'kit_deposito': 4, 'kit_salon': 5, 'turnos': 14}),
+    ('Paquete propuesto (14 turnos, kit 4+/5+, pistola Alto, bate Bajo)', {'turnos': 14, 'kit_deposito': 4, 'kit_salon': 5, 'pistola_ruido': 3, 'bate_ruido': 1}),
 ]
 
 
