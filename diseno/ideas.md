@@ -217,7 +217,7 @@ Son para los resultados «Rescate: robá un superviviente». Son menos completos
 | Superviviente | F/D/C/P | Habilidad | Defecto | Impacto · Coste |
 |---|---|---|---|---|
 | **Don Elías Ortega**, radioaficionado jubilado | 1/2/2/4 | Con él en la base, la etapa 4 (Mensaje) no necesita manual ni GPS: la arma él en 2 días de descanso rápido. | No sale de expedición. Consume 1 Alimento extra por día (toma remedios con mucha agua). | A · 1 |
-| **Carla Sosa**, bombera | 4/3/4/2 | Empieza con el Hacha de bombero. Fuerza sin tirada (lo que dice la carta) y no recibe rasguños del infectado ácido. | *Corre hacia el fuego.* Si hay ruido Máximo en el mapa, su primer movimiento del turno es hacia ahí. | M · 1 |
+| **Carla Sosa**, bombera | 4/3/4/2 | Empieza con el Hacha de bombero. Fuerza sin tirada (lo que dice la carta) y el ácido no la salpica. | *Corre hacia el fuego.* Si hay ruido Máximo en el mapa, su primer movimiento del turno es hacia ahí. | M · 1 |
 | **Lu**, 12 años, la sobrina de alguien | 1/4/2/4 | Cabe por la claraboya y por ventanas chicas: entra a zonas cerradas sin abrir ni romper nada. | Mochila de 4 espacios. Si muere, todos ganan 2 de fatiga. | M · 1 |
 
 ### 3.2 Cartas de trauma (Impacto M · Coste 2)
@@ -236,8 +236,8 @@ El caminante ya está probado en el kit. El resto se propone con la misma escala
 |---|---|---|---|---|---|
 | Caminante | 8 | 5 | d20 + 2 | 1 | Sin cambios. Llega en grupo. |
 | Corredor | 12 | 4 | d20 + 3 | 2 | De noche nunca está tranquilo: no se lo puede atacar con ventaja después de las 19:00. El Alambre de púas le saca el segundo movimiento (ya existe). |
-| Bruto | 10 | 12 | d20 + 4 | 1 | Su golpe suma +1 a la tirada de tipo de herida (más fracturas). Rompe una puerta cerrada con 4–6 en lugar de 6. Las armas de d4 solo le hacen daño con crítico. |
-| Infectado ácido | 9 | 6 | d20 + 2 | 1 | Si te golpea, se te rompe un objeto de la mochila (ya existe). Si lo matás con cuchillo, bisturí o las manos, recibís un rasguño (salpica). Las armas largas (bate, hacha, tonfa) no salpican. |
+| Bruto | 10 | 12 | d20 + 4 | 1 | Su golpe quita 1 de sangre extra. Rompe una puerta cerrada con 4–6 en lugar de 6. Las armas de d4 solo le hacen daño con crítico. |
+| Infectado ácido | 9 | 6 | d20 + 2 | 1 | Si te golpea, se te rompe un objeto de la mochila (ya existe). Si lo matás con cuchillo, bisturí o las manos, recibís 1 herida (salpica). Las armas largas (bate, hacha, tonfa) no salpican. |
 | Chillón | 8 | 4 | d20 + 1 | 1 | Chilla al detectarte (ya existe) o al recibir daño sin morir. Si lo matás mientras está tranquilo, no llega a chillar. Chilla una sola vez por expedición. |
 
 ### 4.2 Variantes nuevas
@@ -245,7 +245,7 @@ El caminante ya está probado en el kit. El resto se propone con la misma escala
 | Variante | Regla | Dónde aparece | Impacto · Coste |
 |---|---|---|---|
 | **Rastrero** (sin piernas) | Se pone **boca abajo**, como zombie oculto. No se mueve. Ataca con ventaja al primero que registre o termine el turno en su zona. Se revela con Vigilar (y Aurelio los revela todos en una zona adyacente). Defensa 7, vitalidad 3. | 1 por edificio en las filas «Trampa» desde el nivel 2, o en lugar del resultado «¡Aaah!» | A · 1. Le da sentido a Vigilar y a la habilidad del cazador, que hoy no tienen a quién revelar. |
-| **Hinchado** | Defensa 8, vitalidad 3. Si muere en una zona con supervivientes, revienta: cada uno tira d6 y con 1–3 recibe un rasguño ácido (se le rompe un objeto). Matarlo a distancia evita el problema. | Hospital y estación de servicio, nivel 3 | M · 1 |
+| **Hinchado** | Defensa 8, vitalidad 3. Si muere en una zona con supervivientes, revienta: cada uno tira d6 y con 1–3 se le rompe un objeto de la mochila. Matarlo a distancia evita el problema. | Hospital y estación de servicio, nivel 3 | M · 1 |
 | **Conocido** | Cuando un superviviente muere afuera, su figura se queda en ese barrio como zombie, con las estadísticas del caminante y **su mochila**. Matarlo recupera todo lo que llevaba. | Cualquier barrio | A · 1. No necesita componentes nuevos: usa la ficha del muerto. Es el giro emocional más barato del juego. |
 
 ### 4.3 Infección (Impacto A · Coste 1)
