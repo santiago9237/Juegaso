@@ -57,7 +57,32 @@ REGLAS_BASE = {
     "cuchillo_dano": 4,
     "pistola_dano": 10,
     "pistola_mod_dano": 0,
+    "mod_fue": 1,            # modificador de Fuerza (ataque y daño cuerpo a cuerpo)
+    "mod_des": 1,            # modificador de Destreza (ataque con pistola)
+    "hab_vendar1": 0,        # Marta: primeros auxilios por 1 PA
+    "hab_forzar": 0,         # Sofía: forzar por 1 PA y un nivel menos de ruido
+    "hab_ventaja_fuego": 0,  # Raúl: ventaja en el primer disparo de la expedición
 }
+
+# Supervivientes de mesa_online.html: (F, D, C, P) y habilidad aplicable a la prueba 1
+SUPERVIVIENTES = {
+    'Neutro (kit)': ((3, 3, 3, 3), {}),
+    'Marta (enfermera)': ((2, 3, 3, 4), {'hab_vendar1': 1}),
+    'Raúl (ex policía)': ((4, 3, 3, 2), {'hab_ventaja_fuego': 1}),
+    'Sofía (mecánica)': ((3, 4, 3, 2), {'hab_forzar': 1}),
+    'Tomás (cocinero)': ((4, 2, 4, 2), {}),
+    'Nico (estudiante)': ((1, 5, 2, 4), {}),
+    'Aurelio (cazador)': ((3, 3, 2, 4), {}),
+    'Elena (maestra)': ((2, 2, 3, 5), {}),
+}
+def reglas_superviviente(nombre, R):
+    (F, D, Co, P), hab = SUPERVIVIENTES[nombre]
+    R = dict(R)
+    R['mod_fue'] = F - 2
+    R['mod_des'] = D - 2
+    R['defensa'] = 10 + D - 2
+    R.update(hab)
+    return R
 
 C, N = 6, 18
 LET = "ABCDEF"
@@ -113,8 +138,8 @@ class Juego:
         self.inv = list(armas) + ['venda', 'venda']
         self.found = []
         self.W = {
-            'cuchillo': (R['cuchillo_dano'], 1, 0, True),
-            'bate': (R['bate_dano'], 1, R['bate_ruido'], True),
+            'cuchillo': (R['cuchillo_dano'], R['mod_fue'], 0, True),
+            'bate': (R['bate_dano'], R['mod_fue'], R['bate_ruido'], True),
             'pistola': (R['pistola_dano'], R['pistola_mod_dano'], R['pistola_ruido'], False),
         }
         self.turno = 1
@@ -145,6 +170,7 @@ class Juego:
         self.ataques_recibidos = 0
         self.heridas = 0
         self.turno_kit = None
+        self.disparos = 0
 
     def d(self, n):
         return self.rng.randint(1, n)
@@ -349,7 +375,8 @@ class Juego:
         if kind == 'abrir':
             self.use('Abrir', 1); self.edges[k] = 'opened'; self.noise(here, 1)
         elif kind == 'forzar':
-            self.use('Forzar', 2); self.edges[k] = 'opened'; self.noise(here, 2)
+            h = self.R['hab_forzar']
+            self.use('Forzar', 1 if h else 2); self.edges[k] = 'opened'; self.noise(here, 1 if h else 2)
         else:
             self.use('Romper', 1); self.edges[k] = 'broken'; self.noise(here, 3)
         if k == (7, 13) and kind == 'abrir':
@@ -369,7 +396,7 @@ class Juego:
             self.add_item(item)
 
     def bandage(self):
-        self.use('Vendar', 2)
+        self.use('Vendar', 1 if self.R['hab_vendar1'] else 2)
         for w in self.wounds:
             if w[1] == 'Laceración' and not w[2]:
                 w[2] = True
@@ -390,6 +417,10 @@ class Juego:
         if w == 'pistola':
             self.ammo -= 1
         adv = not z[2]
+        if w == 'pistola':
+            self.disparos += 1
+            if self.disparos == 1 and self.R['hab_ventaja_fuego']:
+                adv = True
         dis = self.effect('BrazoD') or (w == 'pistola' and self.night())
         r1, r2 = self.d(20), self.d(20)
         nat = r1
@@ -397,7 +428,7 @@ class Juego:
             nat = max(r1, r2)
         elif dis and not adv:
             nat = min(r1, r2)
-        tot = nat + 1
+        tot = nat + (self.R['mod_fue'] if melee else self.R['mod_des'])
         self.noise(self.pos, ru)
         if nat == 1:
             self.tokens[self.pos] += 1
@@ -641,7 +672,7 @@ class Jugador:
                 return True
             return False
         # 3. vendar laceraciones (2 PA)
-        if g.pa >= 2 and g.has('venda') and any(w[1] == 'Laceración' and not w[2] for w in g.wounds):
+        if g.pa >= (1 if g.R['hab_vendar1'] else 2) and g.has('venda') and any(w[1] == 'Laceración' and not w[2] for w in g.wounds):
             g.bandage()
             return True
         # 4. analgésico
@@ -659,7 +690,7 @@ class Jugador:
         # 6. objetivo
         ob = self.objetivo()
         if ob[0] == 'abrir':
-            cost = 2 if ob[2] == 'forzar' else 1
+            cost = 2 if ob[2] == 'forzar' and not g.R['hab_forzar'] else 1
             if g.pa < cost:
                 return False
             g.open_edge(ob[1], ob[2])
@@ -796,6 +827,7 @@ def main():
     ap.add_argument('--entrada', choices=list(ENTRADAS), action='append')
     ap.add_argument('--regla', action='append', default=[], help='clave=valor, p. ej. horda=6')
     ap.add_argument('--variantes', action='store_true', help='corre la batería de ajustes')
+    ap.add_argument('--supervivientes', action='store_true', help='compara los 7 supervivientes (estilo mixto)')
     ap.add_argument('--procs', type=int, default=None)
     ap.add_argument('--seed', type=int, default=12345)
     a = ap.parse_args()
@@ -808,6 +840,19 @@ def main():
     estilos = a.estilo or ['sigiloso', 'ruidoso', 'mixto']
     armas_l = a.armas or list(ARMAS)
     entradas = a.entrada or list(ENTRADAS)
+    if a.supervivientes:
+        armas_s = a.armas or ['CB', 'CP']
+        ents = a.entrada or ['puerta', 'trasera']
+        cols = [(w, e) for w in armas_s for e in ents]
+        print('| Superviviente | F/D/C/P | ' + ' | '.join(f'mixto {w} {e}' for w, e in cols) + ' | Media |')
+        print('|---|---|' + '---|' * (len(cols) + 1))
+        for nombre in SUPERVIVIENTES:
+            RV = reglas_superviviente(nombre, R)
+            rs = matriz(a.n, RV, ['mixto'], armas_s, ents, a.procs, a.seed)
+            ws = [100 * r['win'] for r in rs]
+            at = '/'.join(map(str, SUPERVIVIENTES[nombre][0]))
+            print(f'| {nombre} | {at} | ' + ' | '.join(f'{w:.1f}' for w in ws) + f' | {sum(ws) / len(ws):.1f} |', flush=True)
+        return
     if a.variantes:
         print('| Variante | ' + ' | '.join(f'{e[:3]} {w}' for e in estilos for w in armas_l) + ' | mejor − peor |')
         print('|---|' + '---|' * (len(estilos) * len(armas_l) + 1))
