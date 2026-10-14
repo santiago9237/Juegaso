@@ -1,15 +1,17 @@
 # Día 30 · Componentes para Tabletop Simulator
 
 Plan de diseño de todos los componentes físicos para montar Día 30 en Tabletop Simulator (TTS).
-Agente de diseño · 14 oct 2026 · borrador v0.1
+Agente de diseño · 14 oct 2026 · borrador v0.2 (con las decisiones del autor en `diseno/ideas_de_santiago.md`: voseo, Alimento, 20 días con 3 niveles de peligro y mazo de aparición)
 
 Fuentes: `fuentes/kit_prueba_1.md`, `fuentes/direccion_de_arte.html`, `fuentes/cartas_de_objetos.html`, `fuentes/base_y_losetas.html` y `fuentes/mesa_online.html`. Todo lo que no está en las fuentes aparece como **propuesta**. Las contradicciones entre documentos están en la sección 7.
 
 **Resumen**
-- El montaje se arma en dos cajas virtuales: el **Kit prueba 1** (expedición mínima, lo primero que hay que probar) y el **Juego completo** (base, ciudad, losetas, 30 días).
+- El montaje se arma en dos cajas virtuales: el **Kit prueba 1** (expedición mínima, lo primero que hay que probar) y el **Juego completo** (base, ciudad, losetas, 20 días con 3 niveles de peligro).
 - Las cartas se diseñan a 750 × 1050 px (como las de acción y objetos actuales) y se exportan a TTS en hojas de 4096 px de lado como máximo.
 - Las fichas usan colores fuertes y no llevan texto. Las cartas, losetas y tableros siguen la dirección C, "papel en la oscuridad": la mesa de TTS es noche y todo lo que es del juego es papel.
 - Para el mazo de botín, la hoja lleva solo las **33 caras únicas** y las 74 cartas se arman en TTS duplicando. Así las cartas se ven más nítidas.
+- Todo texto impreso en componentes va en **voseo rioplatense** (ver 3.0).
+- La aparición de zombies sale de un **mazo de aparición** propio (3.10). Ya no hay d6 de aparición ni de errantes.
 
 ---
 
@@ -37,20 +39,22 @@ Corresponde a `kit_prueba_1.md`: 1 personaje, 12 turnos y un mapa de 6 × 3 zona
 | Loseta P1-B (columnas D–F) | 1 | Custom Tile, caja | — | Farmacia: salón E2 y depósito F2. Vidriera E1/E2, puerta D2/E2, puerta trasera con llave F2/F3. Estacionamiento F3 |
 | Hoja del superviviente de prueba | 1 | Custom Tile, caja | — | Atributos 3/3/3/3 (+1), 3 PA, sangre 6, Defensa 11, mochila de 6 |
 | Superviviente | 1 | Custom Figurine | — | Figura neutra ("Superviviente de prueba") |
-| Cartas del kit | 7 | Custom Deck | Ver columna de daño | Cuchillo (d4 + F), Bate (d6 + F), Pistola (d10, 6 balas), Venda, Analgésico, Kit médico, Comida. Comparten dorso con el botín |
+| Cartas del kit | 7 | Custom Deck | Ver columna de daño | Cuchillo (d4 + F), Bate (d6 + F), Pistola (d10, 6 balas), Venda, Analgésico, Kit médico, Alimento. Comparten dorso con el botín |
 | Caminantes | 10 | Custom Tile, círculo de 2 caras | d20 + 2 al atacar | Cara "tranquilo" y cara "alerta" (reemplaza la moneda cara/ceca) |
 | Fichas de ruido | 20 (bolsa infinita) | Custom Token | — | Horda con 5 en una zona o edificio |
 | Fichas de daño de zombie | Bolsa infinita | Custom Token | Daño del arma | Se ponen debajo del zombie. Cae con 5 |
 | Puertas y ventanas | 4 (+2 de repuesto) | Custom Tile, caja de 2 caras | d6 (cae con un 6) | Puerta cerrada/abierta ×2, puerta con llave/forzada ×1, vidriera intacta/rota ×1 |
 | Ficha de farmacia | 1 | Custom Tile, círculo de 2 caras | d6 al abrir | Al frente, la tabla de zombies y botín (d6). Al dorso, la casa (d6: con 1–2 hay un caminante) |
-| Reloj de turnos 1–12 | 1 tira + 1 marcador | Custom Tile + Custom Token | d6 de aparición; d6 de borde | Del turno 9 al 12, en franja de noche: aparece con 1–2 |
+| Reloj de turnos 1–12 | 1 tira + 1 marcador | Custom Tile + Custom Token | — | Del turno 9 al 12, franja de noche. La aparición sale del mazo de aparición (nivel de peligro 1), no del d6 del kit |
 | Fichas de herida | Bolsa infinita por tipo | Custom Token | 2d6 (zona y tipo) | Rasguño, laceración, fractura y mordedura |
 | Ficha "escondido" | 1 | Custom Token | — | Se quita al empezar el turno siguiente |
 | Ficha de pistola encasquillada | 1 | Custom Token | 1 natural | — |
 | Ficha de kit médico | 1 | (es la carta) | — | — |
 | Hoja de registro de partidas | 1 | Notebook de TTS o PDF | — | La tabla del final del kit |
 | Reglas del kit | 1 | Custom PDF | — | `kit_prueba_1.md` exportado a PDF |
-| Dados | 2 d20, 2 d6, 1 d4, 1 d10 (+1 d6 extra) | Nativos | — | Los 2 d20 son para ventaja y desventaja |
+| Mazo de aparición | ~30–40 | Custom Deck | — | El mismo del juego completo (3.10). Se juega con nivel 1 |
+| Fichas de herida abierta | Bolsa infinita | Custom Token | — | Regla nueva: cada herida sin limpiar genera 1 ruido por turno (3.9) |
+| Dados | 2 d20, 2 d6, 1 d4, 1 d10 | Nativos | — | Los 2 d20 son para ventaja y desventaja. Los d6 son para heridas y puertas. Se quitan el d6 de aparición y el de borde |
 
 ### 1.3 Juego completo · cartas
 
@@ -58,8 +62,8 @@ Corresponde a `kit_prueba_1.md`: 1 personaje, 12 turnos y un mapa de 6 × 3 zona
 |---|---|---|---|---|---|
 | **Botín (objetos)** | 33 | 74 | Custom Deck | Daño del arma (d4/d6/d8/d10/d12). Registrar: ver sección 7 | `cartas_de_objetos.html` |
 | · Medicina | 5 | 10 (2 de cada) | | — | Pastillas, vendas, botiquín, alcohol, jeringa |
-| · Comida | 5 | 15 (3 de cada) | | — | Lata, galletas, mermelada, arroz, cereal |
-| · Agua | 2 | 8 (4 de cada) | | — | Botella, cantimplora |
+| · Alimento (antes Comida) | 5 | 15 (3 de cada) | | — | Lata, galletas, mermelada, arroz, cereal. Cuenta como 1 Alimento |
+| · Alimento (antes Agua) | 2 | 8 (4 de cada) | | — | Botella y cantimplora. Mismo sello que el resto del Alimento, más un uso extra impreso: "o gastala para limpiar una herida" |
 | · Armas | 5 | 7 | | d20 + F (cuerpo a cuerpo) o d20 + D; daño d4/d6/d8/d10/d12 | Cuchillo ×2, Bate ×2, Hacha ×1, Pistola ×1, Escopeta ×1 |
 | · Recursos | 8 | 20 | | — | Munición ×4, Madera ×3 (vale 2), Clavos ×3, Chapa ×2, Alambre ×2, Cuerda ×2, Semillas ×1, Combustible ×3 |
 | · Señal | 4 | 4 | | — | Radio, Generador, Manual, GPS |
@@ -67,7 +71,8 @@ Corresponde a `kit_prueba_1.md`: 1 personaje, 12 turnos y un mapa de 6 × 3 zona
 | **Supervivientes** | 7 | 7 | Custom Deck | — | `mesa_online.html`: Marta, Raúl, Sofía, Tomás, Nico, Aurelio y Elena. Se roban 3 al empezar y 1 en cada "Rescate" |
 | **Acciones** | 4 propuestas | 4 por jugador (12) | Custom Deck | — | Solo existe "Movimiento y sigilo". Propuesta: Combate, Entrar y forzar, Buscar y curar. Va con fichas numeradas del 1 al 5. Pendiente de reglas (prueba 2) |
 | **Zombies (perfiles)** | 5 | 5 | Custom Deck | Ataque d20 + 2 | Caminante, corredor, bruto, ácido y chillón, con ilustración y datos. Es de consulta |
-| **Referencia** | 6 | 6 por jugador (18) | Custom Deck | — | Turno, acciones y ruido, combate, heridas, horda y errantes, fases del día |
+| **Aparición de zombies** | Unos 30–40 | Unas 30–40 | Custom Deck | — (no se tiran dados) | Contenido en `diseno/mazo_aparicion.md`, que arma otro agente. Se roba después del turno de los jugadores. Cada carta trae un tipo de zombie y 3 cantidades, una por nivel de peligro. Plantilla en 3.10 |
+| **Referencia** | 6 | 6 por jugador (18) | Custom Deck | — | Turno, acciones y ruido, combate, heridas (y cómo limpiarlas), horda, fases del día |
 | **Kit prueba 1** | 7 | 7 | Custom Deck | — | Ver 1.2 |
 | *Reservado: eventos nocturnos* | — | — | Custom Deck | — | La dirección de arte los nombra, pero no están definidos |
 
@@ -82,12 +87,11 @@ Corresponde a `kit_prueba_1.md`: 1 personaje, 12 turnos y un mapa de 6 × 3 zona
 | Loseta de calle: cortada | 2 | Custom Tile | — | Barricada de autos |
 | Losetas de edificio | 18 | Custom Tile, caja | — | Casa ×4, Almacén ×2, Farmacia ×2, Supermercado, Comisaría, Hospital, Ferretería y Escuela ×1, Taller ×2, Estación de servicio ×1, Plaza ×2. Alcanza para la plantilla más grande (T3: 5 × 3, 8 edificios) |
 | Fichas de edificio 1–6 | 12 (2 juegos) | Custom Tile, círculo de 2 caras | El número reemplaza al d6 | Dorso con la casita sobre tinta. Van en una bolsa y se sacan boca abajo |
-| Tablas de edificio | 10 | Custom Tile, caja de 2 caras | d20 de botín (con ventaja o desventaja: 2d20) | Al frente, zombies por ficha (1–6) × fase (1–10, 11–20, 21–30), con registros y notas. Al dorso, botín d20. La plaza no lleva |
-| Tabla de errantes | 1 | Custom Tile | d6 en cada hora (2 veces de noche) | Más el resumen del umbral de horda |
+| Tablas de edificio | 10 | Custom Tile, caja de 2 caras | d20 de botín (con ventaja o desventaja: 2d20) | Al frente, zombies por ficha (1–6) × nivel de peligro (1: días 1–7 · 2: días 8–14 · 3: días 15–20), con registros y notas. Al dorso, botín d20. La plaza no lleva |
 | Tablero de base | 1 | Custom Board | Defensa por entrada (sin dados) | Casa con patio sobre calle Las Heras: 5 entradas, camas, depósito, mejoras y señal |
 | Mapa de la ciudad | 1 | Custom Board | — | 5 barrios con horas de ida, peligro (☠ 1–3), plantilla y edificios posibles |
 | Plantillas de mapa | 4 | Custom Tile pequeña o Notebook | — | P3, T1, T2 y T3: dónde va calle (R) y dónde edificio (B) |
-| Tablero de tiempo | 1 | Custom Board | — | Días 1–30 en 3 franjas de fase, 4 fases del día y reloj de horas 07–21 (anochece a las 19) |
+| Tablero de tiempo | 1 | Custom Board | — | Días 1–20 en 3 franjas de nivel de peligro (1–7, 8–14, 15–20), casilla de nivel de peligro, 4 fases del día y reloj de horas 07–21 (anochece a las 19) |
 | Hoja de jugador | 3 | Custom Tile, caja | — | Genérica, con hueco para la carta de superviviente (ver 3.5) |
 | Supervivientes | 7 | Custom Figurine | — | Uno por carta. El rescatado sale a la mesa cuando entra al grupo |
 
@@ -105,6 +109,7 @@ Todas las fichas genéricas van en **bolsas infinitas**, para no contar existenc
 | Ruido | 40 (bolsa infinita) | Custom Token | 1 | — |
 | Daño de zombie | Bolsa infinita | Custom Token | 1 (y de 3) | — |
 | Herida: rasguño, laceración, fractura y mordedura | Bolsa infinita por tipo | Custom Token | 1 | 2d6 (o el dado de herida) |
+| Herida abierta ("olor a sangre") | 6 (2 por jugador) en bolsa infinita | Custom Token | 1 | — | Va encima de la ficha de herida mientras no se limpie. En cada paso de reloj, pone 1 ficha de ruido en la zona del superviviente. Se quita con 1 carta de Alimento (agua) o con Primeros auxilios |
 | Fatiga | Bolsa infinita | Custom Token | 1 | — |
 | Bala (disparos de munición) | Bolsa infinita | Custom Token | 1 | — |
 | Voz | Bolsa infinita | Custom Token | 1 | — |
@@ -118,11 +123,12 @@ Todas las fichas genéricas van en **bolsas infinitas**, para no contar existenc
 | Registro restante | Bolsa infinita | Custom Token | 1 | Al revelar se ponen N fichas (1–3) y se quita una por cada Registrar |
 | Escondido | 3 | Custom Token | 1 | — |
 | Marcador de día | 1 | Custom Token | 1 | — |
+| Marcador de nivel de peligro | 1 | Custom Tile, caja de 2 caras | Nivel 1 / 2 en una cara y 3 en la otra; mejor 3 estados de TTS (1, 2, 3) | — |
 | Marcador de hora | 1 | Custom Token | 1 | — |
 | Marcador de fase del día | 1 | Custom Token | 1 | — |
 | Marcador de señal (etapas) | 5 | Custom Tile, círculo de 2 caras | Pendiente / completa | — |
 | Marcadores de sangre y fatiga | 1 + 1 por jugador | Custom Token del color del jugador | 1 | — |
-| Recursos del depósito | Contadores nativos ×6 | Nativo (Counter) | — | Comida, agua, medicinas, materiales, munición y combustible, como en `mesa_online` |
+| Recursos del depósito | Contadores nativos ×5 | Nativo (Counter) | — | Alimento, medicinas, materiales, munición y combustible (comida y agua de `mesa_online` se unen) |
 
 ### 1.6 Dados
 
@@ -130,7 +136,7 @@ Todas las fichas genéricas van en **bolsas infinitas**, para no contar existenc
 |---|---|---|---|
 | d20 | 2 por jugador (color del jugador) + 2 grises para zombies | Nativo | Ataque (d20 + mod contra Defensa); ventaja y desventaja con 2d20; ataque de zombie (d20 + 2); botín de edificio (d20) |
 | d4, d6, d8, d10, d12 | 1 de cada por jugador | Nativo | Daño de cuchillo, bate, hacha, pistola y escopeta |
-| d6 | 3 grises comunes | Nativo | Aparición en el reloj (1, o 1–2 de noche); borde de aparición; errantes; puerta que cae (6); estacas; en la prueba 1, farmacia, casa y registrar |
+| d6 | 2 grises comunes | Nativo | Puerta que cae (6), estacas y, en la prueba 1, farmacia, casa y registrar. **Ya no hay d6 de aparición ni de errantes**: los reemplaza el mazo de aparición |
 | d6 "zona de herida" | 1 | Custom Dice | Cabeza / Torso / Torso / Brazo izq. / Brazo der. / Piernas |
 | d6 "tipo de herida" | 1 | Custom Dice | Rasguño / Rasguño / Laceración / Laceración / Fractura / Mordedura |
 
@@ -162,6 +168,7 @@ Formato de carta: 750 × 1050 px, proporción 5:7 (como una carta de póker), qu
 | Supervivientes | 7 + oculta | 4 × 2 | 750 × 1050 | 3000 × 2100 | 1 | `supervivientes_dorso` (silueta) |
 | Acciones (4 por jugador) | 4 + oculta → 3 × 2 | 3 × 2 | 750 × 1050 | 2250 × 2100 | 1 por color de jugador (3) | `dorso_carta.png` (el 30 rojo) |
 | Zombies (perfiles) | 5 + oculta | 3 × 2 | 750 × 1050 | 2250 × 2100 | 1 | `zombies_dorso` |
+| Aparición de zombies | Unos 12–15 diseños + oculta (copias en TTS) | 4 × 4 | 750 × 1050 | 3000 × 4200 → reducida a 2926 × 4096 | 1 | `aparicion_dorso` (mano del suelo) |
 | Referencia | 6 + oculta → 4 × 2 | 4 × 2 | 750 × 1050 | 3000 × 2100 | 1 | `referencia_dorso` |
 | Kit prueba 1 | 7 + oculta | 4 × 2 | 750 × 1050 | 3000 × 2100 | 1 | `botin_dorso` |
 
@@ -182,7 +189,7 @@ Formato de carta: 750 × 1050 px, proporción 5:7 (como una carta de póker), qu
 | Hoja de jugador | 2400 × 1600 | JPG | Custom Tile, caja, grosor 0,1 | Unas 12 × 8 |
 | Hoja del superviviente de prueba | 2400 × 1600 | JPG | Custom Tile | Unas 12 × 8 |
 | Tabla de edificio (2 caras) | 1500 × 1050 por cara | JPG | Custom Tile, caja | Unas 7 × 4,9 |
-| Tabla de errantes y ficha de farmacia | 1050 × 1050 | JPG | Custom Tile | — |
+| Ficha de farmacia | 1050 × 1050 | JPG | Custom Tile | — |
 | Reloj de turnos P1 | 2400 × 300 | JPG | Custom Tile | Unas 12 × 1,5 |
 
 La medida en mesa se ajusta con la escala del objeto. El criterio es que **una zona de loseta (2 × 2 unidades) aloje 4 fichas de zombie de 0,9 unidades** sin que se superpongan, más la figura de un superviviente. Hay que medirlo con la herramienta de regla de TTS en la primera sesión de montaje.
@@ -209,20 +216,20 @@ Juegaso/
 ├── herramientas/
 │   └── hoja_de_cartas.py        # une cartas sueltas en hojas para TTS
 ├── arte/                        # originales a medida de diseño (750×1050, 1500×1500…)
-│   ├── cartas/{botin,supervivientes,acciones,zombies,referencia,kit_p1}/
+│   ├── cartas/{botin,supervivientes,acciones,zombies,aparicion,referencia,kit_p1}/
 │   │   └── botin_medicina_frasco_pastillas.png …
 │   ├── losetas/  tableros/  fichas/  figuras/
 │   └── manifiestos/botin.csv    # archivo,copias (fija orden y copias)
 └── tts/                         # solo lo que se sube a TTS (generado)
     ├── cartas/
     │   ├── botin/  botin_v01_hoja_01.jpg  botin_v01.json  botin_dorso_v01.jpg
-    │   ├── supervivientes/  acciones/  zombies/  referencia/  kit_p1/
+    │   ├── supervivientes/  acciones/  zombies/  aparicion/  referencia/  kit_p1/
     ├── losetas/
     │   ├── calles/     calle_recta_v01.jpg  calle_esquina_v01.jpg …
     │   ├── edificios/  edif_casa_v01.jpg  edif_farmacia_v01.jpg …
     │   └── prueba1/    p1_loseta_a_v01.jpg  p1_loseta_b_v01.jpg
     ├── tableros/  base_v01.jpg  ciudad_v01.jpg  tiempo_v01.jpg  hoja_jugador_v01.jpg
-    ├── tablas/    tabla_casa_frente_v01.jpg  tabla_casa_dorso_v01.jpg … errantes_v01.jpg
+    ├── tablas/    tabla_casa_frente_v01.jpg  tabla_casa_dorso_v01.jpg …
     ├── fichas/    zombie_caminante_tranquilo_v01.jpg  …_alerta_v01.jpg  ruido_v01.png …
     ├── figuras/   sup_marta_rios_v01.png …
     ├── dados/     dado_zona_herida_v01.png  dado_tipo_herida_v01.png
@@ -236,6 +243,22 @@ Nombres de las cartas sueltas: `<mazo>_<familia>_<nombre>.png`, por ejemplo `bot
 ## 3. Plantillas de maquetación
 
 Medidas en px sobre el original. Fuentes: **Big Shoulders Stencil Display** (títulos), **Barlow Condensed** (interfaz, números y sellos), **Barlow** (texto de regla) y **Special Elite** (sabor, pie y notas). Las cuatro son Google Fonts con licencia OFL, así que se pueden incrustar en el arte sin problema. Colores de carta: papel #dccba8, tinta #24201a y sepia #6b5a43.
+
+### 3.0 Voseo en todo el texto impreso
+
+Decisión del autor: todo el material va en voseo rioplatense. Imperativos y presentes de segunda persona: *elegí, marcá, tirá, robá, gastá, usá, descartá, llevá, podés, tenés, te movés, sos*. Pronombres: *vos, te, tu*. Con enclíticos, sin tilde: *descartala, usala, llevala, gastala*.
+
+| Antes (tuteo) | Ahora (voseo) |
+|---|---|
+| Elige 1 y marca con ficha numerada | Elegí 1 y marcá con ficha numerada |
+| Cómo te mueves y cuánto te oyen | Cómo te movés y cuánto te oyen |
+| Te mueves 1 zona | Te movés 1 zona |
+| No puedes moverte | No podés moverte |
+| Descártala · Úsala · Llévala | Descartala · Usala · Llevala |
+| Tira d20 + Fuerza | Tirá d20 + Fuerza |
+| Roba un superviviente | Robá un superviviente |
+
+El sabor ya estaba en voseo ("Corta si la agarrás mal", "incluso en vos"). Antes de exportar cada hoja hay que buscar en el texto *-as/-es* de segunda persona (puedes, tienes, mueves) y tildes de imperativo (elige, tira, marca, úsala).
 
 ### 3.1 Reglas de legibilidad en TTS
 
@@ -269,8 +292,10 @@ Basada en `cartas_de_objetos.html` (`.carta`, 1 cqi = 7,5 px).
    └──────────────────────────────────────────┘ margen 48
 ```
 
-- **Sello de familia** con los colores ya definidos: Medicina #2c6656, Comida #9a4a2e, Agua #3b5870, Arma #7e2626, Recurso #5a4a35 (el sello dice el recurso: Munición, Madera…), Señal #8f6a16 y Equipo #2f4f5e.
+- **Sello de familia** con los colores ya definidos: Medicina #2c6656, **Alimento #9a4a2e** (el sello de Comida; el azul #3b5870 de Agua se deja de usar), Arma #7e2626, Recurso #5a4a35 (el sello dice el recurso: Munición, Madera…), Señal #8f6a16 y Equipo #2f4f5e.
 - **Cambio propuesto para TTS:** sumar una **franja de color de familia de 12 px en el borde izquierdo**, a sangre y por debajo del borde quemado. En la mano de TTS y en una pila mezclada, la familia se reconoce sin hacer zoom.
+- **Alimento con agua (botella y cantimplora):** mismo sello, misma regla base ("Cuenta como 1 Alimento.") y una **segunda línea de regla** separada por una línea punteada: *"o gastala para limpiar una herida"*. Va con un icono de gota que también se repite en la ficha de herida abierta. Así se lee como un uso extra y no como otra familia. El texto de la regla ocupa 2 líneas más; se compensa bajando la ilustración a 430 px de alto en esas 2 cartas.
+- **Familia Alimento:** 7 diseños y 23 cartas. Regla común: "Cuenta como 1 Alimento. Cada superviviente come 1 por día, o 2 si termina el día con fatiga. Guardalo en la base al volver de la expedición."
 - **Espacios:** 1 o 2 cuadros rayados, o la palabra "puesta" para la mochila de montaña. La propuesta es acercarlos al sello (arriba a la izquierda), por la regla de la mano superpuesta.
 - **Ilustración:** las maquetas SVG actuales sirven para la primera versión en TTS. El arte final se hace con los prompts de tinta de `arte/prompts_ilustraciones.md` (sección Objetos).
 - **Dorso del botín:** noche #16191d, mochila o caja abierta a tinta en papel, y la palabra "BOTÍN" en Big Shoulders. El dorso de las acciones ya es el 30 rojo, y hay que distinguirlos.
@@ -281,12 +306,12 @@ Basada en la maqueta "Después · tinta sobre papel" de `direccion_de_arte.html`
 
 ```
  48–200  Cabecera centrada: título Big Shoulders 67 px ("MOVIMIENTO Y SIGILO")
-         + subtítulo Special Elite 25 px ("Cómo te mueves y cuánto te oyen"); doble filete de tinta
+         + subtítulo Special Elite 25 px ("Cómo te movés y cuánto te oyen"); doble filete de tinta
  220–960 5 filas iguales (~148 px cada una), separadas por línea punteada:
          [nº en círculo irregular 75 px] NOMBRE (Cond 45 px)            [1 PA] (chip Special Elite 28 px)
                                          descripción (Barlow 26 px)
                                          ▮▮▯▯ Medio · 2 zonas (Special Elite 25 px; Medio/Alto en óxido #8e3f22)
- 972–1002 pie: "Día 30 · carta de acción · elige 1 y marca con ficha numerada" (20 px)
+ 972–1002 pie: "Día 30 · carta de acción · elegí 1 y marcá con ficha numerada" (20 px)
 ```
 
 - El número de la fila (1–5) coincide con la ficha numerada del jugador, que se pone boca abajo sobre la carta.
@@ -351,9 +376,11 @@ Basado en `dibujarBase()`: un plano a tinta de la casa con patio.
 
 ### 3.8 Tablero de tiempo · 3600 × 1200
 
-- **Fila 1, días 1–30:** 30 casillas en 3 franjas de fase (1–10, 11–20 y 21–30), con un tono de papel que se oscurece en cada franja. El día 30 lleva el helicóptero y el 30 rojo del logo.
+- **Fila 1, días 1–20:** 20 casillas grandes (unos 160 px) divididas en **3 franjas de nivel de peligro**, marcadas arriba con un rótulo y un número grande en un círculo irregular: **1** (días 1–7, papel claro), **2** (días 8–14, papel oscuro con borde óxido) y **3** (días 15–20, papel quemado con borde rojo #922b2b). Entre franja y franja, un filete grueso de tinta. Las casillas 8 y 15 llevan una flecha "sube el peligro". El día 20 lleva el helicóptero. El nombre "Día 30" está pendiente.
+- **Casilla de nivel de peligro** (a la izquierda de la fila 1): un hueco para el marcador de nivel (1/2/3), que se mueve al pasar a los días 8 y 15. Es el número que se lee en las cartas de aparición y en las tablas de edificio.
+- **Descanso rápido:** casilla "pasa el día" junto al calendario, como recordatorio de la regla.
 - **Fila 2, fases del día:** Base · Planificación · Expedición · Regreso y noche.
-- **Fila 3, reloj de horas 07–21:** franjas de alba, viaje, saqueo y noche. Desde las 19 la franja es de noche (azul noche), con el recordatorio "errantes ×2, se lee la fase siguiente".
+- **Fila 3, reloj de horas 07–21:** franjas de alba, viaje, saqueo y noche. Desde las 19 la franja es de noche (azul noche), con el recordatorio "de noche, robá 1 carta de aparición más" (a confirmar con `mazo_aparicion.md`).
 
 ### 3.9 Fichas
 
@@ -369,6 +396,8 @@ Recomendación sobre la pregunta abierta de la dirección de arte: **las fichas 
 | Bala | Cápsula | Latón (luna #d9b45a) |
 | Construcción | Cuadrado | Papel oscuro #b9a682, martillo |
 | Escondido | Círculo | Noche con un ojo tachado en hueso |
+| Herida abierta / olor a sangre | Gota de 0,6 u con ondas | Rojo 30 #922b2b, gota en hueso con 2 ondas de ruido a los costados (mezcla de los iconos de herida y de ruido). Va encima de la ficha de herida. Mientras esté, la herida genera 1 ruido por turno |
+| Nivel de peligro | Cuadrado de 1 u, 3 estados | Número Big Shoulders 1/2/3 sobre papel claro, oscuro o quemado (los mismos tonos que las franjas del calendario) |
 | Números 1–5 | Círculo de 0,9 u | Frente en papel con número Big Shoulders al 60 %; dorso en el color del jugador |
 | Zombie | Círculo de 0,9 u (bruto 1,1 u) | Frente "tranquilo": ilustración recortada en un círculo de papel con un aro de tinta fino. Dorso "alerta": la misma ilustración con un aro rojo grueso (40 px) y un "!" arriba |
 | Ficha de edificio | Círculo de 0,9 u | Dorso: casita en papel sobre tinta (como `fichaDorso`). Frente: número 1–6 sobre papel |
@@ -398,7 +427,8 @@ Las fichas de zombie no llevan texto. El tipo se reconoce por la ilustración y 
   │ heridas, fatiga,    │ │      │                                     │  │ señal,│ │
   │ voz, bala, registro │ │      │                                     │  │ depósito│
   │ Zombies por tipo    │ │      └─────────────────────────────────────┘  └──────┘ │
-  │ Bolsa fichas edif.  │ │  Pilas de losetas: calles por tipo · edificios         │
+  │ Bolsa fichas edif.  │ │  [Mazo aparición][Descarte aparición] junto al mapa   │
+  │                     │ │  Pilas de losetas: calles por tipo · edificios         │
   │ Tablas de edificio  │ │  Mazo de botín · descarte · supervivientes             │
   └─────────────────────┘ │  Dados comunes (gris) · dados de herida                │
                          │                                                      │
@@ -410,7 +440,8 @@ Las fichas de zombie no llevan texto. El tipo se reconoce por la ilustración y 
 
 - **Zona de expedición, al centro:** el área más grande. Va vacía y desbloqueada. Las losetas se ponen según la plantilla del barrio. Conviene activar en TTS una cuadrícula de 2 unidades (*Grid*) con *snap* activo, para que las losetas encajen solas.
 - **Base, a la derecha:** se juega al principio y al final del día. Es un Custom Board **bloqueado**, con *snap points* en las entradas, camas y depósito.
-- **Ciudad y tiempo, arriba:** bloqueados, porque se leen en cada fase. Los marcadores de día, fase y hora quedan sueltos.
+- **Ciudad y tiempo, arriba:** bloqueados, porque se leen en cada fase. Los marcadores de día, nivel de peligro, fase y hora quedan sueltos.
+- **Mazo de aparición, junto a la zona de expedición** (arriba a la izquierda del mapa, en el borde más cercano a la reserva de zombies): el mazo boca abajo y, al lado, el descarte boca arriba. Cada uno tiene un *snap point* y un rótulo en la mesa. Al robar, la carta se da vuelta sobre el descarte, a la vista de todos, y la cantidad se lee con el marcador de nivel de peligro, que queda arriba en el tablero de tiempo. Cuando se acaba, se mezcla el descarte.
 - **Reserva, a la izquierda:** bolsas infinitas con un nombre claro ("Ruido", "Daño"…), una pila de zombies por tipo y la bolsa de fichas de edificio.
 - **Jugadores, abajo:** la hoja de cada jugador está bloqueada, con sus dados (coloreados con el tinte del asiento) y sus cartas de referencia al lado. Las cartas de acción van en la mano, en la zona de mano de TTS.
 - Con 1 jugador, la hoja de Orange va al centro de la fila de abajo. Con 2, Orange y Green. Con 3, las tres.
@@ -422,6 +453,7 @@ Una **bolsa guardada** ("Kit prueba 1") que se saca sobre la mesa vacía. Contie
 - La hoja del superviviente de prueba abajo, con las 7 cartas del kit al lado (las 3 armas, a elegir 2) y la figura en A3.
 - Los 10 caminantes, en 3 (en C1, F1 y D3, cara tranquilo) y 7 en reserva.
 - La bolsa de ruido, las 4 puertas sobre sus bordes, la ficha de farmacia y el reloj 1–12 arriba.
+- El mazo de aparición y su descarte, al lado de la loseta P1-B (borde F).
 - Los dados y el PDF del kit.
 
 Así la prueba 1 se monta en un minuto, sin el resto del juego en la mesa.
@@ -432,7 +464,7 @@ Así la prueba 1 se monta en un minuto, sin el resto del juego en la mesa.
 - Ponerle a cada zombie su **descripción**: Defensa, movimiento y efecto.
 - *Snap points* en las casillas de la base, de las hojas y del tablero de tiempo.
 - Opcional, para ambientar: bajar la iluminación de la mesa (*Lighting*) cuando anochece.
-- Sin scripts Lua en la v0.1: todo se hace a mano, igual que en la mesa física. Más adelante se podría automatizar el reloj de aparición.
+- Sin scripts Lua en la v0.1: todo se hace a mano, igual que en la mesa física. Más adelante se podría automatizar el robo del mazo de aparición, con un botón que lea el nivel de peligro.
 
 ---
 
