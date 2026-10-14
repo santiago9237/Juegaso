@@ -26,7 +26,7 @@ Fuentes: `fuentes/kit_prueba_1.md`, `fuentes/direccion_de_arte.html`, `fuentes/c
 | **Custom Token** | Fichas de una cara con silueta (ruido, daño, heridas, balas) | Recorta la forma por el canal alfa del PNG: permite bordes de papel irregulares. Se apila |
 | **Custom Board** | Tablero de base, mapa de la ciudad, tablero de tiempo | Una imagen grande, plana, que se deja bloqueada |
 | **Custom Figurine** | Supervivientes (y, si se quiere, los zombies especiales) | Figura de cartón de pie, PNG con alfa |
-| **Custom Dice** | Dado de zona de herida y dado de tipo de herida (opcional) | Usar la plantilla oficial de TTS para el d6 personalizado |
+| **Custom Dice** | Dado de zona de herida (opcional) | Usar la plantilla oficial de TTS para el d6 personalizado |
 | **Nativos** | d4, d6, d8, d10, d12, d20, bolsas, bolsas infinitas, contadores, PDF, Notebook | Los dados nativos alcanzan. Las bolsas infinitas son ideales para las fichas genéricas |
 
 ### 1.2 Kit prueba 1 · expedición mínima
@@ -46,15 +46,14 @@ Corresponde a `kit_prueba_1.md`: 1 personaje, 12 turnos y un mapa de 6 × 3 zona
 | Puertas y ventanas | 4 (+2 de repuesto) | Custom Tile, caja de 2 caras | d6 (cae con un 6) | Puerta cerrada/abierta ×2, puerta con llave/forzada ×1, vidriera intacta/rota ×1 |
 | Ficha de farmacia | 1 | Custom Tile, círculo de 2 caras | d6 al abrir | Al frente, la tabla de zombies y botín (d6). Al dorso, la casa (d6: con 1–2 hay un caminante) |
 | Reloj de turnos 1–12 | 1 tira + 1 marcador | Custom Tile + Custom Token | — | Del turno 9 al 12, franja de noche. La aparición sale del mazo de aparición (nivel de peligro 1), no del d6 del kit |
-| Fichas de herida | Bolsa infinita por tipo | Custom Token | 2d6 (zona y tipo) | Rasguño, laceración, fractura y mordedura |
+| Fichas de herida ("olor a sangre") | Bolsa infinita | Custom Tile, círculo de 2 caras (abierta / limpia) | d6 de zona (o el dado de zona) | Hay un solo tipo de herida. Cada herida es una gota roja sobre su zona del cuerpo y queda abierta hasta limpiarla con agua |
 | Ficha "escondido" | 1 | Custom Token | — | Se quita al empezar el turno siguiente |
 | Ficha de pistola encasquillada | 1 | Custom Token | 1 natural | — |
 | Ficha de kit médico | 1 | (es la carta) | — | — |
 | Hoja de registro de partidas | 1 | Notebook de TTS o PDF | — | La tabla del final del kit |
 | Reglas del kit | 1 | Custom PDF | — | `kit_prueba_1.md` exportado a PDF |
 | Mazo de aparición | ~30–40 | Custom Deck | — | El mismo del juego completo (3.10). Se juega con nivel 1 |
-| Fichas de herida abierta | Bolsa infinita | Custom Token | — | Regla nueva: cada herida sin limpiar genera 1 ruido por turno (3.9) |
-| Dados | 2 d20, 2 d6, 1 d4, 1 d10 | Nativos | — | Los 2 d20 son para ventaja y desventaja. Los d6 son para heridas y puertas. Se quitan el d6 de aparición y el de borde |
+| Dados | 2 d20, 2 d6, 1 d4, 1 d10 | Nativos | — | Los 2 d20 son para ventaja y desventaja. Los d6 son para la zona de la herida y para las puertas. Se quitan el d6 de aparición, el de borde y el de tipo de herida |
 
 ### 1.3 Juego completo · cartas
 
@@ -108,8 +107,7 @@ Todas las fichas genéricas van en **bolsas infinitas**, para no contar existenc
 | Chillón | 4 | Custom Tile, círculo de 2 caras | Tranquilo / alerta | — |
 | Ruido | 40 (bolsa infinita) | Custom Token | 1 | — |
 | Daño de zombie | Bolsa infinita | Custom Token | 1 (y de 3) | — |
-| Herida: rasguño, laceración, fractura y mordedura | Bolsa infinita por tipo | Custom Token | 1 | 2d6 (o el dado de herida) |
-| Herida abierta ("olor a sangre") | 6 (2 por jugador) en bolsa infinita | Custom Token | 1. Va encima de la ficha de herida mientras no se limpie. En cada paso de reloj, pone 1 ficha de ruido en la zona del superviviente. Se quita con 1 carta de Alimento (agua) o con Primeros auxilios | — |
+| Herida ("olor a sangre") | 10 (bolsa infinita) | Custom Tile, círculo de 2 caras | 1. Va en la casilla de zona de la hoja. Abierta (gota roja): pone 1 ficha de ruido por turno en la zona del superviviente. Al limpiarla con 1 carta de Alimento (agua) se da vuelta a la cara "limpia" (gota tachada) y queda como herida hasta curarla en la base | d6 de zona |
 | Fatiga | Bolsa infinita | Custom Token | 1 | — |
 | Bala (disparos de munición) | Bolsa infinita | Custom Token | 1 | — |
 | Voz | Bolsa infinita | Custom Token | 1 | — |
@@ -138,9 +136,8 @@ Todas las fichas genéricas van en **bolsas infinitas**, para no contar existenc
 | d4, d6, d8, d10, d12 | 1 de cada por jugador | Nativo | Daño de cuchillo, bate, hacha, pistola y escopeta |
 | d6 | 2 grises comunes | Nativo | Puerta que cae (6), estacas y, en la prueba 1, farmacia, casa y registrar. **Ya no hay d6 de aparición ni de errantes**: los reemplaza el mazo de aparición |
 | d6 "zona de herida" | 1 | Custom Dice | Cabeza / Torso / Torso / Brazo izq. / Brazo der. / Piernas |
-| d6 "tipo de herida" | 1 | Custom Dice | Rasguño / Rasguño / Laceración / Laceración / Fractura / Mordedura |
 
-Los dados de herida son opcionales: con un d6 nativo y la tabla en la carta de referencia también funciona. Igual conviene hacerlos, porque ahorran la consulta más repetida de la partida.
+El dado de zona de herida es opcional: con un d6 nativo y la tabla impresa en la hoja también funciona. Ya no hay tipos de herida (ni rasguño, laceración, fractura o mordedura), ni infección, ni antibióticos.
 
 ---
 
@@ -204,7 +201,7 @@ La medida en mesa se ajusta con la escala del objeto. El criterio es que **una z
 | Tablón, chapa y sello "Saqueado" | 512 × 256 | PNG con alfa | Custom Token |
 | Puerta y ventana (2 caras) | 512 × 256 | JPG | Custom Tile, caja |
 | Superviviente de pie | 600 × 900 | PNG con alfa | Custom Figurine |
-| Dados de herida | Plantilla d6 de TTS, unos 256 px por cara | PNG | Custom Dice |
+| Dado de zona de herida | Plantilla d6 de TTS, unos 256 px por cara | PNG | Custom Dice |
 
 ### 2.5 Estructura de carpetas
 
@@ -232,7 +229,7 @@ Juegaso/
     ├── tablas/    tabla_casa_frente_v01.jpg  tabla_casa_dorso_v01.jpg …
     ├── fichas/    zombie_caminante_tranquilo_v01.jpg  …_alerta_v01.jpg  ruido_v01.png …
     ├── figuras/   sup_marta_rios_v01.png …
-    ├── dados/     dado_zona_herida_v01.png  dado_tipo_herida_v01.png
+    ├── dados/     dado_zona_herida_v01.png
     └── pdf/       kit_prueba_1_v01.pdf
 ```
 
@@ -295,6 +292,7 @@ Basada en `cartas_de_objetos.html` (`.carta`, 1 cqi = 7,5 px).
 - **Sello de familia** con los colores ya definidos: Medicina #2c6656, **Alimento #9a4a2e** (el sello de Comida; el azul #3b5870 de Agua se deja de usar), Arma #7e2626, Recurso #5a4a35 (el sello dice el recurso: Munición, Madera…), Señal #8f6a16 y Equipo #2f4f5e.
 - **Cambio propuesto para TTS:** sumar una **franja de color de familia de 12 px en el borde izquierdo**, a sangre y por debajo del borde quemado. En la mano de TTS y en una pila mezclada, la familia se reconoce sin hacer zoom.
 - **Alimento con agua (botella y cantimplora):** mismo sello, misma regla base ("Cuenta como 1 Alimento.") y una **segunda línea de regla** separada por una línea punteada: *"o gastala para limpiar una herida"*. Va con un icono de gota que también se repite en la ficha de herida abierta. Así se lee como un uso extra y no como otra familia. El texto de la regla ocupa 2 líneas más; se compensa bajando la ilustración a 430 px de alto en esas 2 cartas.
+- **Regla de Medicina, a corregir:** el texto de la fuente ("limpiar un rasguño", "1 Medicina frena la infección 1 día") ya no vale, porque no hay tipos de herida ni infección. Queda: "Cuenta como 1 Medicina. Base: 2 Medicinas curan 1 herida." El uso en expedición lo define el reglamento.
 - **Familia Alimento:** 7 diseños y 23 cartas. Regla común: "Cuenta como 1 Alimento. Cada superviviente come 1 por día, o 2 si termina el día con fatiga. Guardalo en la base al volver de la expedición."
 - **Espacios:** 1 o 2 cuadros rayados, o la palabra "puesta" para la mochila de montaña. La propuesta es acercarlos al sello (arriba a la izquierda), por la regla de la mano superpuesta.
 - **Ilustración:** las maquetas SVG actuales sirven para la primera versión en TTS. El arte final se hace con los prompts de tinta de `arte/prompts_ilustraciones.md` (sección Objetos).
@@ -348,7 +346,7 @@ Papel sobre noche, como el resto. Sirve para cualquier superviviente: la carta s
 ```
 
 - La franja de la mochila es una zona para dejar las cartas de objeto superpuestas. La capacidad se cuenta con los cuadros de cada carta, no con casillas fijas.
-- Las casillas de herida tienen el tamaño de una ficha de herida (256 px en la imagen) y llevan su efecto en letra chica. Ejemplo: "Brazo izq.: mochila −1".
+- Las 5 casillas de herida (cabeza, torso, brazo izq., brazo der., piernas) **no tienen tipos**: cada una es un hueco del tamaño de la ficha de gota (256 px), con el efecto de esa zona en letra chica. Ejemplo: "Brazo izq.: mochila −1". Con lugar para 2 gotas por casilla, por la regla de la segunda herida en la cabeza.
 - Los marcadores de sangre y fatiga son fichas del color del jugador con snap points en cada casilla.
 - **Hoja del superviviente de prueba (P1):** la misma maqueta con la carta impresa (3/3/3/3, Defensa 11) y la tabla de armas iniciales en la franja inferior.
 
@@ -390,13 +388,12 @@ Recomendación sobre la pregunta abierta de la dirección de arte: **las fichas 
 |---|---|---|
 | Ruido | Círculo de 0,8 u | Óxido #b4583a, ondas concéntricas en hueso |
 | Daño | Gota irregular de 0,6 u | Rojo 30 #922b2b, número 1 en hueso (la de 3 es más grande) |
-| Heridas | Cuadrado de esquinas rotas | Rasguño (papel, 1 trazo) · laceración (rojo, 3 trazos) · fractura (hueso, hueso partido) · mordedura (ácido #9bd14b, dentadura) |
 | Fatiga | Hexágono | Gris #9a9f9f, "zzz" a tinta |
 | Voz | Globo | Verde radio #2e7d6b |
 | Bala | Cápsula | Latón (luna #d9b45a) |
 | Construcción | Cuadrado | Papel oscuro #b9a682, martillo |
 | Escondido | Círculo | Noche con un ojo tachado en hueso |
-| Herida abierta / olor a sangre | Gota de 0,6 u con ondas | Rojo 30 #922b2b, gota en hueso con 2 ondas de ruido a los costados (mezcla de los iconos de herida y de ruido). Va encima de la ficha de herida. Mientras esté, la herida genera 1 ruido por turno |
+| Herida / olor a sangre | Círculo de 0,6 u con una gota, Custom Tile de 2 caras | **Abierta:** rojo 30 #922b2b, gota en hueso con 2 ondas de ruido a los costados. **Limpia:** papel con la gota a tinta, tachada. Es la única ficha de herida |
 | Nivel de peligro | Cuadrado de 1 u, 3 estados | Número Big Shoulders 1/2/3 sobre papel claro, oscuro o quemado (los mismos tonos que las franjas del calendario) |
 | Números 1–5 | Círculo de 0,9 u | Frente en papel con número Big Shoulders al 60 %; dorso en el color del jugador |
 | Zombie | Círculo de 0,9 u (bruto 1,1 u) | Frente "tranquilo": ilustración recortada en un círculo de papel con un aro de tinta fino. Dorso "alerta": la misma ilustración con un aro rojo grueso (40 px) y un "!" arriba |
@@ -404,7 +401,7 @@ Recomendación sobre la pregunta abierta de la dirección de arte: **las fichas 
 
 Las fichas de zombie no llevan texto. El tipo se reconoce por la ilustración y por una **marca de borde**: caminante sin marca, corredor con 2 rayas, bruto con aro doble, ácido con un punto verde y chillón con ondas.
 
-**¿Hace falta la ficha de herida abierta?** Sí. La herida (zona y tipo) es permanente hasta curarla en la base. Lo de "abierta" es un estado aparte que se quita en la expedición, limpiándola con agua. Si no hubiera ficha, habría que recordar qué heridas generan ruido en cada turno. Con la ficha encima de la herida, el paso de reloj se resuelve mirando la hoja: cada gota roja deja 1 ficha de ruido en tu zona.
+**Herida = gota roja.** Hay un solo tipo de herida y toda herida queda abierta hasta limpiarla con agua. En el paso de reloj se mira la hoja: cada gota roja deja 1 ficha de ruido en tu zona. Al limpiarla, la ficha se da vuelta a "limpia" y sigue contando como herida hasta curarla en la base.
 
 ### 3.10 Carta de aparición de zombies · 750 × 1050
 
@@ -462,7 +459,7 @@ El contenido (tipos, cantidades, textos especiales y cuántas copias) lo define 
   │ Bolsa fichas edif.  │ │  [Mazo aparición][Descarte aparición] junto al mapa   │
   │                     │ │  Pilas de losetas: calles por tipo · edificios         │
   │ Tablas de edificio  │ │  Mazo de botín · descarte · supervivientes             │
-  └─────────────────────┘ │  Dados comunes (gris) · dados de herida                │
+  └─────────────────────┘ │  Dados comunes (gris) · dado de zona de herida          │
                          │                                                      │
                          │ [Hoja J1 Orange]   [Hoja J2 Green]   [Hoja J3 Blue]  │
                          │  + 2d20, d4–d12     + ídem             + ídem          │
@@ -562,7 +559,7 @@ python3 herramientas/hoja_de_cartas.py arte/cartas/supervivientes/ --cols 4 --fi
 |---|---|---|
 | Botín: mazo o tabla | `cartas_de_objetos`: Registrar da una carta del mazo. `base_y_losetas`: Registrar tira d20 en la tabla del edificio | Hay que decidir uno. Si queda la tabla, el resultado dice qué carta buscar en el mazo (en TTS se busca con clic derecho, Search). Si queda el mazo, las tablas de edificio se reducen a los zombies |
 | Señal | 5 etapas (`mesa_online` y cartas de señal) contra un contador "Señal 3/10" (`base_y_losetas`) | Se diseña la tira de 5 etapas. Hay que confirmar si existe el contador de 10 |
-| Heridas | Kit: toda herida −1 de sangre, torso −1 extra. `mesa_online`: cabeza −3, torso −2. Cartas de objeto: "2 Medicinas quitan 1 **carta** de herida" | Se proponen fichas de herida sobre la silueta. Si se confirman las cartas de herida, se suma un mazo |
+| Heridas | Kit: toda herida −1 de sangre, torso −1 extra. `mesa_online`: cabeza −3, torso −2. Cartas de objeto: "2 Medicinas quitan 1 **carta** de herida" | Decisión del autor: un solo tipo de herida, sin mordedura ni infección. Se usan las gotas sobre la silueta y no hay mazo de heridas. Falta unificar la pérdida de sangre por zona |
 | Correr | Kit: 1 PA, 2 zonas. Carta de acción: 2 PA. Habilidad de Nico: "Correr le cuesta 1 PA en lugar de 2" | La carta de acción y la carta de Nico se rehacen después de la prueba 1 |
 | Ruido del bate | Kit: Medio. Carta: barra 1 = Bajo. Tabla de la casa: "ruido bajo" | Hay que unificarlo antes de imprimir la carta |
 | Munición | Kit: pistola con 6 balas. Cartas: 1 Munición = 3 disparos | En el kit, la pistola trae 6 fichas de bala |
@@ -573,12 +570,12 @@ python3 herramientas/hoja_de_cartas.py arte/cartas/supervivientes/ --cols 4 --fi
 | Infectado ácido y chillón | Marcados como "propuesta" | Se incluyen 4 fichas de cada uno. Son baratos de quitar |
 | Nombre "Día 30" | La partida pasa a 20 días | El logo y los dorsos con el 30 rojo quedan pendientes. Antes de imprimir dorsos definitivos hay que confirmar el nombre |
 | Mazo de aparición y prueba 1 | El kit usaba d6 de aparición. La decisión 8 lo reemplaza por el mazo | En el kit de TTS se usa el mazo a nivel 1. Si se quiere repetir la prueba 1 tal cual, alcanza con un d6 nativo suelto |
-| Agua: limpiar heridas | Nueva regla: herida sin limpiar = 1 ruido por turno | Hay que definir qué cuenta como herida "abierta": ¿todas, o solo laceración y mordedura? Hoy la ficha se pone en cualquier herida nueva |
+| Agua: limpiar heridas | Toda herida queda abierta (1 ruido por turno) hasta limpiarla con agua | **Cerrado:** la gota va en todas las heridas |
 
 **Orden de trabajo sugerido:**
 1. Kit prueba 1: 2 losetas, hoja, 7 cartas, caminantes y fichas básicas.
 2. Mazo de botín, con las maquetas SVG actuales exportadas a PNG.
-3. Mazo de aparición, cuando esté `mazo_aparicion.md`, y ficha de herida abierta.
+3. Mazo de aparición, cuando esté `mazo_aparicion.md`, y ficha de herida (gota).
 4. Base, tiempo (20 días) y ciudad.
 5. Losetas del juego completo y tablas de edificio.
 6. Supervivientes y acciones, después de la prueba 2.

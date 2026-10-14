@@ -5,6 +5,7 @@
 **Cambios de la v2 (decisiones del autor)**
 - La partida dura **20 días** en 3 niveles de peligro: **1** (días 1–7), **2** (días 8–14) y **3** (días 15–20).
 - **Comida y agua se unifican en Alimento.** Además de comerse, el Alimento (el agua) se gasta para **limpiar heridas**: cada herida sin limpiar pone 1 ficha de ruido por turno.
+- **Un solo tipo de herida.** Toda herida queda **abierta** («olor a sangre») hasta que se limpia con agua (Alimento). **No hay mordedura ni infección.** Se sacaron la infección, el antibiótico como carta única, el zombie «conocido», el Triage de Marta y la carta Fiebre; los reemplazos están en cada sección.
 - El **descanso rápido** es opcional.
 - La aparición de zombies en la calle sale del mazo de aparición (`mazo_aparicion.md`), que reemplaza todas las tiradas de d6 de aparición y de errantes.
 - Todo en voseo.
@@ -28,7 +29,7 @@ Todo lo que sigue parte del material de `fuentes/` y usa sus mismos términos: n
 |---|---|---|
 | No hay mazo de eventos; la fase 4 se llama «Regreso y noche» pero no tiene reglas | `base_y_losetas.html` | §1 |
 | No está definido cómo atacan los zombies a la base de noche | `base_y_losetas.html` («pendiente en las reglas») | §1.2 |
-| La mordedura «se prueba más adelante» | `kit_prueba_1.md` | §4.3 |
+| ~~La mordedura «se prueba más adelante»~~ | El autor la sacó: no hay mordedura ni infección | §4.3 (olor a sangre) |
 | Corredor, bruto, ácido y chillón sin vitalidad ni bono de ataque | `base_y_losetas.html` | §4.1 |
 | «Zombies ocultos», «Vigilar» y «fichas de voz» se nombran pero no tienen regla | `mesa_online.html`, carta Movimiento y sigilo | §3, §4.2 |
 | La etapa 3 (baliza) no tiene carta en la familia Señal; la etapa 5 no tiene procedimiento | `cartas_de_objetos.html`, `mesa_online.html` | §5.3, §2.4 |
@@ -45,6 +46,7 @@ Todo lo que sigue parte del material de `fuentes/` y usa sus mismos términos: n
 | Ruido del bate | En el kit es Medio; en la tabla de la casa y en la carta «Bate con clavos» es Bajo. |
 | Recursos | La mesa tiene «Materiales» genérico; la base tiene 7 materiales separados. Con la v2, Comida y Agua pasan a ser una sola casilla de Alimento en la mesa y en las cartas. |
 | Nombre del juego | «Día 30» con una partida de 20 días. ¿Queda como nombre, o pasa a «Día 20»? |
+| Restos de infección en las fuentes | El kit tiene 4 tipos de herida (con mordedura). Las tablas de farmacia y hospital tienen «Antibióticos (frenan la infección)», «Kit de sutura: cierra una laceración» y la trampa del hospital («cualquier rasguño que recibas acá ya está infectado»). El bisturí «permite amputar». Hay que reescribirlos: ver §4.3. |
 
 ---
 
@@ -111,13 +113,13 @@ Impacto **A** · Coste **2**. Es lo mínimo para que la base, las barricadas y l
 |---|---|---|---|---|
 | N1 | Rasguños en la puerta | I | 2 caminantes atacan la entrada con menos Defensa. | «Toc. Toc. Toc. Nunca se cansan.» |
 | N2 | Noche en calma | I | No hay ataque. El guardia también descansa (quita 1 de fatiga). | «Se oyen grillos. Parece otro mundo.» |
-| N3 | Golpes que piden ayuda | I | Alguien golpea y pide entrar. Si abren, tirá d6: 1–3, un superviviente (robá del mazo); 4–5, un superviviente **mordido**; 6, un caminante en la sala común. Si no abren, no pasa nada. | «Dijo un nombre. Ninguno lo conocía.» |
+| N3 | Golpes que piden ayuda | I | Alguien golpea y pide entrar. Si abren, tirá d6: 1–3, un superviviente (robá del mazo); 4–5, un superviviente con 2 heridas abiertas y sin nada en la mochila; 6, un caminante en la sala común. Si no abren, no pasa nada. | «Dijo un nombre. Ninguno lo conocía.» |
 | N4 | Pesadillas | I | El superviviente con más fatiga no la recupera esta noche. | «Gritó dormido. Afuera algo respondió.» |
 | N5 | Pasos en el techo | II | 1 corredor ataca el Techo (claraboya). Si entra, cae en la sala común. | «Algo corre por la chapa.» |
 | N6 | El generador se oye | II | Si la etapa 2 está hecha, elijan: lo apagan (mañana la radio no funciona) o 1 caminante más ataca cada entrada. | «Ese zumbido es la esperanza. Y es un faro.» |
 | N7 | Chillón en la vereda | II | El guardia tira d20 + Percepción contra 14. Si no le sale, el chillón chilla: +2 caminantes en cada ataque de esta noche. | «Primero el silencio. Después, eso.» |
 | N8 | La horda pasa | III | 6 caminantes cruzan la calle Las Heras. Si alguna entrada tiene una trampa de un uso o una Alarma de latas, salta y la horda ataca esa entrada. Si no, pasa de largo. | «Nadie respiró en cuarenta minutos.» |
-| N9 | Fiebre | III | Cada mordido avanza 1 paso su infección (ver §4.3), aunque hoy haya usado Medicina. | «Le temblaban las manos y pedía agua.» |
+| N9 | Olor a sangre | III | Cada herida abierta que haya en la base suma 1 caminante al ataque de esta noche, contra la entrada con menos Defensa. | «Vienen olfateando, con la cabeza baja, directo a la puerta.» |
 | N10 | Asedio | III | 1 bruto y 2 caminantes atacan la puerta principal; 1 corredor, la ventana con menos Defensa. | «Esta vez vinieron a quedarse.» |
 
 Impacto **A** · Coste **2** (28 cartas, todas con reglas que ya existen).
@@ -130,7 +132,7 @@ La regla del autor (el agua limpia heridas; una herida sin limpiar pone 1 ficha 
 |---|---|---|
 | **Limpiar en la calle** | Limpiar una herida: 1 PA, Silencio, gastás 1 Alimento de la mochila. Las fichas que ya se pusieron se quedan. | A · 1 |
 | **Ola de calor** (A5) | Duplica el rastro de las heridas sin limpiar ese día. | M · 1 (ya incluida) |
-| **El rastro llega a casa** | Si alguien vuelve a la base con una herida sin limpiar, esa noche la carta de Noche suma 1 caminante al ataque. | M · 1 |
+| **El rastro llega a casa** | Si alguien vuelve a la base con una herida sin limpiar, esa noche la carta de Noche suma 1 caminante al ataque. En el nivel 3 se vuelve una carta propia (N9 «Olor a sangre»). | M · 1 |
 | **Decidir quién se limpia** | Con 1 solo Alimento en la mochila, hay que elegir: comer esa noche o limpiar la herida de un compañero. Esa es la tensión que buscamos, así que no hace falta otra regla. | — |
 
 ---
@@ -158,7 +160,7 @@ Meta de diseño a medir: unas 10–12 expediciones por partida.
 | Mazo de eventos | Solo cartas I | Se suman las II | Se suman las III; 2 cartas de Noche por noche |
 | Ritmo | Explorar y aprender el barrio | Elegir qué barrio abandonar | Ir a buscar lo que falta de la señal, cueste lo que cueste |
 | Alimento | Abunda cerca de la base (Las Acacias) | Las Acacias saqueadas; hay que cruzar | Cada barrio cercano saqueado da desventaja al registrar |
-| Novedad | — | Aparecen los zombies conocidos (§4.2) | Destinos de nivel 3 (§5.1) |
+| Novedad | — | Aparecen los rastreros (§4.2) | Destinos de nivel 3 (§5.1) |
 
 ### 2.3 Giros narrativos: cartas de hito
 
@@ -198,7 +200,7 @@ Se conservan los nombres (los de la mesa), la profesión y los atributos. Cada u
 
 | Superviviente | F/D/C/P | Habilidad (revisada) | Momento (1 vez por partida) | Defecto |
 |---|---|---|---|---|
-| **Marta Ríos**, enfermera | 2/3/3/4 | *Manos firmes.* Vendar, limpiar una herida o usar Medicina le cuesta 1 PA. Puede limpiar 2 heridas con 1 solo Alimento. En la base, 1 vez por día, quita 1 herida con 1 Medicina en vez de 2. | *Triage.* En la base, cura la infección de un mordido si lo hace el mismo día de la mordedura. | *Turno doble.* Cada vez que cura en la base, gana 1 de fatiga. |
+| **Marta Ríos**, enfermera | 2/3/3/4 | *Manos firmes.* Vendar, limpiar una herida o usar Medicina le cuesta 1 PA. Puede limpiar 2 heridas con 1 solo Alimento. En la base, 1 vez por día, quita 1 herida con 1 Medicina en vez de 2. | *Sutura de campaña.* Limpia todas las heridas abiertas de los supervivientes de su zona sin gastar Alimento. | *Turno doble.* Cada vez que cura en la base, gana 1 de fatiga. |
 | **Raúl Ibarra**, ex policía | 4/3/3/2 | *Entrenamiento.* Ventaja en su primer ataque con arma de fuego de cada expedición. En la comisaría abre la puerta blindada sin palanca (sabe dónde está la llave). | *Cubrir.* Este turno, un compañero de su zona o de una adyacente no recibe ataques. | *Gatillo fácil.* Si un zombie entra en su zona y él tiene un arma de fuego cargada, tirá d6: con 1, dispara sin querer (gasta 1 disparo y hace ruido Máximo). |
 | **Sofía Lenz**, mecánica | 3/4/3/2 | *Manos de taller.* Forzar o barricar le cuesta 1 PA y hace 1 nivel menos de ruido. | *Puente.* En el taller o la estación de servicio, convierte un 18 o 19 de botín en un 20 («Un auto arranca»). | *No se va sin terminar.* Si se queda en la base y hay materiales para una barricada o una mejora, tiene que gastar su ficha en eso o gana 1 de fatiga. |
 | **Tomás Ferro**, cocinero | 4/2/4/2 | *Raciones.* 1 vez por día, 1 Alimento alimenta a 2. Ventaja al registrar en almacén y supermercado. | *Guiso.* Una noche, nadie come doble por fatiga y todos quitan 1 de fatiga. | *Pesado.* No puede Correr dos turnos seguidos. |
