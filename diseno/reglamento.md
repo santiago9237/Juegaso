@@ -36,6 +36,7 @@ Este documento junta en un solo sistema lo que estaba repartido en el kit de la 
 19. Resumen de turno (carta de referencia)
 20. Lista de decisiones
 21. Pendientes
+22. Hallazgos de la revisión → cómo se resolvieron
 - Anexo A. Tablas por edificio y errantes
 - Anexo B. Escenario de entrenamiento (prueba 1)
 
@@ -277,7 +278,7 @@ Cada turno (1 hora) tiene 5 pasos, siempre en este orden:
 2. **Zombies.** Cada zombie actúa una vez (sección 10).
 3. **Horda.** Si una zona de calle, o un edificio sumando todas sus zonas, tiene 5 o más fichas de ruido, llega la horda (sección 9).
 4. **Disipación.** Quita 1 ficha de ruido de cada zona que tenga fichas.
-5. **Reloj.** Cada laceración sin vendar quita 1 de sangre. Avanza el reloj 1 hora y tira en la tabla de errantes (sección 10.5). Se renuevan los PA (2 si estás aturdido), se termina "escondido" y se puede volver a Correr.
+5. **Reloj.** Cada laceración sin vendar quita 1 de sangre. Avanza el reloj 1 hora y tira en la tabla de errantes (sección 10.5). Se renuevan los PA (2 si estás aturdido, agotado o con infección en nivel 3), se termina "escondido" y se puede volver a Correr.
 
 > **Decisión (aparición de zombies):** el kit de la prueba 1 hace aparecer un caminante con un 1 en d6 (1 o 2 de noche). La hoja de base usa la tabla de errantes por hora en la loseta más ruidosa. Se adopta **la tabla de errantes**, porque escala con el tramo y con el ruido. La regla del d6 queda solo para el escenario de entrenamiento (Anexo B).
 
@@ -373,7 +374,7 @@ El ruido hace dos cosas: **en el momento** atrae a los zombies que lo oyen, y **
 | Caminante | 8 | 5 | d20 + 2 | 1 zona | Llega en grupo |
 | Corredor | 12 | 4 [PROPUESTA] | d20 + 2 [PROPUESTA] | 2 zonas | Se mueve 2 zonas por activación (paso a paso, puede cambiar de objetivo entre pasos) |
 | Bruto | 10 | 10 [PROPUESTA] | d20 + 3 [PROPUESTA] | 1 zona | Siempre empieza en la habitación más lejana. Con chaleco (comisaría 6): +2 Defensa |
-| Infectado ácido | 9 | 5 [PROPUESTA] | d20 + 2 [PROPUESTA] | 1 zona | Si te hiere, además se rompe un objeto de tu mochila (lo eliges tú) |
+| Infectado ácido | 9 | 5 [PROPUESTA] | d20 + 2 [PROPUESTA] | 1 zona | Si te hiere, además daña un objeto de tu mochila (lo eliges tú; sección 16.4) |
 | Chillón | 8 | 3 [PROPUESTA] | d20 + 1 [PROPUESTA] | 1 zona | Si en la fase de zombies te detecta, chilla en lugar de moverse: ruido máximo en su zona y aparece 1 caminante en la puerta del edificio (o en el borde de su loseta si está en la calle) |
 
 "Vitalidad" es el daño que aguanta: cuando el daño acumulado llega a ese número, cae. El daño se marca con fichas debajo de la figura.
@@ -720,6 +721,8 @@ Cinco etapas, en orden. Cada etapa se marca en la Fase de Base, con los objetos 
 | 4 | Mensaje | Un Manual técnico **o** un GPS: con uno alcanza | Manual (mazo; escuela 18); GPS (mazo; taller 19, estación de servicio 19) |
 | 5 | Activación | Con las etapas 1 a 4 marcadas, desde el **día 26**, gastan 1 Combustible [PROPUESTA] | — |
 
+**Completar antes no adelanta el rescate:** el helicóptero llega el día 30 pase lo que pase. La radio y el generador no necesitan baterías ni combustible cada día (D22).
+
 **Activación.** Es ruido máximo: desde esa noche y hasta el día 30, la amenaza suma +3 cada noche (sección 17.6). Por eso conviene activarla tarde, pero no tan tarde que falte combustible o alguien vivo para hacerlo.
 
 > **Decisión (cantidad de etapas):** la hoja de base muestra la señal como "3/10"; la mesa en línea y el mazo de objetos usan 5 etapas. Valen **las 5 etapas**.
@@ -730,16 +733,16 @@ Cinco etapas, en orden. Cada etapa se marca en la Fase de Base, con los objetos 
 
 ## 19. Resumen de turno (carta de referencia)
 
-> Pensado para imprimir o poner como carta grande en TTS. Cabe en una página.
+> Pensado para imprimir o poner como carta grande en TTS. Cabe en una página. ▲ = acción pesada (1 marca de esfuerzo; 4 marcas = +1 fatiga).
 
 **EL DÍA**
-1. **BASE (07:00)** · ¿Día 30? → victoria si la señal está activada y hay alguien vivo · clima (d6: 1–2 llueve) · huerta (días pares +1 Comida) · infección: +1 nivel o 1 Medicina · curar: 2 Medicinas = 1 herida · construir: 1 ficha (2 con Taller) + materiales · marcar señal.
-2. **PLANIFICACIÓN** · sale 1 por jugador · los demás descansan (−1 fatiga) · 1 guardia (+Percepción a todas las entradas, no descansa) · destino · mochila (6).
+1. **BASE (07:00)** · ¿Día 30? → ganan si la señal está activada y hay alguien vivo · clima (d6: 1–2 llueve) · huerta (días pares +1 Comida) · infección: +1 nivel o 1 Medicina · curar: 2 Medicinas = 1 herida · construir: 1 ficha (2 con Taller) + materiales · marcar señal.
+2. **PLANIFICACIÓN** · sale 1 por jugador · los demás descansan · 1 guardia (+Percepción a todas las entradas, no descansa) · destino · mochila (6).
 3. **EXPEDICIÓN (08:00)** · viaje 1–3 h · 1 turno = 1 hora · anochece 19:00 · fin 21:00.
-4. **REGRESO Y NOCHE** · descargar, rasguños fuera · comer (1, o 2 con fatiga) · beber (1 Agua por cada 2) · sangre +1 si comió y bebió (+1 si descansó) · fatiga (+1 por salir, +1 si volvió después de 19:00) · amenaza: d6 + tramo → ataques · día +1.
+4. **REGRESO Y NOCHE** · descargar, rasguños fuera · comer (1, o 2 con fatiga) · beber (1 Agua por cada 2) · sangre +1 si comió y bebió (+1 si descansó) · descanso −1 fatiga · borrar esfuerzo · amenaza: d6 + tramo → ataques · día +1.
 
 **EL TURNO (1 HORA)**
-1. **Supervivientes:** 3 PA cada uno (2 si aturdido o agotado). El ruido va al momento.
+1. **Supervivientes:** 3 PA cada uno (2 si aturdido, agotado o con infección 3). El ruido va al momento.
 2. **Zombies:** en tu zona → atacan · oyó ruido → 1 zona hacia el más fuerte · te ve → 1 zona hacia ti · si no, quieto. (Corredor: 2 zonas.)
 3. **Horda:** 5+ fichas en una zona de calle o en un edificio → 3 caminantes por el borde más cercano, se quitan las fichas.
 4. **Disipación:** −1 ficha en cada zona.
@@ -751,64 +754,72 @@ Cinco etapas, en orden. Cada etapa se marca en la Fase de Base, con los objetos 
 |---|---|---|
 | Sigilo 1 zona (no con zombie en tu zona) | 2 | — |
 | Caminar 1 zona | 1 | Bajo |
-| Correr 2 zonas (1 vez/turno) | 1 | Medio |
+| Correr 1–2 zonas (1 vez/turno) ▲ | 1 | Medio |
 | Esconderse (termina turno) | 1 | — |
 | Abrir / cerrar puerta | 1 | Bajo |
-| Forzar (palanca/hacha: 1 PA) | 2 | Medio |
-| Romper ventana | 1 | Alto |
-| Barricar (1 Madera) | 2 | Medio |
-| Atacar | 1 | Del arma |
+| Forzar (palanca/hacha: 1 PA) ▲ | 2 | Medio |
+| Romper ventana ▲ | 1 | Alto |
+| Barricar (1 Madera) ▲ | 2 | Medio |
+| Atacar (arma de 2 espacios cuerpo a cuerpo ▲) | 1 | Del arma |
 | Destrabar | 1 | — |
 | Distraer (gasta 1 carta) | 1 | Medio allá |
 | Registrar (sin zombies) | 2 | Bajo |
 | Primeros auxilios (1 Medicina) | 2 | Bajo |
-| Comer o beber (1/expedición) | 1 | — |
+| Comer o beber: borra esfuerzo (1/expedición) | 1 | — |
 | Intercambiar / Vigilar | 1 | — |
-| Salir del barrio | 1 | — |
+| Salir del barrio (mochila llena ▲) | 1 | — |
+
+**FATIGA** · 4 marcas ▲ = +1 · 1: come 2 · 2: no corre · 3: 2 PA, sin guardia · más de 3: −1 sangre por punto.
 
 **RUIDO** · Silencio 0 zonas/0 fichas · Bajo 1/1 · Medio 2/1 · Alto 3/2 · Máximo todo/3 · −1 nivel por pared, puerta cerrada o ventana intacta · pifia +1 ficha.
 
 **COMBATE** · d20 + Fuerza (cuerpo a cuerpo) o Destreza (fuego) ≥ Defensa del zombie · daño: dado + Fuerza (cuerpo a cuerpo) o dado (fuego) · ventaja contra tranquilo · desventaja con brazo derecho herido, disparando de noche o a oscuras · 20: daño máximo · 1: falla, +1 ficha, el arma de fuego se encasquilla.
 
-**ZOMBIES** · Caminante D8 V5 · Corredor D12 V4, 2 zonas · Bruto D10 V10 · Ácido D9 V5, rompe un objeto · Chillón D8 V3, chilla (ruido máximo + 1 caminante) · ataque d20+2 contra tu Defensa (10 + Destreza).
+**ZOMBIES** · Caminante D8 V5 · Corredor D12 V4, 2 zonas · Bruto D10 V10 · Ácido D9 V5, daña un objeto · Chillón D8 V3, chilla (ruido máximo + 1 caminante) · ataque d20+2 (bruto +3, chillón +1) contra tu Defensa (10 + Destreza).
 
 **HERIDAS** · d6 zona: 1 cabeza (aturdido) · 2–3 torso (−1 extra) · 4 brazo izq. (−1 espacio) · 5 brazo der. (desventaja) · 6 piernas (no correr) · d6 tipo: 1–2 rasguño · 3–4 laceración (−1/hora) · 5 fractura · 6 mordedura (infección) · toda herida −1 sangre · mueres con sangre 0 o con 2 heridas en la cabeza.
 
-**NOCHE** · menos de 5: tranquila · 5–6: 1 ataque · 7–8: 2 · 9+: 3 · Fuerza 1d6 + tramo + 1 contra defensa (barricada + trampa + Percepción del guardia) · si la supera, entran zombies.
+**NOCHE** · 4 o menos: tranquila · 5–6: 1 ataque · 7–8: 2 · 9+: 3 · Fuerza 1d6 + tramo + 1 contra defensa (barricada + trampa + Percepción del guardia) · si la supera, entran zombies.
 
 ---
 
 ## 20. Lista de decisiones
 
-Contradicciones entre fuentes y la versión elegida.
+Contradicciones entre fuentes, o huecos que había que cerrar, y la versión elegida.
 
 | # | Tema | Fuentes en conflicto | Se eligió |
 |---|---|---|---|
-| D1 | Coste de Sigilo y Correr | Carta de acción (Sigilo 1 PA, Correr 2 PA) contra kit y simulador | Kit: Sigilo 2 PA silencio, Caminar 1 PA bajo, Correr 1 PA 2 zonas medio, 1 vez por turno |
+| D1 | Coste de Sigilo y Correr | Carta de acción (Sigilo 1 PA, Correr 2 PA) contra kit y simulador | Kit: Sigilo 2 PA silencio, Caminar 1 PA bajo, Correr 1 PA por 1–2 zonas con ruido medio, 1 vez por turno |
 | D2 | Acción Huir | Carta de acción | Eliminada; la cubre Correr |
 | D3 | Habilidad de Nico | Mesa en línea ("Correr le cuesta 1 PA en lugar de 2") | Pasa a Sigilo a 1 PA |
 | D4 | Habilidad de Aurelio y acción Vigilar | Carta y mesa hablan de zombies ocultos, que no existen | Vigilar mira la ficha de un edificio adyacente; Aurelio a 2 zonas |
-| D5 | Daño y ruido de armas | Kit (bate medio, sin hacha ni escopeta) contra cartas y tablas (bate bajo, hacha d8, escopeta d12) | Cartas y tablas: escalera silencio d4, bajo d6, medio d8, máximo d10–d12; Fuerza suma en cuerpo a cuerpo |
-| D6 | Espacios del bate | Tabla de la casa (1) contra carta y kit (2) | Carta: 2. En general manda el valor de la carta |
+| D5 | Daño y ruido de las armas | Kit (bate medio, sin hacha ni escopeta) contra cartas y tablas (bate bajo, hacha d8, escopeta d12) | Cartas y tablas: escalera silencio d4, bajo d6, medio d8, máximo d10–d12. El modificador de Fuerza suma al daño cuerpo a cuerpo; las armas de fuego no suman |
+| D6 | Espacios de los objetos | Tablas (bate 1, generador 4) contra cartas (bate 2, generador 2) | Manda la carta; los espacios se cuentan por carta |
 | D7 | Munición | Kit (pistola con 6 balas) contra mazo (1 Munición = 3 disparos) | Mazo |
-| D8 | Sangre por heridas de cabeza y torso | Mesa en línea (cabeza −3, torso −2) contra kit y simulador (−1, torso −1 extra, cabeza aturde, 2.ª herida en la cabeza mata) | Kit y simulador |
-| D9 | Segunda herida en la cabeza | El texto del kit no aclara si el rasguño cuenta; el simulador sí lo cuenta | Cuenta cualquier herida en la cabeza sin curar; los rasguños se borran al volver |
-| D10 | Duración del efecto de zona | El kit da a entender que la fractura dura más; el simulador aplica igual cualquier herida que no sea rasguño, vendada o no | Simulador: dura hasta curarla en la base |
+| D8 | Sangre por heridas de cabeza y torso | Mesa en línea (cabeza −3, torso −2, resto 0) contra kit y simulador (−1, torso −1 extra, cabeza aturde, 2.ª herida en la cabeza mata) | Kit y simulador |
+| D9 | Segunda herida en la cabeza | El kit no aclara si el rasguño cuenta; el simulador sí | Cuenta cualquier herida en la cabeza sin curar; los rasguños se borran al volver |
+| D10 | Duración del efecto de zona | El kit sugiere que solo la fractura dura; el simulador aplica toda herida que no sea rasguño, vendada o no | Simulador: dura hasta curarla en la base |
 | D11 | Coste de Primeros auxilios | Carta de Medicina (1 PA) contra kit (Vendar 2 PA) y habilidad de Marta | 2 PA; Marta 1 PA |
-| D12 | Analgésicos, vendas, antibióticos | Kit y tablas los separan; el mazo los une en Medicina | Medicina; Primeros auxilios elige entre parar la laceración o +1 sangre |
-| D13 | Antibióticos e infección | Tablas ("frenan la infección") contra pregunta abierta del mazo | Medicina frena 1 día; curar solo amputando (por ahora) |
-| D14 | Sistema de botín | Tablas d6 del kit, tablas d20 de la base, mazo de objetos | d20 por edificio decide; el mazo da la carta; el d6 queda para el entrenamiento |
-| D15 | Registrar con zombies en la zona | Simulador lo permite; hoja de base lo prohíbe | Prohibido |
-| D16 | Aparición de zombies por turno | Kit (d6 = 1, de noche 1–2, en un borde) contra hoja de base (tabla de errantes por hora en la loseta más ruidosa) | Tabla de errantes |
-| D17 | Noche | Kit (desde el turno 9) contra reloj de la base (19:00) | 19:00, con un turno por hora |
-| D18 | Forzar con tirada | La carta del hacha dice "sin tirada", lo que sugiere que normalmente hay tirada; el kit no tiene tirada | Sin tirada; hacha y palanca bajan el coste a 1 PA |
+| D12 | Analgésicos, vendas, antibióticos | Kit y tablas los separan; el mazo los une en Medicina | Todo es Medicina; Primeros auxilios elige entre parar la laceración, +1 sangre o limpiar un rasguño infectado |
+| D13 | Antibióticos e infección | Tablas ("frenan la infección") contra pregunta abierta del mazo | 1 Medicina frena 1 día; solo se cura amputando o limpiando un rasguño infectado en el momento |
+| D14 | Sistema de botín | Tablas d6 del kit, tablas d20 de la base, mazo de 74 cartas | El d20 por edificio decide qué sale; el mazo da la carta física; el d6 queda para el entrenamiento |
+| D15 | Registrar con zombies en la zona | El simulador lo permite; la hoja de base lo prohíbe | Prohibido |
+| D16 | Aparición de zombies por turno | Kit (d6 = 1, de noche 1–2) contra hoja de base (tabla de errantes por hora en la loseta más ruidosa) | Tabla de errantes |
+| D17 | Turnos y reloj | Kit (12 turnos, noche desde el 9) contra reloj de la base (08:00 a 21:00, noche a las 19:00) | 1 turno de 3 PA = 1 hora; noche a las 19:00 |
+| D18 | Forzar con tirada | La carta del hacha dice "sin tirada"; el kit no tiene tirada | Sin tirada; hacha y palanca bajan el coste a 1 PA |
 | D19 | Ventaja y desventaja a la vez | Solo el simulador lo resuelve | Se anulan |
 | D20 | Recursos de construcción | Mesa en línea ("Materiales" único) contra base y mazo (7 materiales) | 7 materiales separados |
 | D21 | Escala de la señal | Hoja de base ("señal 3/10") contra mesa y mazo (5 etapas) | 5 etapas |
-| D22 | Baterías para la radio | Carta de radio y batería de auto | No hacen falta para la etapa 1 |
+| D22 | Baterías y combustible para la señal | Carta de radio, batería de auto, carta de combustible ("1 día") | Sin mantenimiento diario: las baterías no hacen falta para la etapa 1; el combustible se gasta solo en la etapa 2 y en la activación |
 | D23 | Etapa 3 con bengala | Tablas ("Bengalas ×2" y "bengala ×1" cumplen la etapa 3) contra carta de Bengala (solo Distraer) | 1 Bengala basta; la carta debe sumar esa línea |
-| D24 | Nombres de supervivientes | Hoja de base (Julio Benítez, Sofía Paz, Nico Ferrer) contra mesa en línea | Mesa en línea (tiene atributos) |
+| D24 | Nombres de supervivientes | Hoja de base contra mesa en línea | Mesa en línea (tiene atributos) |
 | D25 | Alambre de púas en la base | "Pierden su segundo movimiento" supone zonas que la base no tiene | Pierden su ataque en la primera ronda |
+| D26 | Fatiga en expedición (idea de Santiago) | Las fuentes no dicen cómo se gana afuera | Acciones pesadas ▲: 4 marcas = +1 fatiga; el contador se borra cada día; Sofía no acumula al forzar o barricar |
+| D27 | Tamaño del grupo | Mesa (se roban 3), sala (elección libre), base (4 con 2 jugadores) | Se roban 3, o 4 con 3 jugadores |
+| D28 | Qué derriban los zombies | Kit (solo puertas; rodean) contra simulador (también vidriera y puerta con llave; golpean si el rodeo es de más de 4) | Simulador |
+| D29 | Revelar un edificio | El kit y el simulador solo revelan con acciones del jugador | También cuando un zombie derriba una abertura o alguien entra |
+| D30 | Esconderse | Kit ("termina tu turno") contra carta ("si no hay zombies en tu zona", "no puedes moverte") | Kit: termina el turno; con zombies en tu zona se puede usar, pero esos te siguen viendo |
+| D31 | Objetos dañados | La carta de Clavos repara objetos "dañados"; el ácido los "rompe" | El ácido los daña; 1 Clavos los repara en la base |
 
 ---
 
@@ -816,12 +827,354 @@ Contradicciones entre fuentes y la versión elegida.
 
 Preguntas que este reglamento no cierra y conviene mirar en las próximas pruebas.
 
-1. **Balance de comida.** Con +1 de fatiga por expedición, quien sale come 2 casi siempre. Con 3 supervivientes y 1 jugador, el grupo come unas 4 Comidas por día. Hay que contar cuánta comida trae una expedición típica y ajustar (por ejemplo, fatiga solo si se vuelve después de las 17:00).
-2. **Duración.** Meta del kit: una expedición en unos 6 minutos. Con 10 a 12 turnos por expedición y 30 días, la partida se pasa mucho de 2 horas. Opciones: menos días jugables (eventos en los días tranquilos), menos turnos por expedición (1 turno = 2 horas) o días "de base" que no salen.
+1. **Balance de comida y agua.** Con fatiga, se come doble. Contar cuánta comida y agua trae una expedición típica y cuánta fatiga dan las acciones pesadas antes de tocar el umbral de 4.
+2. **Duración.** Meta del kit: una expedición en unos 6 minutos. Con 10 a 12 turnos por expedición y 30 días, la partida se pasa mucho de 2 horas. Opciones: menos días jugables (eventos en los días tranquilos), menos turnos por expedición (1 turno = 2 horas) o días "de base" sin salir.
 3. **Acciones ocultas y fichas de voz** (prueba 2): la carta de acción dice "elige 1 y marca con ficha numerada" y Elena reparte fichas de voz. No están en este reglamento.
 4. **Mazo de supervivientes definitivo** y rescatados (cuántas cartas, cuántas camas).
 5. **Valores de los zombies nuevos** (vitalidad y ataque de corredor, bruto, ácido y chillón).
 6. **Ataque a la base:** la propuesta de la sección 17.6 no está probada. Mirar cuántas noches con irrupción hay por tramo.
-7. **Cartas sin dibujo** de los objetos de las tablas que no están en el mazo (linterna, palanca, chaleco, etc.).
-8. **Reparar objetos dañados** con Clavos (lo dice la carta de Clavos, pero ninguna regla daña objetos salvo el infectado ácido, que los rompe).
-9. **Actualizar fuentes** si se aceptan estas decisiones: carta "Movimiento y sigilo", habilidades de Nico y Aurelio, carta de Medicina (2 PA), carta de Bengala (etapa 3), contadores de la mesa en línea (sangre por zona, materiales).
+7. **Cartas sin dibujo** para los objetos de las tablas que no están en el mazo (linterna, palanca, chaleco, etc.).
+8. **Registro escrito** (tuteo o voseo) para el material impreso. Este reglamento usa tuteo, como el kit.
+9. **Actualizar las fuentes** si se aceptan estas decisiones: carta "Movimiento y sigilo" (y la muestra tipográfica "Correr · 2 PA"), habilidades de Nico y Aurelio, carta de Medicina (2 PA), carta de Bengala (etapa 3), contadores de la mesa en línea (lista de heridas por zona, sangre −1 y torso −1 extra, materiales separados), base ("señal x/5"), y en el simulador: revelar la farmacia o la casa cuando un zombie rompe la abertura.
+
+---
+
+## 22. Hallazgos de la revisión → cómo se resolvieron
+
+Hallazgos de gravedad alta y media de `diseno/revision.md`.
+
+| Hallazgo | Gravedad | Cómo se resolvió | Dónde |
+|---|---|---|---|
+| A1. Costes de movimiento distintos entre kit, carta y habilidad del Estudiante | Alta | Costes del kit; Huir eliminada; Nico pasa a Sigilo 1 PA | 8.1, 5.3, D1–D3 |
+| A2. Heridas y sangre distintas en kit y mesa; una herida por zona | Alta | Modelo del kit y el simulador; varias heridas por zona (cartas de herida); laceración sangra; pendiente adaptar la mesa | 12, D8–D10, 21.9 |
+| A3. Dos sistemas de botín incompatibles (tablas d20 y mazo de 74 cartas) | Alta | El d20 decide; el mazo da la carta; espacios por carta; objetos sin carta en cartas en blanco; si la carta se agotó, no se encuentra | 16.4, D6, D14 |
+| A4. Señal sobre 5 o 10; victoria del día 30 indefinida; bengala; generador; mantenimiento | Alta | 5 etapas; victoria en la Fase de Base del día 30 con la señal activada y alguien vivo; derrota si mueren todos o la señal no está; 1 Bengala cumple la etapa 3; generador de 2 espacios; sin mantenimiento diario; completar antes no adelanta el rescate | 4, 18, D21–D23 |
+| A5. Daño y ruido de las armas distintos (bate, cuchillo, Fuerza, pifia) | Alta | Escalera de dados y ruido; "dado + modificador de Fuerza" en cuerpo a cuerpo; la pifia es regla general | 11, 11.1, D5 |
+| A6. Sin equivalencia entre turnos de 3 PA y reloj de horas; sin horda en losetas | Alta | 1 turno = 1 hora; horda de 5 fichas por zona de calle o por edificio también en losetas | 7.2, 7.3, 9, D17 |
+| A7. El simulador no revela edificios si un zombie rompe la abertura | Alta | Regla: también se revela si la abre un zombie o alguien entra; anotado para corregir el simulador | 16.3, D29, 21.9 |
+| M1a. Duración de los efectos de zona | Media | Duran hasta curarlos en la base | 12.1, D10 |
+| M1b. Mordedura: derrota diferida o "victoria con mordedura" | Media | Infección con niveles; en la puntuación de victoria resta 1 por infectado | 13, 4 |
+| M1c–d. Zombies que derriban vidriera y puerta con llave; rodear o golpear | Media | Versión del simulador escrita como regla | 10.4, D28 |
+| M1e. Cerrar puerta solo en el simulador | Media | Añadida (1 PA, ruido bajo) | 8.2 |
+| M1f. Zombie atacado queda alerta | Media | Añadido | 10.2 |
+| M1g. Ventaja y desventaja juntas | Media | Se anulan | 11, D19 |
+| M1h. Rasguño en la cabeza y muerte | Media | Cuenta mientras no se cure; los rasguños se borran al volver | 12.1, D9 |
+| M1i. Ruido a través de ventana intacta y alcance reducido | Media | Baja 1 nivel y el alcance se mide con el nivel que queda | 9, 7.1 |
+| M1j–k, M10. Zonas de aparición y desempate de la horda | Media | En el juego completo, errantes en una salida de calle al azar de la loseta; horda con desempate al azar; zonas del kit en el Anexo B | 10.5, 9, Anexo B |
+| M1l. Correr "2 zonas" o "hasta 2" | Media | 1 o 2 zonas | 8.1 |
+| M1m, M11. Pocos zombies en el material | Media | Si se acaban las figuras de un tipo, no aparecen más; componentes con unos 40 | 10.4, 2 |
+| M1n. Elegir a qué zombie atacar | Media | Eliges el objetivo | 11 |
+| M2. Recursos con nombres y cantidades distintos | Media | Lista única: Comida, Agua, Medicina, Munición, Combustible y 6 materiales | 3, 16.2, D20 |
+| M3. Agua sin consumo; hambre, sed y fatiga sin efecto; Constitución sin uso | Media | 1 Agua por cada 2 supervivientes; penas por hambre y sed; acciones pesadas y efectos por nivel de fatiga; Constitución para pruebas de resistencia | 15, 14, 5.1, D26 |
+| M4. Nombres, elección y tamaño del grupo; base vacía | Media | Nombres de la mesa; se roban 3 (4 con 3 jugadores); sin nadie en la base, no hay guardia | 3, 5.3, 6, D24, D27 |
+| M5. Habilidades con acciones inexistentes (Primeros auxilios, Vigilar, voz, Barricar, Distraer, Huir; palanca y Sofía) | Media | Primeros auxilios, Vigilar, Barricar y Distraer definidas; Huir eliminada; voz pendiente de la prueba 2; palanca y Sofía no se suman | 8, 5.3, 14.4, 21.3 |
+| M6. Kit médico y curaciones | Media | Kit médico = Botiquín completo (solo en el entrenamiento); Primeros auxilios define qué hace cada uso de Medicina; curar en la base con 2 Medicinas | 8.4, 12.2, Anexo B |
+| M7. Tabla de heridas con efectos de un solo uso mezclados; mochila excedida | Media | Tabla en dos columnas ("al recibirla" y "mientras dure"); si la mochila se excede, sueltas objetos | 12.1, 16.1 |
+| M8. Infección y amputación sin reglas | Media | Niveles 1 a 4, freno con Medicina, amputación con bisturí | 13 |
+| M9. Zombies sin estadísticas completas; puerta del chillón | Media | Vitalidad y ataque propuestos; el caminante del chillón aparece en la puerta del edificio o en el borde de la loseta | 10.1 |
+| M12. Defensa nocturna sin ataque | Media | Tirada de amenaza, fuerza del ataque, irrupción y combate en la base; el guardia suma a todas las entradas | 17.6 |
+| M13. Mejoras y objetos con efecto vago | Media | Huerta, recolector, camas, clima, mapas, fósforos, baterías, clavos y objetos dañados definidos; walkie-talkie pendiente de la prueba 2 | 6, 16.4, 17.5 |
+| M14. Registrar con zombies en la zona | Media | Prohibido | 8.4, D15 |
+| M15. Duración de la partida | Media | Queda como pendiente con opciones | 21.2 |
+| M16. Archivos que faltan | Media | Fuera del alcance de las reglas; este reglamento reemplaza la "sección 12" que citaba la hoja de cartas | — |
+| M17. Probabilidad de la pistola mal calculada | Media | Corregida: 42 % por disparo (55 % con ventaja) | 11 |
+
+---
+
+## Anexo A. Tablas por edificio y errantes
+
+Copiadas de los datos de `base_y_losetas.html` (borrador v0.2). Columnas de zombies por tramo; "Registros" es cuántas veces se puede Registrar el edificio, con ventaja o desventaja en el d20 si se indica. "Esp." es la columna orientativa de espacios de la tabla: manda la carta (D6). **[Señal]** marca los objetos de la señal de socorro. La Plaza no tiene ficha ni tabla.
+
+### Casa
+
+| Ficha | Días 1–10 | Días 11–20 | Días 21–30 | Registros | Nota |
+|---|---|---|---|---|---|
+| 1 | — | 1 cam. | 1 cam. | 1 (desventaja) | Ya pasaron otros. |
+| 2 | 1 cam. | 2 cam. | 2 cam., 1 corr. | 1 | — |
+| 3 | 1 cam. | 2 cam., 1 corr. | 3 cam., 1 corr. | 2 | — |
+| 4 | 2 cam. | 3 cam. | 3 cam., 1 corr., 1 chillón | 2 | La puerta está trabada: hay que forzarla (2 PA, ruido medio). |
+| 5 | 1 cam. | 2 cam. | 2 cam., 1 corr. | 3 (ventaja) | Despensa intacta. |
+| 6 | 3 cam., 1 corr. | 4 cam., 1 corr., 1 bruto | 4 cam., 2 corr., 1 ácido | 3 (ventaja) | Trampa: la familia entera sigue adentro. Todos empiezan en la zona de la puerta. |
+
+| d20 | Botín | Esp. |
+|---|---|---|
+| 1–2 | ¡Aaah! Un caminante sale del placard: aparece en tu zona. No encuentras nada. | — |
+| 3–4 | Nada útil. | — |
+| 5 | Soga del tendedero: cuerda ×1 | 1 |
+| 6–8 | Comida ×1 (latas) | 1 |
+| 9 | Estante desarmado: madera ×1 | 2 |
+| 10–11 | Agua ×1 | 1 |
+| 12 | Vendas | 1 |
+| 13 | Frasco de clavos del garaje: clavos ×1 | 1 |
+| 14 | Cuchillo de cocina · d4 · silencio | 1 |
+| 15 | Bate · d6 · ruido bajo | 1 |
+| 16 | Linterna | 1 |
+| 17 | Analgésicos | 1 |
+| 18 | Mochila grande: +2 espacios | 0 |
+| 19 | Pistola · d10 · ruido máximo, con munición ×1 | 1 |
+| 20 | Rescate: alguien estaba escondido. Roba un superviviente del mazo. | — |
+
+### Almacén
+
+| Ficha | Días 1–10 | Días 11–20 | Días 21–30 | Registros | Nota |
+|---|---|---|---|---|---|
+| 1 | — | 1 cam. | 1 cam., 1 corr. | 1 (desventaja) | Persiana forzada: alguien llegó antes. |
+| 2 | 1 cam. | 1 cam., 1 corr. | 2 cam., 1 corr. | 1 | — |
+| 3 | 2 cam. | 2 cam., 1 corr. | 3 cam., 1 corr. | 2 | — |
+| 4 | 1 cam. | 2 cam. | 2 cam., 1 chillón | 2 | Persiana baja: subirla es ruido medio. |
+| 5 | 1 cam. | 2 cam., 1 corr. | 2 cam., 1 corr. | 3 (ventaja) | El depósito no se tocó. |
+| 6 | 2 cam., 1 bruto | 3 cam., 1 corr., 1 bruto | 3 cam., 1 corr., 1 bruto, 1 chillón | 3 (ventaja) | Trampa: el bruto está en el depósito, entre ustedes y el botín. |
+
+| d20 | Botín | Esp. |
+|---|---|---|
+| 1–2 | ¡Aaah! Un caminante aparece en tu zona. No encuentras nada. | — |
+| 3–4 | Nada útil. | — |
+| 5–8 | Comida ×1 | 1 |
+| 9 | Pallet de madera: madera ×2 | 2 |
+| 10–12 | Comida ×2 | 2 |
+| 13–14 | Agua ×2 | 2 |
+| 15 | Fósforos y velas | 1 |
+| 16 | Sobres de semillas: semillas ×1 | 1 |
+| 17 | Rollo de alambre y cinta: alambre ×1 | 1 |
+| 18 | Baterías | 1 |
+| 19 | Cajón de bebidas: agua ×3 | 2 |
+| 20 | Libreta de fiado del almacenero: revela la ficha de otro edificio de este barrio. | 0 |
+
+### Farmacia
+
+| Ficha | Días 1–10 | Días 11–20 | Días 21–30 | Registros | Nota |
+|---|---|---|---|---|---|
+| 1 | 1 cam. | 1 cam., 1 corr. | 2 cam., 1 corr. | 1 (desventaja) | Saqueada a medias. |
+| 2 | 1 cam. | 2 cam. | 2 cam., 1 corr. | 1 | — |
+| 3 | 2 cam. | 2 cam., 1 corr. | 3 cam., 1 corr., 1 ácido | 2 | — |
+| 4 | 2 cam., 1 corr. | 3 cam., 1 corr. | 3 cam., 2 corr., 1 chillón | 2 | Reja de seguridad: forzarla dispara la alarma (ruido máximo) salvo con palanca. |
+| 5 | 1 cam. | 2 cam., 1 corr. | 2 cam., 1 corr., 1 ácido | 3 (ventaja) | Mucho botín. |
+| 6 | 4 cam., 1 corr. | 4 cam., 2 corr., 1 bruto | 5 cam., 2 corr., 1 bruto, 1 ácido | 3 (ventaja) | Trampa mortal: los infectados vinieron a buscar remedios. |
+
+| d20 | Botín | Esp. |
+|---|---|---|
+| 1–2 | ¡Aaah! Un caminante sale de detrás del mostrador: aparece en tu zona. | — |
+| 3 | La vitrina tenía alarma: ruido máximo. No encuentras nada. | — |
+| 4–5 | Estantes vacíos. | — |
+| 6–9 | Vendas | 1 |
+| 10–12 | Desinfectante | 1 |
+| 13–14 | Analgésicos | 1 |
+| 15–16 | Botiquín completo: vendas, desinfectante y férula | 1 |
+| 17–18 | Antibióticos (frenan la infección) | 1 |
+| 19 | Antibióticos ×2 | 1 |
+| 20 | Kit de sutura: cierra una laceración durante la expedición | 1 |
+
+### Supermercado
+
+| Ficha | Días 1–10 | Días 11–20 | Días 21–30 | Registros | Nota |
+|---|---|---|---|---|---|
+| 1 | 2 cam. | 3 cam. | 3 cam., 1 corr. | 1 (desventaja) | Vaciado. Solo quedan góndolas tiradas. |
+| 2 | 2 cam. | 3 cam., 1 corr. | 4 cam., 1 corr. | 2 | — |
+| 3 | 3 cam. | 3 cam., 1 corr. | 4 cam., 1 corr., 1 chillón | 2 | — |
+| 4 | 3 cam., 1 corr. | 4 cam., 1 corr. | 4 cam., 2 corr., 1 ácido | 3 | Las cajas bloquean la entrada: solo se sale por el depósito. |
+| 5 | 2 cam. | 3 cam., 1 corr. | 3 cam., 1 corr., 1 chillón | 4 (ventaja) | El depósito está lleno. |
+| 6 | 5 cam., 1 corr. | 6 cam., 2 corr., 1 bruto | 6 cam., 2 corr., 1 bruto, 1 chillón | 4 (ventaja) | Trampa: una horda quedó encerrada. Las puertas automáticas hacen ruido medio al entrar. |
+
+| d20 | Botín | Esp. |
+|---|---|---|
+| 1–3 | ¡Aaah! Un caminante sale de una góndola: aparece en tu zona. | — |
+| 4 | Un carrito rueda y choca: ruido medio. No encuentras nada. | — |
+| 5 | Nada útil. | — |
+| 6 | Góndola metálica desarmada: chapa ×1 | 2 |
+| 7–11 | Comida ×1 | 1 |
+| 12–14 | Comida ×2 | 2 |
+| 15–16 | Agua ×2 | 2 |
+| 17 | Bidón de agua: agua ×4 | 2 |
+| 18 | Linterna y pilas | 1 |
+| 19 | Garrafa de gas: combustible ×1 | 2 |
+| 20 | Pallet intacto: comida ×3 y agua ×2 (cada uno ocupa lo suyo) | 2 |
+
+### Comisaría
+
+| Ficha | Días 1–10 | Días 11–20 | Días 21–30 | Registros | Nota |
+|---|---|---|---|---|---|
+| 1 | 1 cam. | 1 corr. | 1 cam., 1 corr. | 1 (desventaja) | Armería vacía. |
+| 2 | 1 cam., 1 corr. | 2 cam., 1 corr. | 2 cam., 1 corr., 1 bruto | 1 | — |
+| 3 | 2 cam., 1 corr. | 2 cam., 1 corr., 1 bruto | 3 cam., 1 corr., 1 bruto | 2 | — |
+| 4 | 1 cam. | 2 cam., 1 corr. | 2 cam., 2 corr., 1 chillón | 2 | Puerta blindada: hace falta palanca o la llave del patrullero (1 registro en la vereda). |
+| 5 | 2 cam., 1 corr. | 2 cam., 1 corr., 1 bruto | 2 cam., 2 corr., 1 bruto | 3 (ventaja) | La armería sigue cerrada y llena. |
+| 6 | 2 cam., 2 corr., 1 bruto | 3 cam., 2 corr., 2 bruto | 3 cam., 3 corr., 2 bruto, 1 ácido | 3 (ventaja) | Trampa: el último bastión de la policía. Los brutos llevan chaleco (+2 a su defensa). |
+
+| d20 | Botín | Esp. |
+|---|---|---|
+| 1–2 | ¡Aaah! Un corredor sale de una oficina: aparece en tu zona. | — |
+| 3–4 | Nada útil. | — |
+| 5 | Rollo de la valla de contención: alambre ×1 | 1 |
+| 6–8 | Munición ×1 | 1 |
+| 9–10 | Munición ×2 | 1 |
+| 11–12 | Tonfa · d6 · ruido bajo | 1 |
+| 13 | Chaleco antibalas: +2 a tu defensa | 2 |
+| 14–15 | Pistola · d10 · ruido máximo, con munición ×1 | 1 |
+| 16 | Escopeta · d12 · ruido máximo | 2 |
+| 17 | Par de walkie-talkies | 1 |
+| 18 | Radio de la guardia: cumple la etapa 1 de la señal **[Señal]** | 2 |
+| 19 | Bengalas ×2: etapa 3 de la señal, o Distraer sin carta **[Señal]** | 1 |
+| 20 | Rescate: alguien quedó en una celda. Forzar la reja (2 PA, ruido medio) y roba un superviviente. | — |
+
+### Hospital
+
+| Ficha | Días 1–10 | Días 11–20 | Días 21–30 | Registros | Nota |
+|---|---|---|---|---|---|
+| 1 | 2 cam. | 2 cam., 1 corr. | 2 cam., 1 corr., 1 ácido | 1 (desventaja) | Evacuado hace semanas. |
+| 2 | 2 cam., 1 corr. | 3 cam., 1 corr. | 3 cam., 1 corr., 1 ácido | 2 | — |
+| 3 | 3 cam., 1 corr. | 3 cam., 2 corr. | 4 cam., 2 corr., 1 ácido | 2 | — |
+| 4 | 2 cam. | 3 cam., 1 corr. | 3 cam., 1 corr., 1 chillón | 3 | Sin luz: las zonas interiores están a oscuras (desventaja al atacar). |
+| 5 | 2 cam., 1 corr. | 3 cam., 1 corr. | 3 cam., 2 corr., 1 ácido | 4 (ventaja) | La farmacia interna está cerrada con llave y llena. |
+| 6 | 5 cam., 2 corr. | 6 cam., 2 corr., 1 bruto | 6 cam., 3 corr., 1 bruto, 2 ácido | 4 (ventaja) | Trampa mortal: la sala de infecciosos. Cualquier rasguño que recibas acá ya está infectado. |
+
+| d20 | Botín | Esp. |
+|---|---|---|
+| 1–3 | ¡Aaah! Un caminante se levanta de una camilla: aparece en tu zona (en días 21–30, un infectado ácido). | — |
+| 4 | Nada útil. | — |
+| 5 | Sábanas anudadas: cuerda ×1 | 1 |
+| 6–8 | Vendas ×2 | 1 |
+| 9–10 | Desinfectante | 1 |
+| 11–12 | Analgésicos | 1 |
+| 13–14 | Antibióticos | 1 |
+| 15 | Antibióticos ×3 | 1 |
+| 16 | Bisturí · d4 · silencio. Permite amputar en la base | 1 |
+| 17 | Camilla plegable: cargas a un herido sin perder movimiento | 2 |
+| 18 | Generador de emergencia: cumple la etapa 2 de la señal (con combustible) **[Señal]** | 4 |
+| 19 | Botiquín completo ×2 | 2 |
+| 20 | Rescate: alguien atrincherado en el quirófano. Roba un superviviente. | — |
+
+### Ferretería
+
+| Ficha | Días 1–10 | Días 11–20 | Días 21–30 | Registros | Nota |
+|---|---|---|---|---|---|
+| 1 | — | 1 cam. | 1 cam., 1 corr. | 1 (desventaja) | Se llevaron casi todo. |
+| 2 | 1 cam. | 2 cam. | 2 cam., 1 corr. | 1 | — |
+| 3 | 1 cam., 1 corr. | 2 cam., 1 corr. | 2 cam., 1 corr., 1 bruto | 2 | — |
+| 4 | 2 cam. | 2 cam., 1 bruto | 3 cam., 1 bruto, 1 chillón | 2 | Estanterías altas: dentro no se ve más allá de 1 zona. |
+| 5 | 1 cam. | 2 cam., 1 corr. | 2 cam., 1 corr., 1 bruto | 3 (ventaja) | El corralón del fondo está lleno. |
+| 6 | 3 cam., 1 bruto | 3 cam., 1 corr., 2 bruto | 4 cam., 1 corr., 2 bruto, 1 ácido | 3 (ventaja) | Trampa: los obreros del corralón siguen ahí. |
+
+| d20 | Botín | Esp. |
+|---|---|---|
+| 1–2 | ¡Aaah! Un caminante aparece en tu zona. No encuentras nada. | — |
+| 3 | Una estantería se desploma: ruido alto. No encuentras nada. | — |
+| 4–5 | Nada útil. | — |
+| 6–8 | Clavos y tornillos: clavos ×2 | 1 |
+| 9–10 | Tablones: madera ×2 | 2 |
+| 11 | Chapas acanaladas: chapa ×2 | 2 |
+| 12 | Martillo · d6 · ruido bajo | 1 |
+| 13 | Hacha · d8 · ruido medio | 2 |
+| 14 | Palanca: forzar cuesta 1 PA en vez de 2 | 1 |
+| 15 | Rollo de alambre de púas: alambre ×2 | 1 |
+| 16 | Bidón de combustible ×1 | 2 |
+| 17 | Antena y cable coaxial: cumple la etapa 1 de la señal **[Señal]** | 2 |
+| 18 | Generador portátil: cumple la etapa 2 de la señal (con combustible) **[Señal]** | 4 |
+| 19 | Soga y semillas del corralón: cuerda ×1 y semillas ×1 | 1 |
+| 20 | Motosierra · 2d8 · ruido máximo. Gasta 1 combustible por expedición | 2 |
+
+### Taller mecánico
+
+| Ficha | Días 1–10 | Días 11–20 | Días 21–30 | Registros | Nota |
+|---|---|---|---|---|---|
+| 1 | — | 1 cam. | 1 cam., 1 bruto | 1 (desventaja) | Desarmado por otros. |
+| 2 | 1 cam. | 1 cam., 1 corr. | 2 cam., 1 corr. | 1 | — |
+| 3 | 1 cam., 1 bruto | 2 cam., 1 bruto | 2 cam., 1 corr., 1 bruto | 2 | — |
+| 4 | 2 cam. | 2 cam., 1 corr. | 2 cam., 1 corr., 1 ácido | 2 | Fosa abierta: quien corre por la zona del elevador tira d20 + Destreza contra 10 o cae (fractura en piernas). |
+| 5 | 1 cam. | 1 cam., 1 corr. | 2 cam., 1 corr., 1 bruto | 3 (ventaja) | Herramientas y repuestos sin tocar. |
+| 6 | 2 cam., 2 bruto | 3 cam., 1 corr., 2 bruto | 3 cam., 2 corr., 2 bruto, 1 chillón | 3 (ventaja) | Trampa: el portón cae detrás de ustedes. Para salir hay que forzarlo. |
+
+| d20 | Botín | Esp. |
+|---|---|---|
+| 1–2 | ¡Aaah! Un caminante sale de abajo de un auto: aparece en tu zona. | — |
+| 3 | Cede el gato hidráulico: ruido alto. No encuentras nada. | — |
+| 4–5 | Nada útil. | — |
+| 6–8 | Chapa de un capó: chapa ×1 | 2 |
+| 9–11 | Combustible ×1 | 2 |
+| 12 | Llave inglesa · d6 · ruido bajo | 1 |
+| 13 | Batería de auto: da energía a la radio por 3 días | 2 |
+| 14 | Combustible ×2 | 2 |
+| 15 | Palanca: forzar cuesta 1 PA en vez de 2 | 1 |
+| 16 | Soplete: abre puertas y rejas con ruido bajo | 2 |
+| 17 | Caja de bulones y alambre: clavos ×1 y alambre ×1 | 1 |
+| 18 | Generador: cumple la etapa 2 de la señal (con combustible) **[Señal]** | 4 |
+| 19 | GPS de un auto: cumple la etapa 4 de la señal **[Señal]** | 1 |
+| 20 | Un auto arranca: vuelven todos a la base sin gastar horas, pero arrancar es ruido máximo. | — |
+
+### Estación de servicio
+
+| Ficha | Días 1–10 | Días 11–20 | Días 21–30 | Registros | Nota |
+|---|---|---|---|---|---|
+| 1 | — | 1 cam. | 1 cam., 1 corr. | 1 (desventaja) | Los surtidores están secos. |
+| 2 | 1 cam. | 1 cam., 1 corr. | 2 cam., 1 corr. | 1 | — |
+| 3 | 1 cam., 1 corr. | 2 cam., 1 corr. | 2 cam., 2 corr. | 2 | — |
+| 4 | 2 cam. | 2 cam., 1 corr. | 2 cam., 1 corr., 1 chillón | 2 | Nafta en el piso: un disparo o una pifia con arma de fuego en esta loseta explota (d10 a cada uno en la zona). |
+| 5 | 1 cam. | 2 cam. | 2 cam., 1 corr., 1 ácido | 3 (ventaja) | El tanque de reserva tiene combustible. |
+| 6 | 3 cam., 2 corr. | 4 cam., 2 corr., 1 bruto | 4 cam., 3 corr., 1 bruto, 1 ácido | 3 (ventaja) | Trampa: los corredores salen de los autos de la cola. Empiezan junto a los surtidores. |
+
+| d20 | Botín | Esp. |
+|---|---|---|
+| 1–2 | ¡Aaah! Un caminante aparece en tu zona. No encuentras nada. | — |
+| 3–4 | Nada útil. | — |
+| 5 | Cartel de chapa caído: chapa ×1 | 2 |
+| 6–9 | Snacks: comida ×1 | 1 |
+| 10–11 | Agua ×1 | 1 |
+| 12–14 | Combustible ×1 | 2 |
+| 15 | Combustible ×2 | 2 |
+| 16 | Mapa de rutas: el próximo viaje a otro barrio cuesta 1 hora menos | 0 |
+| 17 | Encendedor y bengala ×1: etapa 3 de la señal, o Distraer sin carta **[Señal]** | 1 |
+| 18 | Botella incendiaria · d10 a toda una zona · ruido alto | 1 |
+| 19 | GPS: cumple la etapa 4 de la señal **[Señal]** | 1 |
+| 20 | Garrafas llenas: combustible ×3 | 2 |
+
+### Escuela
+
+| Ficha | Días 1–10 | Días 11–20 | Días 21–30 | Registros | Nota |
+|---|---|---|---|---|---|
+| 1 | 1 cam. | 2 cam. | 2 cam., 1 corr. | 1 (desventaja) | Fue refugio y ya la vaciaron. |
+| 2 | 2 cam. | 2 cam., 1 corr. | 3 cam., 1 corr. | 1 | — |
+| 3 | 2 cam., 1 corr. | 3 cam., 1 corr. | 3 cam., 2 corr., 1 chillón | 2 | — |
+| 4 | 1 cam. | 2 cam. | 2 cam., 1 corr. | 2 | Mensaje en el pizarrón: revela la ficha de otro edificio de este barrio. |
+| 5 | 2 cam. | 2 cam., 1 corr. | 3 cam., 1 corr., 1 chillón | 3 (ventaja) | El comedor tiene reservas. |
+| 6 | 5 cam., 1 corr. | 6 cam., 2 corr. | 6 cam., 3 corr., 1 chillón, 1 ácido | 3 (ventaja) | Trampa: el gimnasio fue un centro de evacuación. |
+
+| d20 | Botín | Esp. |
+|---|---|---|
+| 1–2 | ¡Aaah! Un caminante aparece en tu zona. No encuentras nada. | — |
+| 3 | Tocas el timbre de recreo: ruido máximo. No encuentras nada. | — |
+| 4–5 | Nada útil. | — |
+| 6 | Pupitres rotos: madera ×1 | 2 |
+| 7 | Soga de trepar del gimnasio: cuerda ×2 | 1 |
+| 8–9 | Comedor: comida ×1 | 1 |
+| 10–11 | Agua ×1 | 1 |
+| 12–13 | Botiquín de enfermería: vendas y analgésicos | 1 |
+| 14 | Bate de sóftbol · d6 · ruido bajo | 1 |
+| 15 | Mochila grande: +2 espacios | 0 |
+| 16 | Megáfono: Distraer con alcance de 4 zonas | 1 |
+| 17 | Mapa escolar del barrio: revela 2 fichas de edificio en tu próximo destino | 0 |
+| 18 | Manual de radioaficionado: cumple la etapa 4 de la señal **[Señal]** | 1 |
+| 19 | Radio del laboratorio: cumple la etapa 1 de la señal **[Señal]** | 2 |
+| 20 | Rescate: alguien vive en el gimnasio. Roba un superviviente. | — |
+
+### Errantes (d6)
+
+| d6 | Días 1–10 | Días 11–20 | Días 21–30 |
+|---|---|---|---|
+| 1–2 | — | — | 1 cam. |
+| 3–4 | 1 cam. | 1 cam. | 2 cam. |
+| 5 | 1 cam. | 2 cam. | 1 cam., 1 corr. |
+| 6 | 1 corr. | 1 cam., 1 corr. | 2 corr., 1 chillón |
+
+---
+
+## Anexo B. Escenario de entrenamiento (prueba 1)
+
+La expedición mínima del kit sigue sirviendo para aprender el ruido con 1 superviviente en 20 a 30 minutos. Usa este reglamento con estas excepciones:
+
+- **Superviviente neutro:** 3 / 3 / 3 / 3, Defensa 11, sangre 6, mochila 6. Elige 2 de 3 armas (cuchillo, bate, pistola) y lleva 2 Medicinas (las "vendas" del kit). La pistola trae 2 cartas de Munición (6 disparos).
+- **Mapa fijo** de 6 × 3 zonas (A a F, filas 1 a 3) del kit, con la casa (B2–C2), la farmacia (E2 salón, F2 depósito), la vidriera E1–E2, la puerta trasera con llave F2–F3 y la base en A3. Caminantes iniciales en C1, F1 y D3.
+- **Reloj de 12 turnos** en lugar de horas; noche desde el turno 9.
+- **Aparición:** en el paso de Reloj, tira 1d6; con 1 (1 o 2 de noche) aparece un caminante en el borde: d6 1–2 fila 1 (tira d6 para la columna), 3–4 F1 o F3, 5–6 una zona de B3 a F3 al azar (nunca F2 ni A3, como en el simulador).
+- **Botín con d6** según las tablas del kit (salón, depósito y casa). El "Kit médico" del kit es el **Botiquín completo** del juego completo.
+- **Sin fatiga, comida, agua ni base.** Las marcas de esfuerzo se pueden anotar para medir, pero no dan fatiga.
+- **Victoria:** volver a A3 con el kit médico antes de terminar el turno 12. Una mordedura se anota como "victoria con mordedura".
+- Se puede registrar con un zombie en la zona en la versión actual del simulador; con este reglamento, no (D15). Al comparar partidas, anotar con qué regla se jugó.
