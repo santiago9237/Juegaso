@@ -4,8 +4,8 @@
 
 **Cambios de la v2 (decisiones del autor)**
 - La partida dura **20 días** en 3 niveles de peligro: **1** (días 1–7), **2** (días 8–14) y **3** (días 15–20).
-- **Comida y agua se unifican en Alimento.** Además de comerse, el Alimento (el agua) se gasta para **limpiar heridas**: cada herida sin limpiar pone 1 ficha de ruido por turno.
-- **Un solo tipo de herida.** Toda herida queda **abierta** («olor a sangre») hasta que se limpia con agua (Alimento). **No hay mordedura ni infección.** Se sacaron la infección, el antibiótico como carta única, el zombie «conocido», el Triage de Marta y la carta Fiebre; los reemplazos están en cada sección.
+- **Comida y agua se unifican en Alimento.** Además de comerse, el Alimento es un único recurso que se come y también se gasta para **limpiar heridas** (1 Alimento por herida): cada herida sin limpiar pone 1 ficha de ruido por turno.
+- **Un solo tipo de herida.** Toda herida queda **abierta** («olor a sangre») hasta que se limpia con agua (Alimento). **No hay mordedura ni infección.** Se sacaron la infección (la vieja §4.3), el antibiótico como carta única, la amputación, el zombie «conocido», el Triage de Marta y la carta Fiebre. Los reemplazos están en cada sección, y las reglas de heridas quedaron en §1.4.
 - El **descanso rápido** es opcional.
 - La aparición de zombies en la calle sale del mazo de aparición (`mazo_aparicion.md`), que reemplaza todas las tiradas de d6 de aparición y de errantes.
 - Todo en voseo.
@@ -29,7 +29,7 @@ Todo lo que sigue parte del material de `fuentes/` y usa sus mismos términos: n
 |---|---|---|
 | No hay mazo de eventos; la fase 4 se llama «Regreso y noche» pero no tiene reglas | `base_y_losetas.html` | §1 |
 | No está definido cómo atacan los zombies a la base de noche | `base_y_losetas.html` («pendiente en las reglas») | §1.2 |
-| ~~La mordedura «se prueba más adelante»~~ | El autor la sacó: no hay mordedura ni infección | §4.3 (olor a sangre) |
+| ~~La mordedura «se prueba más adelante»~~ | El autor la sacó: no hay mordedura ni infección | §1.4 (olor a sangre) |
 | Corredor, bruto, ácido y chillón sin vitalidad ni bono de ataque | `base_y_losetas.html` | §4.1 |
 | «Zombies ocultos», «Vigilar» y «fichas de voz» se nombran pero no tienen regla | `mesa_online.html`, carta Movimiento y sigilo | §3, §4.2 |
 | La etapa 3 (baliza) no tiene carta en la familia Señal; la etapa 5 no tiene procedimiento | `cartas_de_objetos.html`, `mesa_online.html` | §5.3, §2.4 |
@@ -45,8 +45,7 @@ Todo lo que sigue parte del material de `fuentes/` y usa sus mismos términos: n
 | Habilidad de Nico | «Correr le cuesta 1 PA en lugar de 2», pero el kit ya propone Correr a 1 PA. Si se adopta el kit, la habilidad no hace nada (ver §3). |
 | Ruido del bate | En el kit es Medio; en la tabla de la casa y en la carta «Bate con clavos» es Bajo. |
 | Recursos | La mesa tiene «Materiales» genérico; la base tiene 7 materiales separados. Con la v2, Comida y Agua pasan a ser una sola casilla de Alimento en la mesa y en las cartas. |
-| Nombre del juego | «Día 30» con una partida de 20 días. ¿Queda como nombre, o pasa a «Día 20»? |
-| Restos de infección en las fuentes | El kit tiene 4 tipos de herida (con mordedura). Las tablas de farmacia y hospital tienen «Antibióticos (frenan la infección)», «Kit de sutura: cierra una laceración» y la trampa del hospital («cualquier rasguño que recibas acá ya está infectado»). El bisturí «permite amputar». Hay que reescribirlos: ver §4.3. |
+| Restos de infección en las fuentes | El kit tiene 4 tipos de herida (con mordedura). Las tablas de farmacia y hospital tienen «Antibióticos (frenan la infección)», «Kit de sutura: cierra una laceración» y la trampa del hospital («cualquier rasguño que recibas acá ya está infectado»). El bisturí «permite amputar». Hay que reescribirlos: ver §1.4. |
 
 ---
 
@@ -124,7 +123,7 @@ Impacto **A** · Coste **2**. Es lo mínimo para que la base, las barricadas y l
 
 Impacto **A** · Coste **2** (28 cartas, todas con reglas que ya existen).
 
-### 1.4 Alimento y heridas sin limpiar: ideas que lo aprovechan
+### 1.4 Alimento y heridas abiertas (olor a sangre)
 
 La regla del autor (el agua limpia heridas; una herida sin limpiar pone 1 ficha de ruido por turno) convierte cada herida en un **rastro**. Algunas ideas que la usan sin agregar componentes:
 
@@ -134,6 +133,11 @@ La regla del autor (el agua limpia heridas; una herida sin limpiar pone 1 ficha 
 | **Ola de calor** (A5) | Duplica el rastro de las heridas sin limpiar ese día. | M · 1 (ya incluida) |
 | **El rastro llega a casa** | Si alguien vuelve a la base con una herida sin limpiar, esa noche la carta de Noche suma 1 caminante al ataque. En el nivel 3 se vuelve una carta propia (N9 «Olor a sangre»). | M · 1 |
 | **Decidir quién se limpia** | Con 1 solo Alimento en la mochila, hay que elegir: comer esa noche o limpiar la herida de un compañero. Esa es la tensión que buscamos, así que no hace falta otra regla. | — |
+| **Una herida, un estado** | Una herida es abierta (olor a sangre) o limpia. Limpiarla: 1 PA, Silencio, 1 Alimento. Las limpias se sacan en la base con 2 Medicinas (lo que ya proponen las cartas). La zona del cuerpo y su efecto se mantienen; desaparecen los tipos rasguño, laceración, fractura y mordedura. | A · 1 |
+| **Los corredores huelen** | Un corredor detecta a un superviviente con una herida abierta a 2 zonas, aunque haya una pared de por medio. | M · 1 |
+| **Medicina, sin cartas especiales** | Se cierra la pregunta abierta de `cartas_de_objetos.html`: todo es Medicina. Los antibióticos y el botiquín cuentan como 1 Medicina cada uno. El Kit de sutura (hospital, 20) pasa a ser «limpia todas tus heridas abiertas sin gastar Alimento». | A · 1 |
+| **Reescribir la trampa del hospital** | En lugar de «cualquier rasguño ya está infectado»: «Pisos con sangre: todas las heridas que recibís acá ponen 2 fichas de ruido por turno hasta limpiarlas». | M · 1 |
+| **Bisturí sin amputación** | Pasa a ser «Bisturí · d4 · silencio. En la base, 1 Medicina menos para sacar una herida». | B · 1 |
 
 ---
 
@@ -248,16 +252,7 @@ El caminante ya está probado en el kit. El resto se propone con la misma escala
 | **Hinchado** | Defensa 8, vitalidad 3. Si muere en una zona con supervivientes, revienta: cada uno tira d6 y con 1–3 se le rompe un objeto de la mochila. Matarlo a distancia evita el problema. | Hospital y estación de servicio, nivel 3 | M · 1 |
 | **Enredado** (reemplaza al «conocido») | Quedó atrapado en un alambrado, en un auto o bajo escombros. No se mueve ni ataca, pero cuando alguien entra en una zona adyacente gime: ruido Bajo en su zona. Defensa 6, vitalidad 5. Es una alarma que no te persigue. | Losetas de calle: en lugar de un caminante de la carta de aparición, cuando sale en una zona con auto o barricada | M · 1 |
 
-### 4.3 Infección (Impacto A · Coste 1)
-
-La mordedura ya existe; falta qué hace.
-
-1. Se pone un contador de infección en 0 sobre la carta del mordido. Cada noche sube 1.
-2. **1 Medicina frena 1 día** (ya está en las cartas): ese día el contador no sube.
-3. Con 2: fiebre. Desventaja en todo y no recupera fatiga.
-4. Con 3: muere al amanecer y se levanta. Si estaba en la base, aparece como caminante en la sala común.
-5. **Curas.** Los antibióticos curan si se usan antes de que el contador llegue a 2. Por eso se propone que **los antibióticos sean carta única** (responde la pregunta abierta de `cartas_de_objetos.html`). La amputación con bisturí (ya existe en el hospital) cura si la mordedura es en un brazo o en las piernas: la herida pasa a ser una fractura permanente en esa zona y se pierden 2 de sangre.
-6. Una mordedura también es una herida: si no se limpia con Alimento, pone su ficha de ruido por turno como cualquier otra.
+**La mochila del caído (reemplaza la parte emocional del conocido · Impacto A · Coste 1).** Sin conversión, cuando un superviviente muere afuera su ficha queda tumbada en esa zona con su mochila. Se recupera con 1 Registrar (ruido Bajo). Mientras la mochila siga ahí, ese barrio da desventaja al primer Registrar de cada expedición: nadie quiere volver. Se mantiene el «volver a buscar lo que llevaba» sin infección.
 
 ---
 
@@ -320,7 +315,7 @@ Ejemplo de fila de zombies para la **Radio FM**, con el formato existente y las 
 | **Los últimos días** (escenario corto, ~40 min) | Empieza el día 15 (nivel 3) con las etapas 1 y 2 hechas, 2 barricadas en nivel 2 y el mazo de eventos con las capas I, II y III. Ideal para probar el clímax sin jugar la partida entera. | A · 1 |
 | **La primera semana** (tutorial) | Días 1–7 (nivel 1), con un objetivo corto: construir el taller y conseguir la etapa 1. Enseña base, expedición y noche. | M · 1 |
 | **Dificultad** | Ver la tabla de abajo. | M · 1 |
-| **Campaña: la ciudad recuerda** | 3 partidas seguidas en la misma ciudad. Los barrios saqueados siguen saqueados, los conocidos (§4.2) se quedan en su barrio y los supervivientes rescatados conservan sus traumas. Cada partida suma un barrio nuevo (§5.1). | M · 3 |
+| **Campaña: la ciudad recuerda** | 3 partidas seguidas en la misma ciudad. Los barrios saqueados siguen saqueados, las mochilas de los caídos (§4.2) se quedan donde cayeron y los supervivientes rescatados conservan sus traumas. Cada partida suma un barrio nuevo (§5.1). | M · 3 |
 | **Modo diario** | Al final de cada día, un jugador escribe una línea en el diario. Al terminar, se lee completo. No tiene regla de juego, pero es la mitad de la experiencia en una partida de 2 h. | M · 1 |
 
 **Dificultad**
@@ -365,8 +360,8 @@ Ordenado por la relación entre impacto y coste, y por cuánto destraba otras pi
 | 3 | Mazo de eventos por capas I/II/III (28 cartas) | §1.1, §1.3 | A · 2 | Acompaña los 3 niveles de peligro con una sola regla y llena la fase 4. |
 | 4 | Clímax «La última noche» | §2.4 | A · 3 | Es el final del juego; hoy la etapa 5 no tiene procedimiento. |
 | 5 | Valores de corredor, bruto, ácido y chillón | §4.1 | A · 1 | Sin números no se pueden jugar ni las tablas de edificio ni el mazo de aparición. |
-| 6 | Infección en 3 noches + antibiótico como carta única | §4.3 | A · 1 | Cierra la mordedura y responde una pregunta abierta. |
+| 6 | Herida única con olor a sangre + Medicina sin cartas especiales | §1.4 | A · 1 | Baja la decisión del autor a reglas concretas, limpia lo que quedó de la infección en las fuentes y cierra una pregunta abierta. |
 | 7 | Defecto y momento para los 7 supervivientes (y arreglar a Nico) | §3 | A · 2 | Hace que elegir a quién sacar sea interesante. |
 | 8 | Cada etapa de la señal cambia algo + caminos para la etapa 3 | §5.3 | A · 1 | La señal pasa de lista a motor de la partida. |
-| 9 | Rastrero y conocido | §4.2 | A · 1 | Le dan sentido a Vigilar y al cazador; el conocido es el giro emocional más barato. |
+| 9 | Rastrero + la mochila del caído | §4.2 | A · 1 | El rastrero le da sentido a Vigilar y al cazador; la mochila del caído es el giro emocional más barato, sin infección. |
 | 10 | Escenario «Los últimos días» + guardado por día en TTS | §6, §7 | A · 1 | La forma más rápida de probar el final y las reglas nuevas en Tabletop Simulator. |

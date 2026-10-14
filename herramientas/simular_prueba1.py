@@ -59,6 +59,11 @@ REGLAS_BASE = {
     "pistola_mod_dano": 0,
     "efectos_js": 0,         # 1 = efectos de zona permanentes, como el JS
     "derribar_js": 0,        # 1 = los zombies también derriban vidriera y puerta con llave, como el JS
+    # --- decisiones del autor posteriores al kit (juego completo) ---
+    "herida_unica": 0,       # 1 = un solo tipo de herida: -1 sangre, zona con efecto mientras siga abierta
+    "herida_ruido": 0,       # fichas de ruido por turno y por herida abierta (en tu zona)
+    "alimento": 0,           # con herida_unica: Alimento inicial (reemplaza a las 2 vendas); 1 PA limpia 1 herida
+    "mazo_aparicion": 0,     # 1/2/3 = usa el mazo de aparición en ese nivel de peligro en vez del d6
     "mod_fue": 1,            # modificador de Fuerza (ataque y daño cuerpo a cuerpo)
     "mod_des": 1,            # modificador de Destreza (ataque con pistola)
     "hab_vendar1": 0,        # Marta: primeros auxilios por 1 PA
@@ -101,7 +106,7 @@ SIGHT = {'wall', 'door', 'locked'}
 FICHAS = [0, 1, 1, 2, 3]
 RANGE = [0, 1, 2, 3, 99]
 BORDER = [0, 1, 2, 3, 4, 5, 6, 13, 14, 15, 16, 17]
-SIZE = {'cuchillo': 1, 'bate': 2, 'pistola': 1, 'venda': 1, 'kit': 1, 'analgesico': 1, 'comida': 1}
+SIZE = {'alimento': 1, 'cuchillo': 1, 'bate': 2, 'pistola': 1, 'venda': 1, 'kit': 1, 'analgesico': 1, 'comida': 1}
 PUNTOS = {'kit': 3, 'analgesico': 2, 'venda': 1, 'comida': 1}
 ZONES = {1: 'Cabeza', 2: 'Torso', 3: 'Torso', 4: 'BrazoI', 5: 'BrazoD', 6: 'Piernas'}
 
@@ -122,6 +127,19 @@ for g in GROUPS:
     HORDE_CELL[g[0]] = sorted(BORDER, key=lambda x: manh(x, g[0]))[0]
 
 
+# (tipo, (nivel1, nivel2, nivel3), copias) de diseno/mazo_aparicion.md
+_MAZO = [
+    ('C', (0, 0, 1), 5), ('C', (0, 1, 1), 4), ('C', (1, 1, 2), 4), ('C', (1, 2, 2), 3), ('C', (1, 2, 3), 2),
+    ('C', (2, 3, 3), 1), ('atraidos', (0, 1, 2), 1),
+    ('R', (0, 1, 1), 3), ('R', (1, 1, 2), 1), ('R', (0, 1, 2), 1),
+    ('B', (0, 0, 1), 2), ('B', (0, 1, 1), 1),
+    ('A', (0, 1, 1), 2), ('A', (0, 0, 1), 1),
+    ('H', (0, 1, 1), 2), ('H', (0, 0, 1), 1),
+    ('activacion', (0, 0, 0), 2), ('horda', (0, 0, 0), 1),
+]
+MAZO_APARICION = [(t, ns) for t, ns, c in _MAZO for _ in range(c)]
+
+
 class Fin(Exception):
     pass
 
@@ -137,7 +155,13 @@ class Juego:
                     k = (i, j)
                     self.edges[k] = OPEN.get(k) or ('wall' if BLD(i) != BLD(j) else 'open')
         self.armas = armas
-        self.inv = list(armas) + ['venda', 'venda']
+        if R['herida_unica']:
+            self.inv = list(armas) + ['alimento'] * R['alimento']
+        else:
+            self.inv = list(armas) + ['venda', 'venda']
+        self.limpiezas = 0
+        self.mazo = []
+        self.descarte = []
         self.found = []
         self.W = {
             'cuchillo': (R['cuchillo_dano'], R['mod_fue'], 0, True),
@@ -172,6 +196,8 @@ class Juego:
         self.ataques_recibidos = 0
         self.heridas = 0
         self.turno_kit = None
+        self.fichas_herida = 0
+        self.aparecidos = 0
         self.disparos = 0
 
     def d(self, n):
@@ -184,6 +210,8 @@ class Juego:
         # Kit: el efecto dura mientras haya ahí una herida que no sea rasguño.
         # Una laceración vendada deja de contar; fractura y mordedura duran toda la expedición.
         # (El JS los deja permanentes para cualquier tipo: R['efectos_js'] = 1 reproduce eso.)
+        if self.R['herida_unica']:
+            return any(w[0] == z and not w[2] for w in self.wounds)
         if self.R['efectos_js']:
             return any(w[0] == z and w[1] != 'Rasguño' for w in self.wounds)
         return any(w[0] == z and w[1] != 'Rasguño' and not (w[1] == 'Laceración' and w[2]) for w in self.wounds)
@@ -278,6 +306,44 @@ class Juego:
             return False
         return self.pos in NB[z[0]] and self.edges[ek(z[0], self.pos)] not in SIGHT
 
+    # --- mazo de aparición (diseno/mazo_aparicion.md); todos los tipos se juegan como caminantes ---
+    def robar_aparicion(self):
+        if not self.mazo:
+            self.mazo = self.descarte + [] if self.descarte else list(MAZO_APARICION)
+            self.descarte = []
+            self.rng.shuffle(self.mazo)
+        carta = self.mazo.pop()
+        self.descarte.append(carta)
+        nv = self.R['mazo_aparicion']
+        tipo, ns = carta[0], carta[1]
+        ruido = [i for i in range(N) if not BLD(i) and self.tokens[i] > 0]
+        foco = max(ruido, key=lambda i: (self.tokens[i], -manh(i, self.pos))) if ruido else None
+        borde = HORDE_CELL.get(foco, None) if foco is not None else None
+        if borde is None:
+            borde = self.rng.choice([2, 5, 15, 16, 17])  # sin ruido: borde aleatorio lejos de la base
+        if tipo == 'activacion':
+            self.fase_zombies(nv == 1)
+            return
+        if tipo == 'horda':
+            n = [2, 3, 4][nv - 1] + [0, 1, 1][nv - 1]
+            for _ in range(n):
+                self.zombies.append([borde, 0, True])
+            self.aparecidos += n
+            self.mazo += self.descarte
+            self.descarte = []
+            self.rng.shuffle(self.mazo)
+            return
+        n = ns[nv - 1]
+        if tipo == 'atraidos':
+            if foco is None:
+                return
+            for _ in range(n):
+                self.zombies.append([foco, 0, True])
+        else:
+            for _ in range(n):
+                self.zombies.append([borde, 0, False])
+        self.aparecidos += n
+
     # --- heridas y fin ---
     def finish(self, win, razon):
         self.over = True
@@ -288,7 +354,9 @@ class Juego:
     def wound(self):
         zr, tr = self.d(6), self.d(6)
         zone = ZONES[zr]
-        typ = 'Rasguño' if tr <= 2 else 'Laceración' if tr <= 4 else 'Fractura' if tr == 5 else 'Mordedura'
+        if self.R['herida_unica']:
+            tr = 3  # sin tirada de tipo; cuenta como herida con efecto de zona (sin sangrado)
+        typ = 'Abierta' if self.R['herida_unica'] else 'Rasguño' if tr <= 2 else 'Laceración' if tr <= 4 else 'Fractura' if tr == 5 else 'Mordedura'
         self.wounds.append([zone, typ, False])
         self.heridas += 1
         self.sangre -= 1
@@ -334,8 +402,10 @@ class Juego:
         return (None if t <= 1 else 'kit' if t >= self.R['kit_deposito'] else 'venda' if t == 2 else 'comida'), t <= 1
 
     # mochila: el jugador automático guarda siempre 1 espacio para el kit
-    VALOR = {'kit': 100, 'pistola': 8, 'cuchillo': 7, 'bate': 6, 'venda': 4, 'analgesico': 5, 'comida': 1}
+    VALOR = {'alimento': 4, 'kit': 100, 'pistola': 8, 'cuchillo': 7, 'bate': 6, 'venda': 4, 'analgesico': 5, 'comida': 1}
     def add_item(self, k):
+        if self.R['herida_unica'] and k in ('comida', 'venda'):
+            k = 'alimento' if k == 'comida' else 'venda'
         reserva = 0 if (k == 'kit' or self.has('kit')) else 1
         if self.load() + SIZE[k] + reserva <= self.cap():
             self.inv.append(k)
@@ -461,8 +531,12 @@ class Juego:
 
     # --- fase de zombies, horda, disipación, reloj ---
     def end_turn(self):
+        self.fase_zombies(False)
+        self.fin_de_turno()
+
+    def fase_zombies(self, solo_alerta):
         for z in list(self.zombies):
-            if z not in self.zombies:
+            if solo_alerta and not z[2]:
                 continue
             if z[0] == self.pos:
                 z[2] = True
@@ -497,6 +571,13 @@ class Juego:
                     self.reveal_casa()
                 if BLD(k[0]) == 'farm' or BLD(k[1]) == 'farm':
                     self.reveal_farm()
+
+    def fin_de_turno(self):
+        # heridas abiertas: fichas de ruido (decisión del autor)
+        if self.R['herida_ruido']:
+            abiertas = sum(1 for w in self.wounds if not w[2])
+            self.tokens[self.pos] += self.R['herida_ruido'] * abiertas
+            self.fichas_herida += self.R['herida_ruido'] * abiertas
         # horda
         for g in GROUPS:
             tot = sum(self.tokens[i] for i in g)
@@ -519,7 +600,12 @@ class Juego:
         if self.turno >= self.R['turnos']:
             self.finish(False, 'tiempo')
         self.turno += 1
-        sp = self.d(6)
+        if self.R['mazo_aparicion']:
+            for _ in range(2 if self.night() else 1):
+                self.robar_aparicion()
+            sp = 99
+        else:
+            sp = self.d(6)
         lim = self.R['aparicion_noche'] if self.night() else self.R['aparicion_dia']
         if sp <= lim:
             r = self.d(6)
@@ -530,6 +616,7 @@ class Juego:
             else:
                 c = 12 + self.d(5)
             self.zombies.append([c, 0, False])
+            self.aparecidos += 1
         self.pa = 2 if self.stunned else 3
         self.stunned = False
         self.hidden = False
@@ -692,6 +779,16 @@ class Jugador:
         if g.pa >= (1 if g.R['hab_vendar1'] else 2) and g.has('venda') and any(w[1] == 'Laceración' and not w[2] for w in g.wounds):
             g.bandage()
             return True
+        # 3b. limpiar heridas abiertas con Alimento (1 PA, silencio) si no hay zombies en la zona
+        if g.R['herida_unica'] and g.has('alimento') and any(not w[2] for w in g.wounds):
+            g.use('Limpiar', 1)
+            g.inv.remove('alimento')
+            for w in g.wounds:
+                if not w[2]:
+                    w[2] = True
+                    break
+            g.limpiezas += 1
+            return True
         # 4. analgésico
         if g.has('analgesico') and g.sangre <= 3:
             g.painkiller()
@@ -748,7 +845,8 @@ def jugar(seed, estilo, armas, entrada, R):
         'win': g.win, 'razon': g.razon, 'turno': g.turno, 'hordas': g.hordas,
         'mordido': g.bites > 0, 'sangre': max(0, g.sangre), 'heridas': g.heridas,
         'ataques': g.ataques_recibidos, 'uso': g.uso, 'kills': g.kills,
-        'turno_kit': g.turno_kit, 'puntos': puntos, 'balas': g.R['balas'] - g.ammo,
+        'turno_kit': g.turno_kit, 'puntos': puntos, 'limpiezas': g.limpiezas,
+        'fichas_herida': g.fichas_herida, 'aparecidos': g.aparecidos, 'balas': g.R['balas'] - g.ammo,
     }
 
 
@@ -765,6 +863,7 @@ def correr_config(args):
     heridas = 0
     tkit = []
     marcas = 0
+    extra = Counter()
     fat = Counter()
     for i in range(n):
         r = jugar(seed0 + i, estilo, ARMAS[armas], entrada, R)
@@ -772,6 +871,9 @@ def correr_config(args):
         u = r['uso']
         m = u['Correr'] + u['Forzar'] + u['Romper'] + u['Atacar bate']
         marcas += m
+        extra['limpiezas'] += r['limpiezas']
+        extra['fichas_herida'] += r['fichas_herida']
+        extra['aparecidos'] += r['aparecidos']
         fat[min(m // 4, 3)] += 1
         if r['win']:
             res['win'] += 1
@@ -798,7 +900,8 @@ def correr_config(args):
         'heridas': heridas / n, 'usos': {k: v / n for k, v in usos.items()},
         'kills': {k: v / n for k, v in kills.items()},
         'turno_kit': sum(tkit) / max(1, len(tkit)), 'p_kit': len(tkit) / n,
-        'marcas': marcas / n, 'fatiga': {k: fat[k] / n for k in range(4)},
+        'marcas': marcas / n, 'limpiezas': extra['limpiezas'] / n,
+        'fichas_herida': extra['fichas_herida'] / n, 'aparecidos': extra['aparecidos'] / n, 'fatiga': {k: fat[k] / n for k in range(4)},
     }
 
 
@@ -852,6 +955,7 @@ def main():
     ap.add_argument('--entrada', choices=list(ENTRADAS), action='append')
     ap.add_argument('--regla', action='append', default=[], help='clave=valor, p. ej. horda=6')
     ap.add_argument('--variantes', action='store_true', help='corre la batería de ajustes')
+    ap.add_argument('--extra', action='store_true', help='añade columnas: Alimento para limpiar, fichas por heridas, zombies aparecidos')
     ap.add_argument('--supervivientes', action='store_true', help='compara los 7 supervivientes (estilo mixto)')
     ap.add_argument('--procs', type=int, default=None)
     ap.add_argument('--seed', type=int, default=12345)
@@ -892,6 +996,12 @@ def main():
     print(HEADER)
     for r in rs:
         print(fmt_row(r))
+    if a.extra:
+        print()
+        print('| Estilo | Armas | Entrada | Heridas/partida | Alimento gastado limpiando | Fichas de ruido por heridas | Zombies aparecidos (calle) |')
+        print('|---|---|---|---|---|---|---|')
+        for r in rs:
+            print(f"| {r['estilo']} | {r['armas']} | {r['entrada']} | {r['heridas']:.2f} | {r['limpiezas']:.2f} | {r['fichas_herida']:.2f} | {r['aparecidos']:.2f} |")
     print()
     print('| Estilo | Armas | Entrada | Heridas/partida | Turno del kit | % consigue kit | Marcas ▲ (v0.3) | % fatiga +0 / +1 / +2 / +3 | Acciones por partida (top) | Zombies muertos por arma |')
     print('|---|---|---|---|---|---|---|---|---|---|')

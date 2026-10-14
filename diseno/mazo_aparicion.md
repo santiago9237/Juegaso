@@ -28,7 +28,7 @@ Son las de `ideas.md` §4.1.
 | Caminante | 8 | 5 | d20 + 2 | 1 | Llega en grupo. |
 | Corredor | 12 | 4 | d20 + 3 | 2 | De noche nunca está tranquilo: no se lo ataca con ventaja después de las 19:00. |
 | Bruto | 10 | 12 | d20 + 4 | 1 | +1 a la tirada de tipo de herida. Rompe una puerta cerrada con 4–6. Las armas de d4 solo le hacen daño con crítico. |
-| Infectado ácido | 9 | 6 | d20 + 2 | 1 | Si te golpea, se te rompe un objeto de la mochila. Si lo matás con cuchillo, bisturí o las manos, recibís un rasguño. |
+| Infectado ácido | 9 | 6 | d20 + 2 | 1 | Si te golpea, se te rompe un objeto de la mochila. Si lo matás con cuchillo, bisturí o las manos, recibís 1 herida. |
 | Chillón | 8 | 4 | d20 + 1 | 1 | Chilla al detectarte o al recibir daño sin morir: ruido Máximo en su zona y 1 caminante en la puerta. Una vez por expedición. |
 
 ## Lista de cartas (37)
