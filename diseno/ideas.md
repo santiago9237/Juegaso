@@ -246,7 +246,7 @@ El caminante ya está probado en el kit. El resto se propone con la misma escala
 |---|---|---|---|
 | **Rastrero** (sin piernas) | Se pone **boca abajo**, como zombie oculto. No se mueve. Ataca con ventaja al primero que registre o termine el turno en su zona. Se revela con Vigilar (y Aurelio los revela todos en una zona adyacente). Defensa 7, vitalidad 3. | 1 por edificio en las filas «Trampa» desde el nivel 2, o en lugar del resultado «¡Aaah!» | A · 1. Le da sentido a Vigilar y a la habilidad del cazador, que hoy no tienen a quién revelar. |
 | **Hinchado** | Defensa 8, vitalidad 3. Si muere en una zona con supervivientes, revienta: cada uno tira d6 y con 1–3 se le rompe un objeto de la mochila. Matarlo a distancia evita el problema. | Hospital y estación de servicio, nivel 3 | M · 1 |
-| **Conocido** | Cuando un superviviente muere afuera, su figura se queda en ese barrio como zombie, con las estadísticas del caminante y **su mochila**. Matarlo recupera todo lo que llevaba. | Cualquier barrio | A · 1. No necesita componentes nuevos: usa la ficha del muerto. Es el giro emocional más barato del juego. |
+| **Enredado** (reemplaza al «conocido») | Quedó atrapado en un alambrado, en un auto o bajo escombros. No se mueve ni ataca, pero cuando alguien entra en una zona adyacente gime: ruido Bajo en su zona. Defensa 6, vitalidad 5. Es una alarma que no te persigue. | Losetas de calle: en lugar de un caminante de la carta de aparición, cuando sale en una zona con auto o barricada | M · 1 |
 
 ### 4.3 Infección (Impacto A · Coste 1)
 
