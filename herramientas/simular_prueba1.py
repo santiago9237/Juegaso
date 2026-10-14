@@ -764,8 +764,15 @@ def correr_config(args):
     kills = Counter()
     heridas = 0
     tkit = []
+    marcas = 0
+    fat = Counter()
     for i in range(n):
         r = jugar(seed0 + i, estilo, ARMAS[armas], entrada, R)
+        # Reglamento v0.3: acciones pesadas (Correr, Forzar, Romper, atacar con bate) dejan 1 marca; 4 marcas = +1 fatiga
+        u = r['uso']
+        m = u['Correr'] + u['Forzar'] + u['Romper'] + u['Atacar bate']
+        marcas += m
+        fat[min(m // 4, 3)] += 1
         if r['win']:
             res['win'] += 1
             turnos_win += r['turno']
@@ -791,6 +798,7 @@ def correr_config(args):
         'heridas': heridas / n, 'usos': {k: v / n for k, v in usos.items()},
         'kills': {k: v / n for k, v in kills.items()},
         'turno_kit': sum(tkit) / max(1, len(tkit)), 'p_kit': len(tkit) / n,
+        'marcas': marcas / n, 'fatiga': {k: fat[k] / n for k in range(4)},
     }
 
 
@@ -885,12 +893,13 @@ def main():
     for r in rs:
         print(fmt_row(r))
     print()
-    print('| Estilo | Armas | Entrada | Heridas/partida | Turno del kit | % consigue kit | Acciones por partida (top) | Zombies muertos por arma |')
-    print('|---|---|---|---|---|---|---|---|')
+    print('| Estilo | Armas | Entrada | Heridas/partida | Turno del kit | % consigue kit | Marcas ▲ (v0.3) | % fatiga +0 / +1 / +2 / +3 | Acciones por partida (top) | Zombies muertos por arma |')
+    print('|---|---|---|---|---|---|---|---|---|---|')
     for r in rs:
         top = ', '.join(f'{k} {v:.1f}' for k, v in sorted(r['usos'].items(), key=lambda x: -x[1])[:6])
         kl = ', '.join(f'{k} {v:.2f}' for k, v in sorted(r['kills'].items()))
-        print(f"| {r['estilo']} | {r['armas']} | {r['entrada']} | {r['heridas']:.2f} | {r['turno_kit']:.1f} | {100 * r['p_kit']:.0f} | {top} | {kl} |")
+        fz = ' / '.join(f"{100 * r['fatiga'][k]:.0f}" for k in range(4))
+        print(f"| {r['estilo']} | {r['armas']} | {r['entrada']} | {r['heridas']:.2f} | {r['turno_kit']:.1f} | {100 * r['p_kit']:.0f} | {r['marcas']:.1f} | {fz} | {top} | {kl} |")
 
 
 if __name__ == '__main__':
