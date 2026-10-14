@@ -28,7 +28,7 @@ Este documento junta en un solo sistema lo que estaba repartido en el kit de la 
 11. Combate
 12. Heridas, sangre y curación
 13. Infección
-14. Fatiga
+14. Fatiga y acciones pesadas
 15. Comida y agua
 16. Mochila, objetos y botín
 17. La base: entradas, construcción y noche
@@ -90,13 +90,15 @@ Lista pensada para montar la mesa en Tabletop Simulator.
    | 8 | 6 | 2 | 2 | 1 | 1 | 0 | 0 |
 
    Armas en el depósito [PROPUESTA]: 1 Cuchillo de cocina y 1 Bate con clavos. Retira esas cartas del mazo de objetos.
-3. **Supervivientes.** Mezcla el mazo de supervivientes y roba 3. Cada jugador elige uno y lo controla. Los que nadie elija se quedan en la base como **supervivientes del grupo**: los maneja la mesa en conjunto. Todos empiezan con sangre 6, fatiga 0 y sin heridas. El resto del mazo queda aparte para los rescates.
+3. **Supervivientes.** Mezcla el mazo de supervivientes y roba **3, o 4 si juegan 3 personas**. Cada jugador elige uno y lo controla. Los que nadie elija se quedan en la base como **supervivientes del grupo**: los maneja la mesa en conjunto. Todos empiezan con sangre 6, fatiga 0 y sin heridas. El resto del mazo queda aparte para los rescates.
 4. **Calendario** en el día 1. **Señal** con las 5 etapas sin marcar.
 5. **Mazo de objetos.** Mezcla las 74 cartas boca abajo (es la reserva de la que sale el botín, sección 16).
 6. **Zombies, fichas y dados** al alcance. Las fichas de edificio se mezclan boca abajo.
 7. Empieza el día 1 por la **Fase 1: Base**.
 
 **Jugar solo.** Con 1 jugador hay igual 3 supervivientes en el grupo: tú controlas al que sale, y decides por los que se quedan.
+
+> **Decisión (tamaño del grupo):** la mesa en línea roba 3 supervivientes, la sala deja elegir libremente entre 7 y la hoja de base muestra 4 con 2 jugadores. Se roban 3 (como en la mesa), pero **4 con 3 jugadores**, para que siempre pueda quedar alguien de guardia en la base.
 
 ---
 
@@ -215,7 +217,7 @@ En este orden:
 
 1. **Descargar.** Todo lo que traen en la mochila pasa al depósito. Los rasguños se borran (sección 12).
 2. **Comer y beber** (sección 15): Comida y Agua de cada superviviente. Si falta, se aplican las penas.
-3. **Sangre y fatiga:** recuperación de sangre (sección 12); los que descansaron quitan 1 de fatiga; los que salieron suman la fatiga de la expedición (sección 14).
+3. **Sangre y fatiga:** recuperación de sangre (sección 12); los que descansaron quitan 1 de fatiga; se borran las marcas de esfuerzo (sección 14).
 4. **Amenaza nocturna:** tirada de ataque a la base y su resolución (sección 17.6).
 5. **Diario:** anoten una línea del día. Avanza el calendario un día.
 
@@ -236,7 +238,7 @@ En este orden:
 |---|---|---|---|---|
 | Libre, puerta abierta, ventana rota | Sí | Sí | No | No |
 | Puerta cerrada | Abriéndola | Solo si la derriban | Sí, 1 nivel | Sí |
-| Ventana intacta | Rompiéndola | No | Sí, 1 nivel | **No** (se ve a través) |
+| Ventana intacta | Rompiéndola | Solo si la derriban | Sí, 1 nivel | **No** (se ve a través) |
 | Pared | No | No | Sí, 1 nivel | Sí |
 | Barricada [PROPUESTA] | No | Solo si la derriban | Sí, 1 nivel | Sí |
 
@@ -291,9 +293,11 @@ Con 3 PA por turno puedes repetir acciones. El ruido se aplica en la zona donde 
 |---|---|---|---|
 | Sigilo | 2 | Silencio | Te mueves 1 zona. No se puede si hay un zombie en tu zona |
 | Caminar | 1 | Bajo | Te mueves 1 zona |
-| Correr | 1 | Medio | Te mueves hasta 2 zonas. Una vez por turno. No con herida en las piernas |
-| Esconderse | 1 | Silencio | Hasta tu próximo turno solo te detectan zombies de tu zona. Termina tu turno |
-| Salir del barrio | 1 | Silencio | Solo en la zona de entrada. Empiezas el viaje de vuelta |
+| Correr ▲ | 1 | Medio | Te mueves 1 o 2 zonas. Una vez por turno. No con herida en las piernas ni con fatiga 2 o más |
+| Esconderse | 1 | Silencio | Hasta tu próximo turno solo te detectan zombies de tu zona. Termina tu turno. Se puede usar con zombies en tu zona, pero esos te siguen viendo |
+| Salir del barrio | 1 | Silencio | Solo en la zona de entrada. Empiezas el viaje de vuelta. Con la mochila llena deja 1 marca de esfuerzo ▲ |
+
+▲ = acción pesada: deja 1 marca de esfuerzo (sección 14).
 
 > **Decisión (coste de Sigilo y Correr):** la carta de acción "Movimiento y sigilo" pone Sigilo a 1 PA por 1 zona y Correr a 2 PA por 2 zonas; así Correr nunca conviene (mismo coste por zona y además hace ruido). Se adopta el esquema del kit de prueba 1 y su simulador: **Sigilo 2 PA silencioso, Caminar 1 PA bajo, Correr 1 PA por 2 zonas con ruido medio**. Hay que actualizar la carta.
 >
@@ -305,9 +309,9 @@ Con 3 PA por turno puedes repetir acciones. El ruido se aplica en la zona donde 
 |---|---|---|---|
 | Abrir puerta | 1 | Bajo | Abre una puerta sin llave adyacente |
 | Cerrar puerta | 1 | Bajo | Cierra una puerta abierta adyacente (no una derribada) |
-| Forzar | 2 | Medio | Abre una puerta con llave, trabada o una reja. Sin tirada. Con palanca o hacha: 1 PA |
-| Romper ventana | 1 | Alto | La ventana queda abierta para siempre |
-| Barricar [PROPUESTA] | 2 | Medio | Gasta 1 Madera: una abertura adyacente pasa a barricada |
+| Forzar ▲ | 2 | Medio | Abre una puerta con llave, trabada o una reja. Sin tirada. Con palanca o hacha: 1 PA |
+| Romper ventana ▲ | 1 | Alto | La ventana queda abierta para siempre |
+| Barricar ▲ [PROPUESTA] | 2 | Medio | Gasta 1 Madera: una abertura adyacente pasa a barricada |
 
 El ruido de las acciones sobre aberturas se hace en la zona donde estás.
 
@@ -315,7 +319,7 @@ El ruido de las acciones sobre aberturas se hace en la zona donde estás.
 
 | Acción | PA | Ruido | Efecto |
 |---|---|---|---|
-| Atacar | 1 | El del arma | Sección 11. Sin arma: d20 + Fuerza, daño 1 [PROPUESTA] |
+| Atacar | 1 | El del arma | Sección 11. Sin arma: d20 + Fuerza, daño 1 [PROPUESTA]. Con un arma cuerpo a cuerpo de 2 espacios es pesada ▲ |
 | Destrabar | 1 | Silencio | Arregla un arma de fuego encasquillada |
 | Distraer [PROPUESTA] | 1 | Ver efecto | Lanzas algo a una zona a 2 o menos que veas: ruido **medio** en esa zona, no en la tuya. Gasta una carta cualquiera de la mochila. Con Bengala: ruido **alto** y alcance 3. Con megáfono: ruido medio, alcance 4, no se gasta |
 
@@ -324,8 +328,8 @@ El ruido de las acciones sobre aberturas se hace en la zona donde estás.
 | Acción | PA | Ruido | Efecto |
 |---|---|---|---|
 | Registrar | 2 | Bajo | Gasta 1 registro del edificio y tira d20 en su tabla (sección 16). No con zombies en tu zona |
-| Primeros auxilios | 2 | Bajo | Gasta 1 Medicina: detiene una laceración, **o** recuperas 1 de sangre (a ti o a alguien de tu zona) |
-| Comer o beber [PROPUESTA] | 1 | Silencio | Gasta 1 Comida o 1 Agua: quitas 1 de fatiga. Una vez por expedición |
+| Primeros auxilios | 2 | Bajo | Gasta 1 Medicina, a ti o a alguien de tu zona: detiene una laceración, **o** recupera 1 de sangre, **o** limpia un rasguño infectado (hospital, ficha 6) y quita esa infección |
+| Comer o beber [PROPUESTA] | 1 | Silencio | Gasta 1 Comida o 1 Agua: borras tus marcas de esfuerzo. Una vez por expedición |
 | Intercambiar [PROPUESTA] | 1 | Silencio | Pasas o recibes objetos con alguien de tu zona |
 | Vigilar [PROPUESTA] | 1 | Silencio | Miras en secreto la ficha de un edificio cuya puerta está en una zona adyacente. No se colocan sus zombies hasta que alguien entre |
 | Soltar | 0 | Silencio | Dejas un objeto en tu zona. Se puede recoger después (1 PA) |
@@ -353,7 +357,7 @@ El ruido hace dos cosas: **en el momento** atrae a los zombies que lo oyen, y **
 **Pifia.** Un 1 natural al atacar deja 1 ficha de ruido extra en tu zona.
 
 **Horda (umbral: 5 fichas).** En el paso de Horda, se cuentan las fichas de cada zona de calle por separado y, en cada edificio, la suma de todas sus zonas. Si algún total llega a 5:
-1. Aparecen 3 caminantes en la zona de borde del mapa más cercana a ese lugar. [PROPUESTA] En el tramo 2 se suma 1 corredor; en el tramo 3, 1 corredor y 1 caminante más.
+1. Aparecen 3 caminantes en la zona de borde del mapa más cercana a ese lugar (si hay empate, al azar). [PROPUESTA] En el tramo 2 se suma 1 corredor; en el tramo 3, 1 corredor y 1 caminante más.
 2. Se quitan todas las fichas de ese lugar.
 
 **Disipación.** Al final de cada turno se quita 1 ficha de cada zona. El ruido aislado se olvida; el ruido seguido se acumula.
@@ -397,7 +401,11 @@ En la fase de zombies, cada zombie hace **lo primero que se cumpla**:
 
 El ruido "de este turno" es el de todas las acciones de todos los supervivientes en el paso 1 del turno.
 
-**Rutas y puertas.** Los zombies no abren puertas ni pasan por paredes: van por la ruta más corta por aberturas pasables, contando cada puerta cerrada o barricada como 4 zonas de rodeo. Si su ruta los deja frente a una puerta cerrada o barricada, tiran 1d6 cada uno: con 6 la derriban y queda abierta (rota) para siempre. Las ventanas intactas no las cruzan.
+**Rutas y puertas.** Los zombies no abren puertas ni pasan por paredes. Van por la ruta más corta, donde cada puerta cerrada (con llave o sin llave), barricada o ventana intacta cuenta como 4 zonas. En la práctica: rodean por una abertura pasable si el rodeo es de hasta 4 zonas más; si es más largo, van a golpear la abertura cerrada. Un zombie que quiere cruzar una abertura cerrada tira 1d6: con 6 la derriba y queda abierta (rota) para siempre; si no, se queda donde está.
+
+> **Decisión (qué derriban los zombies):** el kit solo habla de puertas cerradas y de "rodear por la abertura más cercana"; el simulador deja que derriben también la vidriera y la puerta con llave, y prefiere golpear si rodear cuesta más de 4 pasos. Se adopta **el simulador**, escrito como regla.
+
+**Figuras.** Si se acaban las figuras de un tipo, no aparecen más de ese tipo [PROPUESTA].
 
 **Ataque del zombie.** Tira su ataque contra tu Defensa. Si iguala o supera, recibes una herida (sección 12). Cada zombie de tu zona ataca una vez.
 
@@ -442,7 +450,7 @@ En el paso de Reloj de cada turno, tira 1d6 en la **tabla de errantes** (Anexo A
 >
 > **Decisión (munición):** el kit da 6 balas a la pistola; el mazo dice 1 Munición = 3 disparos. Vale **el mazo**. Una pistola encontrada "con munición ×1" trae 1 carta de Munición.
 
-**Lo que hay que observar.** El cuchillo necesita casi siempre 2 golpes contra un caminante pero es silencioso; la pistola mata de un tiro un 60 % de las veces pero se oye en todo el mapa. Si una opción gana siempre, hay que tocar los números.
+**Lo que hay que observar.** Contra un caminante (Fuerza 3), el cuchillo mata de un golpe el 25 % de las veces que acierta y es silencioso; el bate, el 50 %; la pistola, el 60 % de las veces que acierta, pero acierta el 70 %: **mata de un disparo el 42 %** de las veces (55 % con ventaja) y se oye en todo el mapa. (El kit decía "60 %": ese número es solo el daño, sin contar el acierto.) Si una opción gana siempre, hay que tocar los números.
 
 ---
 
@@ -452,13 +460,13 @@ En el paso de Reloj de cada turno, tira 1d6 en la **tabla de errantes** (Anexo A
 
 Cada golpe recibido son dos tiradas de d6: una para la **zona** y otra para el **tipo**. Toda herida resta **1 de sangre** al recibirla. Toma una carta de herida o anótala en la hoja.
 
-| d6 | Zona | Efecto mientras tengas ahí una herida que no sea rasguño |
-|---|---|---|
-| 1 | Cabeza | **Aturdido:** tu próximo turno tienes 2 PA (solo al recibirla) |
-| 2–3 | Torso | Pierdes 1 sangre extra al recibirla |
-| 4 | Brazo izquierdo | La mochila pierde 1 espacio |
-| 5 | Brazo derecho | Desventaja al atacar |
-| 6 | Piernas | No puedes Correr |
+| d6 | Zona | Al recibirla (si no es rasguño) | Mientras dure la herida (si no es rasguño) |
+|---|---|---|---|
+| 1 | Cabeza | **Aturdido:** tu próximo turno tienes 2 PA | — (cuenta para la muerte por segunda herida en la cabeza) |
+| 2–3 | Torso | Pierdes 1 sangre extra | — |
+| 4 | Brazo izquierdo | Si la mochila queda excedida, sueltas objetos al momento | La mochila tiene 1 espacio menos |
+| 5 | Brazo derecho | — | Desventaja al atacar |
+| 6 | Piernas | — | No puedes Correr |
 
 | d6 | Tipo | Efecto |
 |---|---|---|
@@ -501,31 +509,60 @@ En cada Fase de Base, la infección sube 1 nivel salvo que el grupo gaste **1 Me
 
 ---
 
-## 14. Fatiga
+## 14. Fatiga y acciones pesadas
 
-La fatiga va de 0 a 3.
+La fatiga va de 0 a 3 y se anota en la hoja. En la expedición no se gana por salir, sino por **esfuerzo**: algunas acciones son **pesadas** (símbolo **▲** en las tablas y en la carta de referencia).
 
-**Se gana** [PROPUESTA salvo lo marcado]:
-- +1 por cada expedición, al volver.
-- +1 si llegas a la base después de las 19:00.
-- +2 por pasar la noche afuera.
+### 14.1 Acciones pesadas y contador de esfuerzo
+
+Cada vez que haces una acción pesada, pones **1 marca de esfuerzo** en tu hoja (en TTS, un contador de 0 a 4 junto a la fatiga).
+
+| Acción pesada ▲ | Marcas | Origen |
+|---|---|---|
+| Forzar | 1 | Idea del autor |
+| Romper ventana | 1 | [PROPUESTA] |
+| Barricar | 1 | [PROPUESTA] |
+| Correr | 1 | [PROPUESTA] |
+| Atacar con un arma cuerpo a cuerpo de 2 espacios (bate, hacha, motosierra) | 1 | [PROPUESTA] |
+| Cargar a un herido o a un rescatado que no puede moverse solo, por cada zona (no con camilla) | 1 | [PROPUESTA] |
+| Salir del barrio con la mochila llena (todos los espacios ocupados) | 1 | [PROPUESTA] |
+
+**Umbral: 4 marcas = +1 de fatiga.** Al llegar a 4, sumas 1 de fatiga al momento y borras las 4 marcas; si sobran, siguen contando.
+
+**Reinicio:** las marcas que queden por debajo de 4 se borran en la Fase 4 de cada día. No pasan al día siguiente.
+
+**Respiro** [PROPUESTA]: la acción Comer o beber (1 PA, silencio, una vez por expedición) borra todas tus marcas de esfuerzo.
+
+En la base no hay contador: cavar la fosa tapada da +1 de fatiga directo (de la hoja de base).
+
+### 14.2 Otras formas de ganar fatiga
+
+- +1 si llegas a la base después de las 19:00. [PROPUESTA]
+- +2 por pasar la noche afuera. [PROPUESTA]
+- +1 por noche sin comer. [PROPUESTA]
+- +1 por día con infección en nivel 2. [PROPUESTA]
 - +1 por cavar la fosa tapada (de la hoja de base).
-- +1 por noche sin comer.
-- +1 por día con infección en nivel 2.
 
-**Se pierde:**
-- −1 por descansar: quedarse en la base sin hacer guardia (de la hoja de base).
-- −1 por Comer o beber en expedición (una vez por expedición) [PROPUESTA].
+### 14.3 Quitar fatiga
 
-**Efectos** [PROPUESTA]:
+- **Descansar:** quien se queda en la base sin hacer guardia quita 1 de fatiga en la Fase 4 (de la hoja de base). El guardia no descansa.
+- Quien duerme sin cama no descansa (sección 17.5).
+
+### 14.4 Efectos por nivel
 
 | Fatiga | Efecto |
 |---|---|
-| 1 o más | Esa noche come 2 Comidas en lugar de 1 (de la hoja de base y la carta de Comida) |
-| 2 | No puede Correr |
-| 3 | **Agotado:** 2 PA por turno de expedición; no puede cavar ni hacer guardia |
+| 0 | Ninguno |
+| 1 | Esa noche come 2 Comidas en lugar de 1 (de la hoja de base y la carta de Comida) |
+| 2 | Come 2 y **no puede Correr** [PROPUESTA] |
+| 3 | **Agotado:** come 2, no puede Correr, tiene **2 PA** por turno de expedición, no puede hacer guardia ni cavar [PROPUESTA] |
+| Más de 3 | No se anota: cada punto que no se puede sumar cuesta **1 de sangre** [PROPUESTA] |
 
-Si un superviviente con fatiga 3 tiene que ganar más, pierde 1 de sangre por cada punto que no puede sumar.
+La comida doble se calcula con la fatiga que tienes **antes** de descansar esa noche.
+
+**Habilidad de Sofía Lenz (Manos de taller).** Forzar y Barricar le cuestan 1 PA, hacen un nivel menos de ruido y **para ella no son pesadas** [PROPUESTA]. La palanca y el hacha también bajan Forzar a 1 PA, pero no le quitan el ▲. Para Sofía no se suman: Forzar no baja de 1 PA.
+
+> **Decisión (fatiga en expedición, idea de Santiago):** las fuentes dicen que la fatiga va de 0 a 3, que descansar quita 1, que cavar la fosa da 1 y que con fatiga se come doble, pero no cómo se gana afuera ni qué hace cada nivel. Se adopta la idea del autor de **acciones pesadas**: cada una deja 1 marca y **4 marcas dan +1 de fatiga**. Se eligió 4 porque una expedición típica (10 a 12 turnos) tiene entre 3 y 6 acciones pesadas: jugar con cuidado no cansa; abusar de Correr y Forzar da 1 o 2 de fatiga. El contador se borra cada día para no llevar cuentas largas; la fatiga en sí queda. Esto reemplaza el "+1 fijo por expedición" del primer borrador, que hacía que quien sale comiera doble siempre. Correr es pesada porque es la acción que más se repite: así la velocidad tiene un segundo coste además del ruido. Sofía, la especialista en forzar y barricar, no acumula esfuerzo con esas dos acciones, para que su habilidad siga valiendo aunque el grupo tenga palanca u hacha.
 
 ---
 
@@ -568,7 +605,9 @@ En la Fase 4, después de descargar:
 
 ### 16.3 Entrar a un edificio
 
-1. **Revelar.** La primera vez que alguien abre, fuerza o rompe una abertura del edificio, se da vuelta su ficha (1 a 6) y se busca la fila en la tabla de ese tipo (Anexo A).
+1. **Revelar.** Se da vuelta la ficha del edificio (1 a 6) la primera vez que **una abertura del edificio queda abierta, la abra un superviviente o la derribe un zombie**, o cuando alguien entra por primera vez. Se busca la fila en la tabla de ese tipo (Anexo A).
+
+   > **Decisión (revelar):** el kit dice "la primera vez que abres una abertura" y el simulador solo revela con acciones del jugador; si un zombie derribaba la puerta, se entraba sin tirar la ficha. Se revela también en ese caso.
 2. **Colocar zombies.** Se usa la columna del tramo (de noche, la del tramo siguiente; en el tramo 3 de noche, +1 corredor). Se reparten de a uno por las habitaciones, de la más lejana a la puerta hacia la más cercana. Bruto y chillón van a la más lejana. Empiezan tranquilos. Aplica la nota de la fila (puerta trabada, oscuridad, trampa…).
 3. **Registrar.** Cada Registrar (2 PA, ruido bajo) gasta 1 de los registros del edificio y tira d20 en su tabla de botín (con ventaja o desventaja si la fila lo dice). No se puede registrar con zombies en tu zona. Se registra en cualquier habitación del edificio.
 4. **Saqueado.** Cuando se gastan todos los registros, el edificio queda saqueado. Lo que no entra en la mochila se queda ahí.
@@ -577,12 +616,14 @@ En la Fase 4, después de descargar:
 
 > **Decisión (botín):** el kit de prueba usa tablas de d6 por zona y la hoja de base usa una tabla de d20 por tipo de edificio, mientras que el mazo de objetos es "lo que sale al usar Registrar". Se unen así: **la tabla de d20 dice qué encuentras y el mazo da la carta física**. Las tablas de d6 del kit quedan solo para el escenario de entrenamiento.
 
-- Busca en el mazo una carta de la familia que corresponda y tómala. Un resultado "×2" son 2 cartas (cada una ocupa lo suyo). "Botiquín completo" son 2 Medicinas.
+- Busca en el mazo una carta de la familia que corresponda y tómala. **Los espacios se cuentan siempre por carta**, con el valor de la carta; la columna de espacios de las tablas es orientativa (por ejemplo, el Generador ocupa 2, como su carta, no 4). Un resultado "×2" son 2 cartas (cada una ocupa lo suyo). "Botiquín completo" son 2 Medicinas.
 - Vendas, analgésicos, desinfectante, antibióticos y kit de sutura son **Medicina**. Latas y snacks son **Comida**.
 - Si la carta pedida ya no está en el mazo (salió antes), no encuentras eso [PROPUESTA].
 - **Objetos sin carta todavía** (linterna, palanca, soplete, chaleco, tonfa, martillo, megáfono, mapa de rutas, camilla, batería de auto, motosierra, botella incendiaria…): se anotan en una carta en blanco con el texto de la tabla [PROPUESTA]. La linterna anula la desventaja por oscuridad [PROPUESTA].
 - **¡Aaah!** El zombie aparece en tu zona, alerta. No ataca hasta la fase de zombies.
 - **Rescate:** roba un superviviente del mazo. Se suma al grupo y viaja con ustedes (no lo controla nadie hasta llegar; [PROPUESTA] cuenta como superviviente sin acciones que sigue al que lo encontró, y los zombies también pueden atacarlo).
+- **Objetos de uso suelto** [PROPUESTA]: Libreta de fiado, Mensaje en el pizarrón y Mapa escolar revelan fichas de edificio (miras la ficha sin colocar zombies, como Vigilar). Mapa de rutas: el próximo viaje cuesta 1 hora menos por tramo. Fósforos y velas: la base cuenta como si tuviera guardia con Percepción 1 una noche, y se descartan. Batería de auto y Baterías: hacen funcionar walkie-talkies. Walkie-talkie: sin efecto hasta las acciones ocultas (prueba 2).
+- **Infectado ácido y Clavos:** el objeto que "rompe" el ácido queda **dañado** (gira la carta): no se puede usar ni cuenta como recurso. En la base, 1 Clavos lo repara [PROPUESTA; así la carta de Clavos tiene uso].
 - Los materiales que la tabla da para la base (madera, clavos, chapa, alambre, cuerda, combustible, semillas) se guardan en el depósito al volver.
 
 > **Decisión (recursos de la base):** la mesa en línea agrupa todo como "Materiales"; la hoja de base y el mazo los separan en 7 tipos. Se separan, porque cada barricada, trampa y mejora pide materiales concretos. La mesa en línea debe actualizar su contador.
