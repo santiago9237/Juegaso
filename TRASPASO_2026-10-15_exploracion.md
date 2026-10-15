@@ -23,6 +23,7 @@ Cómo leer las marcas:
 | 20 | Zombies en grupo, una figura por grupo; combate con d10; resistencia según el tamaño; empuje; ataque conjunto | Decidido (números: [PROPUESTA]) |
 | 21 | Un superviviente por hexágono; se puede atravesar; combate adyacente | Decidido |
 | 22 | De noche los zombies tienen una activación extra o se mueven más lejos | Idea (falta elegir y probar) |
+| 23 | Turnos de más horas, más PA por turno y nuevos costos; los días hasta el helicóptero se deciden al final | Idea para la prueba |
 
 ## 2. Mapa y losetas (idea 15)
 
@@ -132,6 +133,22 @@ Cómo leer las marcas:
   | 3 | | | | | |
 
   Como la partida apunta a unas 2 horas y dura 20 días, sirve dividir: si cada expedición tarda más de unos 5 minutos reales, hay que acortar los días o hacer que no todos los días haya expedición.
+
+## 9 bis. Tiempo y puntos de acción (idea 23)
+
+- **Idea de Santiago:**
+  - probar **turnos de más horas** del juego;
+  - **más PA por turno**;
+  - ajustar cuántos PA consume cada actividad.
+- **Para qué:** con más PA se puede balancear mejor cuántos PA quita la **fatiga** y las ventajas y desventajas por **horario, clima, heridas**, etc.
+- **Decidido:** **los días hasta el helicóptero se deciden al final**, cuando todas las mecánicas estén pulidas. Los 20 días de la idea 6 quedan provisorios.
+- **Contexto:** un turno de Zombicide tarda unos 5–10 minutos reales con 4–6 supervivientes. Con 3 acciones por superviviente, un turno de Día 30 andaría en 3–5 minutos reales. Una expedición de 12 turnos serían entonces 40–60 minutos, así que hay que medirlo en la prueba.
+- **[PROPUESTA]:**
+  - 6 PA por turno de 2 horas;
+  - los costos actuales ×2 (caminar 2, mirar a lo lejos 4);
+  - modificadores de ±1 PA por fatiga, noche, lluvia o heridas.
+
+  Con números más grandes, una sola desventaja no te deja sin turno.
 
 ## 10. Lo que estas ideas cambian en el proyecto
 
