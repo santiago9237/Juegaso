@@ -2,7 +2,7 @@
 
 Sesión de ideas del 15 de octubre de 2026 (rama `ccr-4ec1d393-fed8iq`). En esta sesión no se tocó el reglamento: solo se trabajaron ideas para pasarlas a la sesión del proyecto entero.
 
-**Para la otra sesión:** este archivo junta todo lo que se decidió hoy. El registro fila por fila está en `diseno/ideas_de_santiago.md` (ideas 15 a 21). Las reglas redactadas para leer están en `manual/reglas_exploracion_v0.1.pdf`.
+**Para la otra sesión:** este archivo junta todo lo que se decidió hoy. El registro fila por fila está en `diseno/ideas_de_santiago.md` (ideas 15 a 23). Las reglas redactadas para leer están en `manual/reglas_exploracion_v0.1.pdf`, que cubre solo las ideas 15 a 21. Las ideas 22 y 23 están solo en este archivo y en el registro.
 
 Cómo leer las marcas:
 - **Decidido:** lo decidió Santiago.
