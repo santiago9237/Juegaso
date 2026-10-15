@@ -22,6 +22,7 @@ Cómo leer las marcas:
 | 19 | Habilidades: Explorador/a, Sigiloso/a, Vendedor/a ambulante | Decidido |
 | 20 | Zombies en grupo, una figura por grupo; combate con d10; resistencia según el tamaño; empuje; ataque conjunto | Decidido (números: [PROPUESTA]) |
 | 21 | Un superviviente por hexágono; se puede atravesar; combate adyacente | Decidido |
+| 22 | De noche los zombies tienen una activación extra o se mueven más lejos | Idea (falta elegir y probar) |
 
 ## 2. Mapa y losetas (idea 15)
 
@@ -110,7 +111,29 @@ Cómo leer las marcas:
   - si en un hexágono puede haber más de un grupo de zombies;
   - qué pasa con el empuje si el hexágono de atrás está ocupado o no tiene loseta.
 
-## 9. Lo que estas ideas cambian en el proyecto
+## 9. La noche (idea 22)
+
+- **Idea de Santiago:** cuando se hace de noche, los zombies tienen **una activación extra** o **se mueven más lejos**. Todavía no eligió.
+- **Lo que ya dice el reglamento:**
+  - anochece a las 19:00;
+  - de noche se roban 2 cartas de aparición;
+  - el corredor nunca está tranquilo;
+  - disparar es con desventaja.
+- **[PROPUESTA] +1 de movimiento de noche:** el caminante se mueve 2 y el corredor 3.
+  - Es más simple y no alarga la partida.
+  - Con la activación extra, cada grupo ataca dos veces (un grupo de 3 pegaría 6 heridas) y la fase de zombies dura el doble.
+  - Si en la prueba la noche no asusta lo suficiente, se puede probar la activación extra solo para los grupos alertas.
+- **Pendiente: medirlo en la prueba.** Cuántas horas dentro del juego dura una expedición y cuántos minutos reales. Hoy 1 turno es 1 hora, y la expedición va de 07:00 a 21:00, con unos 10 turnos de día y 2 de noche. Para medirlo sirve anotar en cada expedición:
+
+  | Expedición | Turnos de día | Turnos de noche | Losetas reveladas | Minutos reales | ¿Llegó la noche? ¿Qué pasó? |
+  |---|---|---|---|---|---|
+  | 1 | | | | | |
+  | 2 | | | | | |
+  | 3 | | | | | |
+
+  Como la partida apunta a unas 2 horas y dura 20 días, sirve dividir: si cada expedición tarda más de unos 5 minutos reales, hay que acortar los días o hacer que no todos los días haya expedición.
+
+## 10. Lo que estas ideas cambian en el proyecto
 
 Secciones del reglamento y archivos que van a necesitar cambios cuando se pasen las ideas:
 
@@ -122,7 +145,7 @@ Secciones del reglamento y archivos que van a necesitar cambios cuando se pasen 
 - **Acciones:** sumar Mirar a lo lejos y revisar Vigilar.
 - **Arte:** `arte/prompts/losetas.md` y `herramientas/puntos_loseta.py` son del sistema cuadrado.
 
-## 10. Imágenes de referencia (en `arte/img/`)
+## 11. Imágenes de referencia (en `arte/img/`)
 
 | Archivo | Qué muestra |
 |---|---|
